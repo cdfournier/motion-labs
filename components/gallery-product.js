@@ -60,8 +60,8 @@ export const GALLERY_PRODUCT_SPEC = {
   ],
   details: {
     title: "ADVANCED HEALTH PANEL",
-    subtitle: "Get Insights Into What Is Really Going On Inside Your Body",
-    body: "Your body can reveal early signs of imbalance long before you feel them. The Advanced Health Panel is a comprehensive blood spot test that evaluates your metabolism, heart, liver, kidney and nutrient health to help you take control of your overall wellness.",
+    subtitle: "Assess essential biomarkers that influence how your body functions.",
+    body: "Your body can reveal early signs of imbalance long before you feel them. This is a comprehensive blood spot test evaluates your metabolism, heart, liver, kidney and nutrient health to help you optimize your overall well-being.",
     price: "259",
     cta: "Add To Cart",
     disclaimer:
