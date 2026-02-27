@@ -1,4 +1,5 @@
 import {
+  buildCaptureCard,
   buildShareUrl,
   clampInt,
   clampNumber,
@@ -139,8 +140,10 @@ export function mountGalleryProductLab() {
     overlapOut: document.querySelector("#overlapOut"),
     jsonExport: document.querySelector("#jsonExport"),
     cssExport: document.querySelector("#cssExport"),
+    captureExport: document.querySelector("#captureExport"),
     copyJson: document.querySelector("#copyJson"),
     copyCss: document.querySelector("#copyCss"),
+    copyCapture: document.querySelector("#copyCapture"),
     copyUrl: document.querySelector("#copyUrl"),
     resetSettings: document.querySelector("#resetSettings")
   };
@@ -291,6 +294,7 @@ export function mountGalleryProductLab() {
 
     dom.copyJson.addEventListener("click", () => copyText(dom.jsonExport.value));
     dom.copyCss.addEventListener("click", () => copyText(dom.cssExport.value));
+    dom.copyCapture.addEventListener("click", () => copyText(dom.captureExport.value));
     dom.copyUrl.addEventListener("click", () => copyText(buildShareUrl(createUrlParams())));
     dom.resetSettings.addEventListener("click", onReset);
   }
@@ -585,6 +589,15 @@ export function mountGalleryProductLab() {
       `/* Direction mode: ${appState.settings.directionMode} */`,
       `/* State: ${active?.label ?? "unknown"} (${active?.figmaNodeId ?? "n/a"}) */`
     ].join("\n");
+
+    dom.captureExport.value = buildCaptureCard({
+      componentName: GALLERY_PRODUCT_SPEC.name,
+      componentNodeId: GALLERY_PRODUCT_SPEC.figmaNodeId,
+      stateLabel: active?.label,
+      stateNodeId: active?.figmaNodeId,
+      shareUrl: buildShareUrl(createUrlParams()),
+      json: dom.jsonExport.value
+    });
   }
 
   function updateUrl() {

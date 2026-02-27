@@ -869,7 +869,7 @@ body {
 }
 
 .controls__row--actions {
-  grid-template-columns: repeat(4, max-content);
+  grid-template-columns: repeat(5, max-content);
   align-items: center;
 }
 
@@ -953,6 +953,10 @@ body {
 
 .field--code {
   align-items: stretch;
+}
+
+.field--code-full {
+  grid-column: 1 / -1;
 }
 
 .sr-only {

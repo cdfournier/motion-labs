@@ -1,4 +1,5 @@
 import {
+  buildCaptureCard,
   buildShareUrl,
   clampInt,
   clampNumber,
@@ -178,8 +179,10 @@ export function mountTabsTestsLab() {
     overlapOut: document.querySelector("#overlapOut"),
     jsonExport: document.querySelector("#jsonExport"),
     cssExport: document.querySelector("#cssExport"),
+    captureExport: document.querySelector("#captureExport"),
     copyJson: document.querySelector("#copyJson"),
     copyCss: document.querySelector("#copyCss"),
+    copyCapture: document.querySelector("#copyCapture"),
     copyUrl: document.querySelector("#copyUrl"),
     resetSettings: document.querySelector("#resetSettings")
   };
@@ -331,6 +334,7 @@ export function mountTabsTestsLab() {
 
     dom.copyJson.addEventListener("click", () => copyText(dom.jsonExport.value));
     dom.copyCss.addEventListener("click", () => copyText(dom.cssExport.value));
+    dom.copyCapture.addEventListener("click", () => copyText(dom.captureExport.value));
     dom.copyUrl.addEventListener("click", () => copyText(buildShareUrl(createUrlParams())));
     dom.resetSettings.addEventListener("click", onReset);
   }
@@ -657,6 +661,15 @@ export function mountTabsTestsLab() {
       `/* Direction mode: ${motionPreset.directionMode} */`,
       `/* State: ${activeState?.label ?? "unknown"} (${activeState?.figmaNodeId ?? "n/a"}) */`
     ].join("\n");
+
+    dom.captureExport.value = buildCaptureCard({
+      componentName: TABS_TESTS_SPEC.name,
+      componentNodeId: TABS_TESTS_SPEC.figmaNodeId,
+      stateLabel: activeState?.label,
+      stateNodeId: activeState?.figmaNodeId,
+      shareUrl: buildShareUrl(createUrlParams()),
+      json: dom.jsonExport.value
+    });
   }
 
   function getMotionPreset() {

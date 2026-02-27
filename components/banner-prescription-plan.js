@@ -1,4 +1,5 @@
 import {
+  buildCaptureCard,
   buildShareUrl,
   clampInt,
   copyText,
@@ -79,8 +80,10 @@ export function mountBannerPrescriptionPlanLab() {
     bottomDurationOut: document.querySelector("#bottomDurationOut"),
     jsonExport: document.querySelector("#jsonExport"),
     cssExport: document.querySelector("#cssExport"),
+    captureExport: document.querySelector("#captureExport"),
     copyJson: document.querySelector("#copyJson"),
     copyCss: document.querySelector("#copyCss"),
+    copyCapture: document.querySelector("#copyCapture"),
     copyUrl: document.querySelector("#copyUrl"),
     resetSettings: document.querySelector("#resetSettings")
   };
@@ -163,6 +166,7 @@ export function mountBannerPrescriptionPlanLab() {
 
     dom.copyJson.addEventListener("click", () => copyText(dom.jsonExport.value));
     dom.copyCss.addEventListener("click", () => copyText(dom.cssExport.value));
+    dom.copyCapture.addEventListener("click", () => copyText(dom.captureExport.value));
     dom.copyUrl.addEventListener("click", () => copyText(buildShareUrl(createUrlParams())));
     dom.resetSettings.addEventListener("click", onReset);
 
@@ -381,6 +385,13 @@ export function mountBannerPrescriptionPlanLab() {
       `/* Top direction: ${directions.top} */`,
       `/* Bottom direction: ${directions.bottom} */`
     ].join("\n");
+
+    dom.captureExport.value = buildCaptureCard({
+      componentName: BANNER_PRESCRIPTION_PLAN_SPEC.name,
+      componentNodeId: BANNER_PRESCRIPTION_PLAN_SPEC.figmaNodeId,
+      shareUrl: buildShareUrl(createUrlParams()),
+      json: dom.jsonExport.value
+    });
   }
 
   function updateUrl() {

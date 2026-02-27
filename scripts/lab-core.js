@@ -44,3 +44,25 @@ export function writeParams(params, push = false) {
   const nextUrl = qs ? `${window.location.pathname}?${qs}` : window.location.pathname;
   history[push ? "pushState" : "replaceState"](null, "", nextUrl);
 }
+
+export function buildCaptureCard({
+  componentName,
+  componentNodeId,
+  shareUrl,
+  json,
+  stateLabel,
+  stateNodeId
+}) {
+  const lines = [
+    `# Motion Capture Card`,
+    `Component: ${componentName}`,
+    `Figma Component Node: ${componentNodeId}`,
+    `Share URL: ${shareUrl}`
+  ];
+
+  if (stateLabel) lines.push(`State: ${stateLabel}`);
+  if (stateNodeId) lines.push(`Figma State Node: ${stateNodeId}`);
+
+  lines.push("", "```json", json, "```");
+  return lines.join("\n");
+}

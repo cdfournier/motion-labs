@@ -14,6 +14,7 @@ Each specimen should be reviewable as:
 - a live interactive example
 - URL-addressable settings
 - JSON/CSS export for handoff
+- capture card export (component + node + share URL + JSON snapshot)
 
 ## Current Specimen
 
