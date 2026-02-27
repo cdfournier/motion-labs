@@ -15,8 +15,8 @@ export const STACK_TESTING_SPEC = {
     {
       key: "1",
       label: "State 1",
-      title: "Take a survey",
-      body: "Set up your secure profile in minutes.",
+      title: "Determine which test is right for you.",
+      body: "Our survey can help guide you.",
       image:
         "https://www.figma.com/api/mcp/asset/dede293f-c0f4-4204-aad5-4c4d9464eaf6",
       crop: { w: 138.15, h: 143.95, left: 9.17, top: -28.25 }
@@ -24,8 +24,8 @@ export const STACK_TESTING_SPEC = {
     {
       key: "2",
       label: "State 2",
-      title: "Collect your sample at home",
-      body: "Clear instructions. No appointments.",
+      title: "Collect your sample at home.",
+      body: "Send to our lab in the pre-paid packaging.",
       image:
         "https://www.figma.com/api/mcp/asset/de942faf-ee35-4bc1-aee1-897b9f5deeed",
       crop: { w: 140, h: 101.54, left: -18.8, top: -14.6 }
@@ -33,8 +33,8 @@ export const STACK_TESTING_SPEC = {
     {
       key: "3",
       label: "State 3",
-      title: "Use the prepaid mailer",
-      body: "Send your sample to our certified lab using the included packaging.",
+      title: "Get your comprehensive lab report.",
+      body: "View your data and AI-guided recommendations.",
       image:
         "https://www.figma.com/api/mcp/asset/a007373e-e69f-43d6-a930-8ee276681346",
       crop: { w: 125, h: 100.75, left: -21.33, top: -24.38 }
@@ -42,8 +42,8 @@ export const STACK_TESTING_SPEC = {
     {
       key: "4",
       label: "State 4",
-      title: "Get results in your BodyHealth App",
-      body: "View your data and next steps. All in one place.",
+      title: "You can opt for a telehealth consultation.",
+      body: "A licensed provider can prescribe the best protocol.",
       image:
         "https://www.figma.com/api/mcp/asset/6f8a8d8c-1d52-4c13-9e77-0ad59482ae4c",
       crop: { w: 82.72, h: 100, left: 8.63, top: -10.67 }
