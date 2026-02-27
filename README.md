@@ -33,6 +33,8 @@ motion-labs/
     stack-testing.js         # specimen implementation + state/motion logic
   scripts/
     lab-core.js              # shared helpers (url/copy/format/clamp)
+    specimens.js             # specimen registry
+    index.js                 # index renderer (cards from registry)
 ```
 
 ## Run Locally
