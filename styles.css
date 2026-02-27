@@ -89,7 +89,6 @@ body {
 }
 
 .lab-header {
-  max-width: var(--stack-width);
   margin: 0 auto 16px;
   display: flex;
   align-items: baseline;
@@ -263,6 +262,211 @@ body {
   max-width: none;
 }
 
+.tabs-tests {
+  width: 1280px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 16px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.tabs-tests__tablist {
+  min-width: 0;
+  overflow: hidden;
+  padding: 8px;
+  display: grid;
+  gap: 20px;
+}
+
+.tabs-tests__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 16px;
+}
+
+.tabs-tests__item {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.tabs-tests__tab {
+  border: 0;
+  background: transparent;
+  color: #848484;
+  text-align: left;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 34px;
+  letter-spacing: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.tabs-tests__tab.is-active {
+  color: #1a3768;
+  font-weight: 700;
+  font-size: 32px;
+}
+
+.tabs-tests__tab:focus-visible {
+  outline: 2px solid #1a1a1a;
+  outline-offset: 3px;
+}
+
+.tabs-tests__list-cta-wrap {
+  padding-top: 20px;
+}
+
+.tabs-tests__list-cta {
+  color: #1a3768;
+  border-bottom: 3px solid #1a3768;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 12px;
+  font-size: 14px;
+  line-height: 14px;
+  letter-spacing: 1.44px;
+  font-weight: 700;
+  text-transform: none;
+}
+
+.tabs-tests__panel {
+  min-width: 0;
+  min-height: 526px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 230px;
+  gap: 16px;
+}
+
+.tabs-tests__hero {
+  margin: 0;
+  min-width: 0;
+  min-height: 0;
+  border-radius: 8px;
+  background: #f8f8f8;
+  overflow: hidden;
+  position: relative;
+}
+
+.tabs-tests__hero-shell {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.tabs-tests__side {
+  min-width: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.tabs-tests__side-shell {
+  position: relative;
+  min-height: 526px;
+  overflow: hidden;
+}
+
+.tabs-tests.is-free-fade .tabs-tests__panel,
+.tabs-tests.is-free-fade .tabs-tests__hero,
+.tabs-tests.is-free-fade .tabs-tests__side,
+.tabs-tests.is-free-fade .tabs-tests__hero-shell,
+.tabs-tests.is-free-fade .tabs-tests__side-shell {
+  overflow: visible;
+}
+
+.tabs-tests__plane {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.tabs-tests__plane.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.tabs-tests__hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.tabs-tests__detail {
+  display: grid;
+  grid-template-rows: auto auto auto 1fr;
+  gap: 8px;
+  align-content: start;
+}
+
+.tabs-tests__detail-thumb-wrap {
+  position: relative;
+  width: 230px;
+  height: 230px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.tabs-tests__detail-thumb {
+  position: absolute;
+  top: -4.67%;
+  left: -28.21%;
+  width: 134.91%;
+  height: 116.97%;
+  max-width: none;
+  display: block;
+}
+
+.tabs-tests__detail-title {
+  margin: 0;
+  color: #1a1a1a;
+  font-size: 20px;
+  line-height: 30px;
+  letter-spacing: 0;
+  font-weight: 700;
+}
+
+.tabs-tests__detail-copy {
+  margin: 0;
+  color: #1a1a1a;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+
+.tabs-tests__cta {
+  justify-self: start;
+  align-self: end;
+  margin-top: 16px;
+  border: 1px solid #1a3768;
+  background: #1a3768;
+  color: #fff;
+  border-radius: 8px;
+  padding: 16px 40px;
+  min-height: 46px;
+  font-size: 14px;
+  line-height: 14px;
+  letter-spacing: 0.84px;
+  font-weight: 500;
+  font-family: "DM Sans", sans-serif;
+}
+
 .controls {
   display: grid;
   gap: 14px;
@@ -360,6 +564,21 @@ body {
 @media (max-width: 1040px) {
   .lab-header {
     margin-bottom: 14px;
+  }
+
+  .tabs-tests {
+    width: 100%;
+    grid-template-columns: 1fr;
+  }
+
+  .tabs-tests__panel {
+    min-height: 0;
+    grid-template-columns: 1fr;
+  }
+
+  .tabs-tests__side-shell {
+    min-height: 0;
+    height: 420px;
   }
 
   .controls__row {
