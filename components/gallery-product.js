@@ -7,98 +7,122 @@ import {
   writeParams
 } from "../scripts/lab-core.js";
 
-export const STACK_TESTING_SPEC = {
-  name: ".stack/testing",
-  figmaNodeId: "1063:7598",
+export const GALLERY_PRODUCT_SPEC = {
+  name: ".gallery/product",
+  figmaNodeId: "1055:18883",
   states: [
     {
       key: "1",
-      label: "State 1",
-      title: "Take a survey",
-      body: "Set up your secure profile in minutes.",
-      image:
-        "https://www.figma.com/api/mcp/asset/dede293f-c0f4-4204-aad5-4c4d9464eaf6",
-      crop: { w: 138.15, h: 143.95, left: 9.17, top: -28.25 }
+      label: "state=1",
+      figmaNodeId: "1055:18882",
+      activeThumb: 0,
+      imageFit: "cover",
+      image: "assets/gallery-product/state-1-main.jpg",
+      thumb: "assets/gallery-product/state-1-main.jpg"
     },
     {
       key: "2",
-      label: "State 2",
-      title: "Collect your sample at home",
-      body: "Clear instructions. No appointments.",
-      image:
-        "https://www.figma.com/api/mcp/asset/de942faf-ee35-4bc1-aee1-897b9f5deeed",
-      crop: { w: 140, h: 101.54, left: -18.8, top: -14.6 }
+      label: "state=2",
+      figmaNodeId: "1055:18881",
+      activeThumb: 1,
+      imageFit: "cover",
+      image: "assets/gallery-product/state-2-main.jpg",
+      thumb: "assets/gallery-product/state-2-main.jpg"
     },
     {
       key: "3",
-      label: "State 3",
-      title: "Use the prepaid mailer",
-      body: "Send your sample to our certified lab using the included packaging.",
-      image:
-        "https://www.figma.com/api/mcp/asset/a007373e-e69f-43d6-a930-8ee276681346",
-      crop: { w: 125, h: 100.75, left: -21.33, top: -24.38 }
+      label: "state=3",
+      figmaNodeId: "1055:18884",
+      activeThumb: 2,
+      imageFit: "cover",
+      image: "assets/gallery-product/state-3-main.jpg",
+      thumb: "assets/gallery-product/state-3-main.jpg"
     },
     {
       key: "4",
-      label: "State 4",
-      title: "Get results in your BodyHealth App",
-      body: "View your data and next steps. All in one place.",
-      image:
-        "https://www.figma.com/api/mcp/asset/6f8a8d8c-1d52-4c13-9e77-0ad59482ae4c",
-      crop: { w: 82.72, h: 100, left: 8.63, top: -10.67 }
+      label: "state=4",
+      figmaNodeId: "1055:18915",
+      activeThumb: 3,
+      imageFit: "contain",
+      image: "assets/gallery-product/state-4-main.jpg",
+      thumb: "assets/gallery-product/state-4-main.jpg"
+    },
+    {
+      key: "5",
+      label: "state=5",
+      figmaNodeId: "1055:18946",
+      activeThumb: 4,
+      imageFit: "contain",
+      image: "assets/gallery-product/state-5-main.png",
+      thumb: "assets/gallery-product/state-5-main.png"
     }
   ],
+  details: {
+    title: "ADVANCED HEALTH PANEL",
+    subtitle: "Get Insights Into What Is Really Going On Inside Your Body",
+    body: "Your body can reveal early signs of imbalance long before you feel them. The Advanced Health Panel is a comprehensive blood spot test that evaluates your metabolism, heart, liver, kidney and nutrient health to help you take control of your overall wellness.",
+    price: "259",
+    cta: "Add To Cart",
+    disclaimer:
+      "Pay in 4 interest-free installments of $64.75 with SHOPPAY. Sign up for Rewards and earn 355 points for this purchase!"
+  },
   defaults: {
     state: 0,
     motionStyle: "custom",
-    transitionType: "crossfade",
+    transitionType: "slide-fade",
     maskingMode: "track",
     directionMode: "auto",
     easeName: "power2.out",
     duration: 0.55,
-    imageShift: 18,
-    indicatorDuration: 0.45,
+    imageShift: 36,
+    thumbDuration: 0.35,
     overlap: 0
   }
 };
 
-const STACK_MOTION_STYLES = {
+const GALLERY_MOTION_STYLES = {
   subtle: {
     transitionType: "crossfade",
     easeName: "sine.out",
-    duration: 0.65,
-    imageShift: 12,
-    indicatorDuration: 0.5,
+    duration: 0.7,
+    imageShift: 20,
+    thumbDuration: 0.45,
     overlap: 0
   },
   balanced: {
     transitionType: "slide-fade",
     easeName: "power3.out",
-    duration: 1,
-    imageShift: 42,
-    indicatorDuration: 0.8,
-    overlap: -0.05
+    duration: 1.05,
+    imageShift: 64,
+    thumbDuration: 0.75,
+    overlap: -0.02
   },
   dramatic: {
     transitionType: "slide-fade",
     easeName: "power4.out",
     duration: 3,
-    imageShift: 120,
-    indicatorDuration: 3,
-    overlap: -0.12
+    imageShift: 220,
+    thumbDuration: 3,
+    overlap: -0.04
   }
 };
 
-export function mountStackTestingLab() {
+export function mountGalleryProductLab() {
   const gsap = globalThis.gsap;
   if (!gsap) {
     throw new Error("GSAP is required. Ensure gsap CDN script is loaded before app.js.");
   }
 
   const dom = {
-    root: document.querySelector('[data-component="stack-testing"]'),
-    list: document.querySelector("#stackList"),
-    imageShell: document.querySelector("#imageShell"),
+    root: document.querySelector('[data-component="gallery-product"]'),
+    list: document.querySelector("#galleryThumbs"),
+    shell: document.querySelector("#galleryImageShell"),
+    productTitle: document.querySelector("#productTitle"),
+    productSubtitle: document.querySelector("#productSubtitle"),
+    productBody: document.querySelector("#productBody"),
+    productPrice: document.querySelector("#productPrice"),
+    productCta: document.querySelector("#productCta"),
+    productNote: document.querySelector("#productNote"),
     activeState: document.querySelector("#activeState"),
     motionStyle: document.querySelector("#motionStyle"),
     transitionType: document.querySelector("#transitionType"),
@@ -107,11 +131,11 @@ export function mountStackTestingLab() {
     easeName: document.querySelector("#easeName"),
     duration: document.querySelector("#duration"),
     imageShift: document.querySelector("#imageShift"),
-    indicatorDuration: document.querySelector("#indicatorDuration"),
+    thumbDuration: document.querySelector("#thumbDuration"),
     overlap: document.querySelector("#overlap"),
     durationOut: document.querySelector("#durationOut"),
     imageShiftOut: document.querySelector("#imageShiftOut"),
-    indicatorDurationOut: document.querySelector("#indicatorDurationOut"),
+    thumbDurationOut: document.querySelector("#thumbDurationOut"),
     overlapOut: document.querySelector("#overlapOut"),
     jsonExport: document.querySelector("#jsonExport"),
     cssExport: document.querySelector("#cssExport"),
@@ -123,19 +147,18 @@ export function mountStackTestingLab() {
 
   const appState = {
     activeIndex: 0,
-    settings: { ...STACK_TESTING_SPEC.defaults },
+    settings: { ...GALLERY_PRODUCT_SPEC.defaults },
     imagePlanes: [],
-    rowButtons: [],
-    rowItems: [],
-    rowLines: [],
+    thumbButtons: [],
     reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches
   };
 
   init();
 
   function init() {
-    renderList();
+    hydrateStaticDetails();
     renderImages();
+    renderThumbs();
     populateStateSelect();
     hydrateFromUrl();
     bindControls();
@@ -143,108 +166,82 @@ export function mountStackTestingLab() {
     setActiveState(appState.settings.state, { immediate: true });
     updateExports();
     updateUrl();
-    window.addEventListener("resize", () => setLineImmediate(appState.activeIndex));
-  }
-
-  function renderList() {
-    dom.list.innerHTML = "";
-    STACK_TESTING_SPEC.states.forEach((item, index) => {
-      const li = document.createElement("li");
-      li.className = "stack-row";
-      li.dataset.index = String(index);
-
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "stack-row__button";
-      button.dataset.index = String(index);
-      button.setAttribute("aria-pressed", "false");
-
-      const num = document.createElement("span");
-      num.className = "stack-row__num";
-      num.textContent = `${index + 1}.`;
-
-      const text = document.createElement("span");
-      text.className = "stack-row__text";
-
-      const title = document.createElement("span");
-      title.className = "stack-row__title";
-      title.textContent = item.title;
-
-      const copy = document.createElement("span");
-      copy.className = "stack-row__copy";
-      copy.textContent = item.body;
-
-      const line = document.createElement("span");
-      line.className = "stack-row__line";
-      line.setAttribute("aria-hidden", "true");
-
-      text.append(title, copy);
-      button.append(num, text);
-      li.append(button, line);
-      dom.list.append(li);
-    });
-
-    appState.rowButtons = Array.from(dom.list.querySelectorAll(".stack-row__button"));
-    appState.rowItems = Array.from(dom.list.querySelectorAll(".stack-row"));
-    appState.rowLines = Array.from(dom.list.querySelectorAll(".stack-row__line"));
   }
 
   function renderImages() {
-    dom.imageShell.innerHTML = "";
-    STACK_TESTING_SPEC.states.forEach((state, index) => {
+    dom.shell.innerHTML = "";
+
+    GALLERY_PRODUCT_SPEC.states.forEach((state, index) => {
       const plane = document.createElement("div");
-      plane.className = "stack-promo__image-plane";
+      plane.className = "gallery-product__image-plane";
       plane.dataset.index = String(index);
       plane.setAttribute("aria-hidden", "true");
-
-      const stage = document.createElement("div");
-      stage.className = "stack-promo__image-stage";
-
-      const img = document.createElement("img");
-      img.className = "stack-promo__image";
-      img.alt = "";
-      img.src = state.image;
-      applyCropStyles(img, state.crop);
-
-      stage.append(img);
-      plane.append(stage);
-      dom.imageShell.append(plane);
+      const imageFitClass = state.imageFit === "contain" ? " gallery-product__image--contain" : "";
+      plane.innerHTML = `
+        <div class="gallery-product__image-stage">
+          <img class="gallery-product__image${imageFitClass}" alt="" src="${state.image}" />
+        </div>
+      `;
+      dom.shell.append(plane);
     });
 
     appState.imagePlanes = Array.from(
-      dom.imageShell.querySelectorAll(".stack-promo__image-plane")
+      dom.shell.querySelectorAll(".gallery-product__image-plane")
     );
   }
 
-  function applyCropStyles(img, crop) {
-    img.style.width = `${crop.w}%`;
-    img.style.height = `${crop.h}%`;
-    img.style.left = `${crop.left}%`;
-    img.style.top = `${crop.top}%`;
+  function hydrateStaticDetails() {
+    dom.productTitle.textContent = GALLERY_PRODUCT_SPEC.details.title;
+    dom.productSubtitle.textContent = GALLERY_PRODUCT_SPEC.details.subtitle;
+    dom.productBody.textContent = GALLERY_PRODUCT_SPEC.details.body;
+    dom.productPrice.textContent = GALLERY_PRODUCT_SPEC.details.price;
+    dom.productCta.textContent = GALLERY_PRODUCT_SPEC.details.cta;
+    dom.productNote.textContent = GALLERY_PRODUCT_SPEC.details.disclaimer;
+  }
+
+  function renderThumbs() {
+    dom.list.innerHTML = "";
+
+    GALLERY_PRODUCT_SPEC.states.forEach((state, index) => {
+      const li = document.createElement("li");
+      li.className = "gallery-product__thumb-item";
+
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "gallery-product__thumb";
+      button.dataset.index = String(index);
+      button.setAttribute("aria-pressed", "false");
+      const thumbSrc = state.thumb || state.image;
+      button.innerHTML = `<img class="gallery-product__thumb-image" alt="" src="${thumbSrc}" />`;
+
+      li.append(button);
+      dom.list.append(li);
+    });
+
+    appState.thumbButtons = Array.from(dom.list.querySelectorAll(".gallery-product__thumb"));
   }
 
   function populateStateSelect() {
-    dom.activeState.innerHTML = STACK_TESTING_SPEC.states
+    dom.activeState.innerHTML = GALLERY_PRODUCT_SPEC.states
       .map((state, index) => `<option value="${index}">${state.label}</option>`)
       .join("");
   }
 
   function bindControls() {
-    appState.rowButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        const nextIndex = Number(button.dataset.index);
-        if (nextIndex !== appState.activeIndex) {
-          dom.activeState.value = String(nextIndex);
-          appState.settings.state = nextIndex;
-          setActiveState(nextIndex);
-        }
-      });
-    });
-
     dom.activeState.addEventListener("change", () => {
       const nextIndex = Number(dom.activeState.value);
       appState.settings.state = nextIndex;
       setActiveState(nextIndex);
+    });
+
+    appState.thumbButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const nextIndex = Number(button.dataset.index);
+        if (nextIndex < 0 || nextIndex === appState.activeIndex) return;
+        dom.activeState.value = String(nextIndex);
+        appState.settings.state = nextIndex;
+        setActiveState(nextIndex);
+      });
     });
 
     dom.transitionType.addEventListener("change", () => {
@@ -289,7 +286,7 @@ export function mountStackTestingLab() {
 
     bindRange(dom.duration, "duration", dom.durationOut, "s");
     bindRange(dom.imageShift, "imageShift", dom.imageShiftOut, "px");
-    bindRange(dom.indicatorDuration, "indicatorDuration", dom.indicatorDurationOut, "s");
+    bindRange(dom.thumbDuration, "thumbDuration", dom.thumbDurationOut, "s");
     bindRange(dom.overlap, "overlap", dom.overlapOut, "s");
 
     dom.copyJson.addEventListener("click", () => copyText(dom.jsonExport.value));
@@ -312,7 +309,7 @@ export function mountStackTestingLab() {
   }
 
   function onReset() {
-    appState.settings = { ...STACK_TESTING_SPEC.defaults };
+    appState.settings = { ...GALLERY_PRODUCT_SPEC.defaults };
     syncControlsFromState();
     setActiveState(appState.settings.state, { immediate: true });
     updateExports();
@@ -328,11 +325,11 @@ export function mountStackTestingLab() {
     dom.easeName.value = appState.settings.easeName;
     dom.duration.value = String(appState.settings.duration);
     dom.imageShift.value = String(appState.settings.imageShift);
-    dom.indicatorDuration.value = String(appState.settings.indicatorDuration);
+    dom.thumbDuration.value = String(appState.settings.thumbDuration);
     dom.overlap.value = String(appState.settings.overlap);
     dom.durationOut.value = `${formatNumber(appState.settings.duration)}s`;
     dom.imageShiftOut.value = `${formatNumber(appState.settings.imageShift)}px`;
-    dom.indicatorDurationOut.value = `${formatNumber(appState.settings.indicatorDuration)}s`;
+    dom.thumbDurationOut.value = `${formatNumber(appState.settings.thumbDuration)}s`;
     dom.overlapOut.value = `${formatNumber(appState.settings.overlap)}s`;
     applyMaskingMode();
   }
@@ -343,7 +340,7 @@ export function mountStackTestingLab() {
   }
 
   function applyMotionStyle(styleName) {
-    const preset = STACK_MOTION_STYLES[styleName];
+    const preset = GALLERY_MOTION_STYLES[styleName];
     if (!preset) return;
     appState.settings.motionStyle = styleName;
     Object.assign(appState.settings, preset);
@@ -362,29 +359,22 @@ export function mountStackTestingLab() {
     const previousIndex = appState.activeIndex;
     appState.activeIndex = nextIndex;
     appState.settings.state = nextIndex;
-    syncRowState();
 
     if (opts.immediate || previousIndex === nextIndex || appState.reducedMotion) {
-      setImageImmediate(nextIndex);
-      setLineImmediate(nextIndex);
+      setImagesImmediate(nextIndex);
+      setThumbsImmediate(nextIndex);
       updateExports();
       updateUrl();
       return;
     }
 
     animateImageTransition(previousIndex, nextIndex);
-    animateLineTransition(previousIndex, nextIndex);
+    animateThumbTransition(previousIndex, nextIndex);
     updateExports();
     updateUrl();
   }
 
-  function syncRowState() {
-    appState.rowButtons.forEach((button, index) => {
-      button.setAttribute("aria-pressed", index === appState.activeIndex ? "true" : "false");
-    });
-  }
-
-  function setImageImmediate(activeIndex) {
+  function setImagesImmediate(activeIndex) {
     appState.imagePlanes.forEach((plane, index) => {
       const active = index === activeIndex;
       plane.classList.toggle("is-active", active);
@@ -396,17 +386,22 @@ export function mountStackTestingLab() {
 
   function animateImageTransition(previousIndex, nextIndex) {
     const type = appState.settings.transitionType;
-    const ease = appState.settings.easeName;
-    const duration = appState.settings.duration;
-    const shift = appState.settings.imageShift;
+    if (type === "swap") {
+      setImagesImmediate(nextIndex);
+      return;
+    }
+
     const incoming = appState.imagePlanes[nextIndex];
     const outgoing = appState.imagePlanes[previousIndex];
     if (!incoming) return;
 
-    if (outgoing === incoming || type === "swap") {
-      setImageImmediate(nextIndex);
-      return;
-    }
+    const ease = appState.settings.easeName;
+    const duration = appState.settings.duration;
+    const shift = appState.settings.imageShift;
+    const direction = resolveDirection(previousIndex, nextIndex);
+    const overlap = appState.settings.overlap;
+    const outgoingAt = overlap < 0 ? Math.abs(overlap) : 0;
+    const incomingAt = overlap > 0 ? overlap : 0;
 
     appState.imagePlanes.forEach((plane, index) => {
       if (index !== previousIndex && index !== nextIndex) {
@@ -422,13 +417,9 @@ export function mountStackTestingLab() {
     incoming.style.visibility = "visible";
     gsap.killTweensOf([incoming, outgoing]);
 
-    const direction = resolveDirection(previousIndex, nextIndex);
-    const overlap = appState.settings.overlap;
-    const outgoingAt = overlap < 0 ? Math.abs(overlap) : 0;
-    const incomingAt = overlap > 0 ? overlap : 0;
     const tl = gsap.timeline({
       defaults: { ease, duration },
-      onComplete: () => setImageImmediate(nextIndex)
+      onComplete: () => setImagesImmediate(nextIndex)
     });
 
     if (type === "slide-fade") {
@@ -457,112 +448,62 @@ export function mountStackTestingLab() {
     return nextIndex > previousIndex ? 1 : -1;
   }
 
-  function setLineImmediate(activeIndex) {
-    appState.rowLines.forEach((line, index) => {
-      gsap.killTweensOf(line);
-      gsap.set(line, { x: index === activeIndex ? 0 : -getLineOffscreenX() });
+  function setThumbsImmediate(activeStateIndex) {
+    const activeThumb = GALLERY_PRODUCT_SPEC.states[activeStateIndex]?.activeThumb ?? 0;
+    appState.thumbButtons.forEach((button, index) => {
+      const active = index === activeThumb;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-pressed", active ? "true" : "false");
     });
   }
 
-  function animateLineTransition(previousIndex, nextIndex) {
-    const xOff = -getLineOffscreenX();
-    const outgoing = appState.rowLines[previousIndex];
-    const incoming = appState.rowLines[nextIndex];
+  function animateThumbTransition(previousIndex, nextIndex) {
+    const prevThumb = GALLERY_PRODUCT_SPEC.states[previousIndex]?.activeThumb;
+    const nextThumb = GALLERY_PRODUCT_SPEC.states[nextIndex]?.activeThumb;
+    const duration = appState.settings.thumbDuration;
+    const ease = appState.settings.easeName;
     const overlap = appState.settings.overlap;
     const outgoingDelay = overlap < 0 ? Math.abs(overlap) : 0;
     const incomingDelay = overlap > 0 ? overlap : 0;
 
-    appState.rowLines.forEach((line, index) => {
-      if (index !== previousIndex && index !== nextIndex) {
-        gsap.killTweensOf(line);
-        gsap.set(line, { x: xOff });
+    if (prevThumb === undefined || nextThumb === undefined || prevThumb === nextThumb) {
+      setThumbsImmediate(nextIndex);
+      return;
+    }
+
+    const outgoing = appState.thumbButtons[prevThumb];
+    const incoming = appState.thumbButtons[nextThumb];
+    if (!outgoing || !incoming) return;
+
+    outgoing.classList.remove("is-active");
+    outgoing.setAttribute("aria-pressed", "false");
+    incoming.classList.add("is-active");
+    incoming.setAttribute("aria-pressed", "true");
+
+    gsap.killTweensOf([outgoing, incoming]);
+    gsap.fromTo(incoming, { opacity: 0.72 }, { opacity: 1, duration, ease, delay: incomingDelay });
+    gsap.to(outgoing, {
+      opacity: 0.86,
+      duration,
+      ease,
+      delay: outgoingDelay,
+      onComplete: () => {
+        outgoing.style.opacity = "";
       }
     });
-
-    if (outgoing) {
-      gsap.killTweensOf(outgoing);
-      gsap.to(outgoing, {
-        x: xOff,
-        duration: appState.settings.indicatorDuration,
-        ease: appState.settings.easeName,
-        delay: outgoingDelay
-      });
-    }
-
-    if (incoming) {
-      gsap.killTweensOf(incoming);
-      gsap.set(incoming, { x: xOff });
-      gsap.to(incoming, {
-        x: 0,
-        duration: appState.settings.indicatorDuration,
-        ease: appState.settings.easeName,
-        delay: incomingDelay
-      });
-    }
-  }
-
-  function updateExports() {
-    const active = STACK_TESTING_SPEC.states[appState.activeIndex];
-
-    dom.jsonExport.value = JSON.stringify(
-      {
-        component: {
-          name: STACK_TESTING_SPEC.name,
-          figmaNodeId: STACK_TESTING_SPEC.figmaNodeId
-        },
-        componentState: {
-          index: appState.activeIndex,
-          key: active?.key,
-          label: active?.label,
-          title: active?.title
-        },
-        motionPreset: {
-          state: appState.activeIndex + 1,
-          style: appState.settings.motionStyle,
-          transitionType: appState.settings.transitionType,
-          maskingMode: appState.settings.maskingMode,
-          directionMode: appState.settings.directionMode,
-          easeName: appState.settings.easeName,
-          duration: Number(appState.settings.duration.toFixed(2)),
-          imageShift: Math.round(appState.settings.imageShift),
-          indicatorDuration: Number(appState.settings.indicatorDuration.toFixed(2)),
-          overlap: Number(appState.settings.overlap.toFixed(2))
-        }
-      },
-      null,
-      2
-    );
-
-    dom.cssExport.value = [
-      ":root {",
-      `  --motion-duration: ${appState.settings.duration}s;`,
-      `  --motion-indicator-duration: ${appState.settings.indicatorDuration}s;`,
-      `  --motion-image-shift: ${appState.settings.imageShift}px;`,
-      `  --motion-overlap: ${appState.settings.overlap}s;`,
-      `  --motion-ease-name: ${appState.settings.easeName};`,
-      "}",
-      "",
-      "/* GSAP note: easing names remain GSAP-compatible strings. */",
-      `/* Motion style: ${appState.settings.motionStyle} */`,
-      `/* Transition mode: ${appState.settings.transitionType} */`,
-      `/* Masking mode: ${appState.settings.maskingMode} */`,
-      `/* Direction mode: ${appState.settings.directionMode} */`,
-      `/* State: ${active?.label ?? "unknown"} */`
-    ].join("\n");
   }
 
   function hydrateFromUrl() {
     const params = new URLSearchParams(window.location.search);
     const stateParam = params.get("state");
     if (stateParam !== null) {
-      appState.settings.state =
-        clampInt(Number(stateParam), 1, STACK_TESTING_SPEC.states.length) - 1;
+      appState.settings.state = clampInt(Number(stateParam), 1, GALLERY_PRODUCT_SPEC.states.length) - 1;
     }
 
     const style = params.get("sty");
-    if (style && STACK_MOTION_STYLES[style]) {
+    if (style && GALLERY_MOTION_STYLES[style]) {
       appState.settings.motionStyle = style;
-      Object.assign(appState.settings, STACK_MOTION_STYLES[style]);
+      Object.assign(appState.settings, GALLERY_MOTION_STYLES[style]);
     }
 
     const mode = params.get("mode");
@@ -583,8 +524,8 @@ export function mountStackTestingLab() {
     const ease = params.get("ease");
     if (ease) appState.settings.easeName = ease;
     applyNumberParam(params, "dur", "duration", 0, 3);
-    applyNumberParam(params, "shift", "imageShift", 0, 120);
-    applyNumberParam(params, "idur", "indicatorDuration", 0, 3);
+    applyNumberParam(params, "shift", "imageShift", 0, 220);
+    applyNumberParam(params, "tdur", "thumbDuration", 0, 3);
     applyNumberParam(params, "ovr", "overlap", -0.4, 0.4);
   }
 
@@ -594,6 +535,56 @@ export function mountStackTestingLab() {
     const value = Number(raw);
     if (!Number.isFinite(value)) return;
     appState.settings[settingKey] = clampNumber(value, min, max);
+  }
+
+  function updateExports() {
+    const active = GALLERY_PRODUCT_SPEC.states[appState.activeIndex];
+
+    dom.jsonExport.value = JSON.stringify(
+      {
+        component: {
+          name: GALLERY_PRODUCT_SPEC.name,
+          figmaNodeId: GALLERY_PRODUCT_SPEC.figmaNodeId
+        },
+        componentState: {
+          index: appState.activeIndex,
+          key: active?.key,
+          label: active?.label,
+          figmaNodeId: active?.figmaNodeId,
+          activeThumbIndex: active?.activeThumb
+        },
+        motionPreset: {
+          state: appState.activeIndex + 1,
+          style: appState.settings.motionStyle,
+          transitionType: appState.settings.transitionType,
+          maskingMode: appState.settings.maskingMode,
+          directionMode: appState.settings.directionMode,
+          easeName: appState.settings.easeName,
+          duration: Number(appState.settings.duration.toFixed(2)),
+          imageShift: Math.round(appState.settings.imageShift),
+          thumbDuration: Number(appState.settings.thumbDuration.toFixed(2)),
+          overlap: Number(appState.settings.overlap.toFixed(2))
+        }
+      },
+      null,
+      2
+    );
+
+    dom.cssExport.value = [
+      ":root {",
+      `  --motion-duration: ${appState.settings.duration}s;`,
+      `  --motion-thumb-duration: ${appState.settings.thumbDuration}s;`,
+      `  --motion-image-shift: ${appState.settings.imageShift}px;`,
+      `  --motion-overlap: ${appState.settings.overlap}s;`,
+      `  --motion-ease-name: ${appState.settings.easeName};`,
+      "}",
+      "",
+      `/* Motion style: ${appState.settings.motionStyle} */`,
+      `/* Transition mode: ${appState.settings.transitionType} */`,
+      `/* Masking mode: ${appState.settings.maskingMode} */`,
+      `/* Direction mode: ${appState.settings.directionMode} */`,
+      `/* State: ${active?.label ?? "unknown"} (${active?.figmaNodeId ?? "n/a"}) */`
+    ].join("\n");
   }
 
   function updateUrl() {
@@ -611,13 +602,8 @@ export function mountStackTestingLab() {
     params.set("ease", appState.settings.easeName);
     params.set("dur", String(Number(appState.settings.duration.toFixed(2))));
     params.set("shift", String(Math.round(appState.settings.imageShift)));
-    params.set("idur", String(Number(appState.settings.indicatorDuration.toFixed(2))));
+    params.set("tdur", String(Number(appState.settings.thumbDuration.toFixed(2))));
     params.set("ovr", String(Number(appState.settings.overlap.toFixed(2))));
     return params;
-  }
-
-  function getLineOffscreenX() {
-    const styles = getComputedStyle(document.documentElement);
-    return Number.parseFloat(styles.getPropertyValue("--row-line-offscreen")) || 600;
   }
 }

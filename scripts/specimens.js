@@ -10,5 +10,11 @@ export const SPECIMENS = [
     name: ".tabs/tests",
     figmaNodeId: "1145:18545",
     href: "./tabs-tests.html"
+  },
+  {
+    slug: "gallery-product",
+    name: ".gallery/product",
+    figmaNodeId: "1055:18883",
+    href: "./gallery-product.html"
   }
 ];

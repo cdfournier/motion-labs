@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Motion Lab - .stack/testing</title>
+    <title>Motion Lab - .gallery/product</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Cormorant+Garamond:wght@400&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />
@@ -15,23 +15,36 @@
   <body>
     <main class="lab">
       <header class="lab-header">
-        <p class="lab-header__name">.stack/testing</p>
+        <p class="lab-header__name">.gallery/product</p>
         <a class="lab-header__link" href="./index.html">Back to index</a>
       </header>
 
       <section class="preview-pane" aria-label="Component preview">
         <div class="preview-frame">
-          <article class="stack-promo" data-component="stack-testing">
-            <div class="stack-promo__columns">
-              <section class="stack-promo__section" aria-labelledby="stack-heading">
-                <h1 id="stack-heading" class="sr-only">Stack promo interaction test</h1>
-                <ol class="stack-promo__list" id="stackList"></ol>
-              </section>
+          <article class="gallery-product" data-component="gallery-product">
+            <section class="gallery-product__layout" aria-label="Product gallery and details">
+              <div class="gallery-product__left">
+                <figure class="gallery-product__hero" aria-live="polite" aria-atomic="true">
+                  <div class="gallery-product__image-shell" id="galleryImageShell"></div>
+                </figure>
+              </div>
 
-              <figure class="stack-promo__figure" aria-live="polite" aria-atomic="true">
-                <div class="stack-promo__image-shell" id="imageShell"></div>
-              </figure>
-            </div>
+              <aside class="gallery-product__details" aria-label="Product details">
+                <h2 class="gallery-product__title" id="productTitle">ADVANCED HEALTH PANEL</h2>
+                <p class="gallery-product__subtitle" id="productSubtitle">Get Insights Into What Is Really Going On Inside Your Body</p>
+                <p class="gallery-product__body" id="productBody">
+                  Your body can reveal early signs of imbalance long before you feel them. The Advanced Health Panel is a comprehensive blood spot test that evaluates your metabolism, heart, liver, kidney and nutrient health to help you take control of your overall wellness.
+                </p>
+                <div class="gallery-product__price-wrap">
+                  <p class="gallery-product__price" id="productPrice">259</p>
+                </div>
+                <div class="gallery-product__cta-wrap">
+                  <button type="button" class="gallery-product__cta" id="productCta">Add To Cart</button>
+                </div>
+                <p class="gallery-product__note" id="productNote">Pay in 4 interest-free installments of $64.75 with SHOPPAY. Sign up for Rewards and earn 355 points for this purchase!</p>
+              </aside>
+            </section>
+            <ol class="gallery-product__thumbs" id="galleryThumbs"></ol>
           </article>
         </div>
       </section>
@@ -45,8 +58,8 @@
           <label class="field">
             <span>Transition</span>
             <select id="transitionType">
-              <option value="crossfade">Crossfade</option>
               <option value="slide-fade">Slide + Fade</option>
+              <option value="crossfade">Crossfade</option>
               <option value="swap">Swap (No Motion)</option>
             </select>
           </label>
@@ -81,19 +94,12 @@
             <input id="duration" type="range" min="0" max="3" step="0.01" value="0.55" />
           </label>
           <label class="field field--range">
-            <span>Image Shift <output id="imageShiftOut">18px</output></span>
-            <input id="imageShift" type="range" min="0" max="120" step="1" value="18" />
+            <span>Image Shift <output id="imageShiftOut">36px</output></span>
+            <input id="imageShift" type="range" min="0" max="220" step="1" value="36" />
           </label>
           <label class="field field--range">
-            <span>Indicator Duration <output id="indicatorDurationOut">0.45s</output></span>
-            <input
-              id="indicatorDuration"
-              type="range"
-              min="0"
-              max="3"
-              step="0.01"
-              value="0.45"
-            />
+            <span>Thumb Duration <output id="thumbDurationOut">0.35s</output></span>
+            <input id="thumbDuration" type="range" min="0" max="3" step="0.01" value="0.35" />
           </label>
         </div>
 

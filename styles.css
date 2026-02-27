@@ -116,7 +116,7 @@ body {
 
 .preview-frame {
   width: 100%;
-  overflow-x: auto;
+  overflow: visible;
 }
 
 .stack-promo {
@@ -233,6 +233,11 @@ body {
 .stack-promo__image-shell {
   position: absolute;
   inset: 0;
+}
+
+.stack-promo.is-free-fade .stack-promo__figure,
+.stack-promo.is-free-fade .stack-promo__image-shell {
+  overflow: visible;
 }
 
 .stack-promo__image-plane {
@@ -467,6 +472,252 @@ body {
   font-family: "DM Sans", sans-serif;
 }
 
+.gallery-product {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.gallery-product__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 420px;
+  gap: 16px;
+  height: 700px;
+  padding-right: 80px;
+  align-items: center;
+  background: #f8f7f5;
+}
+
+.gallery-product__left {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-width: 0;
+  min-height: 700px;
+  position: relative;
+  overflow: visible;
+}
+
+.gallery-product__hero {
+  margin: 0;
+  height: 700px;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.gallery-product__image-shell {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.gallery-product.is-free-fade .gallery-product__left,
+.gallery-product.is-free-fade .gallery-product__hero,
+.gallery-product.is-free-fade .gallery-product__image-shell {
+  overflow: visible;
+}
+
+.gallery-product__image-plane {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.gallery-product__image-plane.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.gallery-product__image-stage {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1440px;
+  height: 700px;
+  transform: translateX(-50%);
+}
+
+.gallery-product__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.gallery-product__image--contain {
+  object-fit: contain;
+}
+
+.gallery-product__thumbs {
+  margin: -50px 0 0;
+  width: calc(100% - 516px);
+  max-width: calc(100% - 516px);
+  padding: 16px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  position: relative;
+  z-index: 2;
+  align-self: flex-start;
+}
+
+.gallery-product__thumb-item {
+  flex: 0 0 auto;
+}
+
+.gallery-product__thumb {
+  width: 100px;
+  height: 100px;
+  border: 1px solid #fff;
+  border-radius: 4px;
+  overflow: hidden;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+}
+
+.gallery-product__thumb:focus-visible {
+  outline: 2px solid #1a1a1a;
+  outline-offset: 2px;
+}
+
+.gallery-product__thumb-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  display: block;
+  opacity: 0.5;
+  transition: opacity 160ms ease;
+}
+
+.gallery-product__thumb.is-active .gallery-product__thumb-image {
+  opacity: 1;
+}
+
+.gallery-product__thumb:hover .gallery-product__thumb-image {
+  opacity: 1;
+}
+
+.gallery-product__details {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 420px;
+  padding-top: 80px;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.gallery-product__title {
+  margin: 0;
+  color: #1a1a1a;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  font-family: "Artifex Hand CF", "Cormorant Garamond", Georgia, serif;
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 400;
+}
+
+.gallery-product__subtitle {
+  margin: 0;
+  padding-top: 20px;
+  color: #1a1a1a;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0;
+  font-weight: 700;
+}
+
+.gallery-product__body {
+  margin: 0;
+  padding-top: 20px;
+  color: #1a1a1a;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0;
+  font-weight: 400;
+  max-width: 420px;
+}
+
+.gallery-product__price-wrap {
+  padding-top: 16px;
+  width: 100%;
+}
+
+.gallery-product__price {
+  margin: 0;
+  color: #1a1a1a;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+
+.gallery-product__cta-wrap {
+  padding-top: 40px;
+  width: 100%;
+}
+
+.gallery-product__cta {
+  justify-self: start;
+  margin-top: 0;
+  border: 1px solid #1a3768;
+  background: #1a3768;
+  color: #fff;
+  border-radius: 8px;
+  padding: 16px 40px;
+  min-height: 46px;
+  font-size: 14px;
+  line-height: 14px;
+  letter-spacing: 0.84px;
+  font-weight: 500;
+  font-family: "DM Sans", sans-serif;
+}
+
+.tabs-tests__cta,
+.gallery-product__cta {
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.tabs-tests__cta:hover,
+.gallery-product__cta:hover {
+  background: #fff;
+  border-color: #fff;
+  color: #1a3768;
+}
+
+.tabs-tests__cta:focus-visible,
+.gallery-product__cta:focus-visible {
+  outline: 2px solid #1a1a1a;
+  outline-offset: 2px;
+}
+
+.gallery-product__note {
+  margin: 0;
+  padding-top: 12px;
+  color: #1a1a1a;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: 0;
+  font-weight: 400;
+  max-width: 420px;
+}
+
 .controls {
   display: grid;
   gap: 14px;
@@ -516,19 +767,38 @@ body {
   width: 100%;
 }
 
+.field select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 30px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%231A1A1A' stroke-width='1.25' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 12px 12px;
+}
+
 .field select,
 .field textarea,
+.field button,
 .controls__row--actions button {
   border: 1px solid #d9d9d9;
-  background: #fff;
+  background-color: #fff;
   border-radius: 6px;
 }
 
 .field select,
+.field button,
 .controls__row--actions button {
   padding: 8px 10px;
   min-height: 38px;
 }
+
+.field button,
+.controls__row--actions button {
+  cursor: pointer;
+}
+
 
 .field textarea {
   resize: vertical;
@@ -581,6 +851,51 @@ body {
     height: 420px;
   }
 
+  .gallery-product {
+    width: 100%;
+  }
+
+  .gallery-product__layout {
+    height: auto;
+    margin-bottom: 0;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .gallery-product__left {
+    min-height: 420px;
+  }
+
+  .gallery-product__hero {
+    height: 420px;
+  }
+
+  .gallery-product__image-stage {
+    width: 100%;
+    height: 420px;
+    left: 0;
+    transform: none;
+  }
+
+  .gallery-product__thumbs {
+    margin: 0;
+  }
+
+  .gallery-product__details {
+    padding: 16px;
+    max-width: none;
+  }
+
+  .gallery-product__title {
+    font-size: 24px;
+    line-height: 30px;
+  }
+
+  .gallery-product__subtitle {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
   .controls__row {
     grid-template-columns: 1fr;
   }
@@ -597,7 +912,9 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .stack-row__button,
   .stack-promo__image-plane,
-  .stack-promo__indicator {
+  .stack-promo__indicator,
+  .tabs-tests__plane,
+  .gallery-product__image-plane {
     transition: none !important;
     animation: none !important;
   }

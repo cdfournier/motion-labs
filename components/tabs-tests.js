@@ -1,4 +1,5 @@
 import {
+  buildShareUrl,
   clampInt,
   clampNumber,
   copyText,
@@ -105,6 +106,7 @@ export const TABS_TESTS_SPEC = {
   ],
   defaults: {
     state: 0,
+    motionStyle: "custom",
     transitionType: "slide-fade",
     maskingMode: "track",
     directionMode: "auto",
@@ -112,7 +114,38 @@ export const TABS_TESTS_SPEC = {
     duration: 0.55,
     panelShift: 26,
     tabDuration: 0.35,
-    stagger: 0
+    stagger: 0,
+    overlap: 0
+  }
+};
+
+const TABS_MOTION_STYLES = {
+  subtle: {
+    transitionType: "crossfade",
+    easeName: "sine.out",
+    duration: 0.75,
+    panelShift: 18,
+    tabDuration: 0.5,
+    stagger: 0,
+    overlap: 0
+  },
+  balanced: {
+    transitionType: "slide-fade",
+    easeName: "power3.out",
+    duration: 1.1,
+    panelShift: 52,
+    tabDuration: 0.8,
+    stagger: 0.08,
+    overlap: -0.1
+  },
+  dramatic: {
+    transitionType: "slide-fade",
+    easeName: "power4.out",
+    duration: 3,
+    panelShift: 180,
+    tabDuration: 3,
+    stagger: 0.6,
+    overlap: -0.2
   }
 };
 
@@ -128,6 +161,7 @@ export function mountTabsTestsLab() {
     heroShell: document.querySelector("#tabsHeroShell"),
     sideShell: document.querySelector("#tabsSideShell"),
     activeState: document.querySelector("#activeState"),
+    motionStyle: document.querySelector("#motionStyle"),
     transitionType: document.querySelector("#transitionType"),
     maskingMode: document.querySelector("#maskingMode"),
     directionMode: document.querySelector("#directionMode"),
@@ -136,10 +170,12 @@ export function mountTabsTestsLab() {
     panelShift: document.querySelector("#panelShift"),
     tabDuration: document.querySelector("#tabDuration"),
     stagger: document.querySelector("#stagger"),
+    overlap: document.querySelector("#overlap"),
     durationOut: document.querySelector("#durationOut"),
     panelShiftOut: document.querySelector("#panelShiftOut"),
     tabDurationOut: document.querySelector("#tabDurationOut"),
     staggerOut: document.querySelector("#staggerOut"),
+    overlapOut: document.querySelector("#overlapOut"),
     jsonExport: document.querySelector("#jsonExport"),
     cssExport: document.querySelector("#cssExport"),
     copyJson: document.querySelector("#copyJson"),
@@ -248,12 +284,14 @@ export function mountTabsTestsLab() {
     });
 
     dom.transitionType.addEventListener("change", () => {
+      markMotionStyleCustom();
       appState.settings.transitionType = dom.transitionType.value;
       updateExports();
       updateUrl();
     });
 
     dom.maskingMode.addEventListener("change", () => {
+      markMotionStyleCustom();
       appState.settings.maskingMode = dom.maskingMode.value;
       applyMaskingMode();
       updateExports();
@@ -261,30 +299,45 @@ export function mountTabsTestsLab() {
     });
 
     dom.directionMode.addEventListener("change", () => {
+      markMotionStyleCustom();
       appState.settings.directionMode = dom.directionMode.value;
       updateExports();
       updateUrl();
     });
 
     dom.easeName.addEventListener("change", () => {
+      markMotionStyleCustom();
       appState.settings.easeName = dom.easeName.value;
       updateExports();
       updateUrl();
+    });
+
+    dom.motionStyle.addEventListener("change", () => {
+      const style = dom.motionStyle.value;
+      if (style === "custom") {
+        appState.settings.motionStyle = "custom";
+        updateExports();
+        updateUrl();
+        return;
+      }
+      applyMotionStyle(style);
     });
 
     bindRange(dom.stagger, "stagger", dom.staggerOut, "s");
     bindRange(dom.duration, "duration", dom.durationOut, "s");
     bindRange(dom.panelShift, "panelShift", dom.panelShiftOut, "px");
     bindRange(dom.tabDuration, "tabDuration", dom.tabDurationOut, "s");
+    bindRange(dom.overlap, "overlap", dom.overlapOut, "s");
 
     dom.copyJson.addEventListener("click", () => copyText(dom.jsonExport.value));
     dom.copyCss.addEventListener("click", () => copyText(dom.cssExport.value));
-    dom.copyUrl.addEventListener("click", () => copyText(window.location.href));
+    dom.copyUrl.addEventListener("click", () => copyText(buildShareUrl(createUrlParams())));
     dom.resetSettings.addEventListener("click", onReset);
   }
 
   function bindRange(input, key, output, unit) {
     const write = () => {
+      markMotionStyleCustom();
       const value = Number(input.value);
       appState.settings[key] = value;
       output.value = `${formatNumber(value)}${unit}`;
@@ -305,6 +358,7 @@ export function mountTabsTestsLab() {
 
   function syncControlsFromState() {
     dom.activeState.value = String(appState.settings.state);
+    dom.motionStyle.value = appState.settings.motionStyle;
     dom.transitionType.value = appState.settings.transitionType;
     dom.maskingMode.value = appState.settings.maskingMode;
     dom.directionMode.value = appState.settings.directionMode;
@@ -313,11 +367,29 @@ export function mountTabsTestsLab() {
     dom.duration.value = String(appState.settings.duration);
     dom.panelShift.value = String(appState.settings.panelShift);
     dom.tabDuration.value = String(appState.settings.tabDuration);
+    dom.overlap.value = String(appState.settings.overlap);
     dom.staggerOut.value = `${formatNumber(appState.settings.stagger)}s`;
     dom.durationOut.value = `${formatNumber(appState.settings.duration)}s`;
     dom.panelShiftOut.value = `${formatNumber(appState.settings.panelShift)}px`;
     dom.tabDurationOut.value = `${formatNumber(appState.settings.tabDuration)}s`;
+    dom.overlapOut.value = `${formatNumber(appState.settings.overlap)}s`;
     applyMaskingMode();
+  }
+
+  function markMotionStyleCustom() {
+    appState.settings.motionStyle = "custom";
+    dom.motionStyle.value = "custom";
+  }
+
+  function applyMotionStyle(styleName) {
+    const preset = TABS_MOTION_STYLES[styleName];
+    if (!preset) return;
+    appState.settings.motionStyle = styleName;
+    Object.assign(appState.settings, preset);
+    syncControlsFromState();
+    setActiveState(appState.settings.state, { immediate: true });
+    updateExports();
+    updateUrl();
   }
 
   function setActiveState(nextIndex, options = {}) {
@@ -424,30 +496,32 @@ export function mountTabsTestsLab() {
     incoming.classList.add("is-active");
     incoming.style.visibility = "visible";
     gsap.killTweensOf([incoming, outgoing]);
+    const overlap = appState.settings.overlap;
+    const outgoingAt = (overlap < 0 ? Math.abs(overlap) : 0) + delay;
+    const incomingAt = (overlap > 0 ? overlap : 0) + delay;
 
     const tl = gsap.timeline({
       defaults: { ease, duration },
-      delay,
       onComplete: () => setPlanesImmediate(nextIndex)
     });
 
     if (type === "slide-fade") {
       gsap.set(incoming, { opacity: 0, x: shift * direction });
       gsap.set(outgoing, { opacity: 1, x: 0 });
-      tl.to(outgoing, { opacity: 0, x: -shift * direction, duration: duration * 0.9 }, 0).to(
+      tl.to(outgoing, { opacity: 0, x: -shift * direction, duration: duration * 0.9 }, outgoingAt).to(
         incoming,
         { opacity: 1, x: 0 },
-        0
+        incomingAt
       );
       return;
     }
 
     gsap.set(incoming, { opacity: 0, x: 0 });
     gsap.set(outgoing, { opacity: 1, x: 0 });
-    tl.to(outgoing, { opacity: 0, duration: duration * 0.9 }, 0).to(
+    tl.to(outgoing, { opacity: 0, duration: duration * 0.9 }, outgoingAt).to(
       incoming,
       { opacity: 1, duration },
-      0
+      incomingAt
     );
   }
 
@@ -465,6 +539,9 @@ export function mountTabsTestsLab() {
     const nextTab = TABS_TESTS_SPEC.states[nextIndex]?.activeTab;
     const duration = appState.settings.tabDuration;
     const ease = appState.settings.easeName;
+    const overlap = appState.settings.overlap;
+    const outgoingDelay = (overlap < 0 ? Math.abs(overlap) : 0) + delay;
+    const incomingDelay = (overlap > 0 ? overlap : 0) + delay;
 
     if (prevTab === undefined || nextTab === undefined || prevTab === nextTab) {
       setTabsImmediate(nextIndex);
@@ -484,13 +561,13 @@ export function mountTabsTestsLab() {
     gsap.fromTo(
       incoming,
       { opacity: 0.72 },
-      { opacity: 1, duration, ease, delay }
+      { opacity: 1, duration, ease, delay: incomingDelay }
     );
     gsap.to(outgoing, {
       opacity: 0.88,
       duration,
       ease,
-      delay,
+      delay: outgoingDelay,
       onComplete: () => {
         outgoing.style.opacity = "";
       }
@@ -502,6 +579,12 @@ export function mountTabsTestsLab() {
     const stateParam = params.get("state");
     if (stateParam !== null) {
       appState.settings.state = clampInt(Number(stateParam), 1, TABS_TESTS_SPEC.states.length) - 1;
+    }
+
+    const style = params.get("sty");
+    if (style && TABS_MOTION_STYLES[style]) {
+      appState.settings.motionStyle = style;
+      Object.assign(appState.settings, TABS_MOTION_STYLES[style]);
     }
 
     const mode = params.get("mode");
@@ -522,9 +605,10 @@ export function mountTabsTestsLab() {
     const ease = params.get("ease");
     if (ease) appState.settings.easeName = ease;
     applyNumberParam(params, "stg", "stagger", -0.6, 0.6);
-    applyNumberParam(params, "dur", "duration", 0, 1.5);
-    applyNumberParam(params, "shift", "panelShift", 0, 80);
-    applyNumberParam(params, "tdur", "tabDuration", 0, 1.5);
+    applyNumberParam(params, "dur", "duration", 0, 3);
+    applyNumberParam(params, "shift", "panelShift", 0, 180);
+    applyNumberParam(params, "tdur", "tabDuration", 0, 3);
+    applyNumberParam(params, "ovr", "overlap", -0.4, 0.4);
   }
 
   function applyNumberParam(params, key, settingKey, min, max) {
@@ -551,8 +635,7 @@ export function mountTabsTestsLab() {
         activeTabIndex: activeState?.activeTab,
         activeTabLabel: TABS_TESTS_SPEC.tabItems[activeState?.activeTab ?? 0],
         panelTitle: activeState?.title
-      }
-      ,
+      },
       motionPreset
     };
 
@@ -563,10 +646,12 @@ export function mountTabsTestsLab() {
       `  --motion-tab-duration: ${motionPreset.tabDuration}s;`,
       `  --motion-panel-shift: ${motionPreset.panelShift}px;`,
       `  --motion-stagger: ${motionPreset.stagger}s;`,
+      `  --motion-overlap: ${motionPreset.overlap}s;`,
       `  --motion-ease-name: ${motionPreset.easeName};`,
       "}",
       "",
       "/* GSAP note: easing names remain GSAP-compatible strings. */",
+      `/* Motion style: ${motionPreset.style} */`,
       `/* Transition mode: ${motionPreset.transitionType} */`,
       `/* Masking mode: ${motionPreset.maskingMode} */`,
       `/* Direction mode: ${motionPreset.directionMode} */`,
@@ -577,6 +662,7 @@ export function mountTabsTestsLab() {
   function getMotionPreset() {
     return {
       state: appState.activeIndex + 1,
+      style: appState.settings.motionStyle,
       transitionType: appState.settings.transitionType,
       maskingMode: appState.settings.maskingMode,
       directionMode: appState.settings.directionMode,
@@ -584,7 +670,8 @@ export function mountTabsTestsLab() {
       duration: normalizeNumber(appState.settings.duration),
       panelShift: normalizeInt(appState.settings.panelShift),
       tabDuration: normalizeNumber(appState.settings.tabDuration),
-      stagger: normalizeNumber(appState.settings.stagger)
+      stagger: normalizeNumber(appState.settings.stagger),
+      overlap: normalizeNumber(appState.settings.overlap)
     };
   }
 
@@ -597,18 +684,25 @@ export function mountTabsTestsLab() {
   }
 
   function updateUrl() {
+    const params = createUrlParams();
+    writeParams(params);
+  }
+
+  function createUrlParams() {
     const motionPreset = getMotionPreset();
     const params = new URLSearchParams();
     params.set("state", String(motionPreset.state));
+    params.set("sty", motionPreset.style);
     params.set("mode", motionPreset.transitionType);
     params.set("mask", motionPreset.maskingMode);
     params.set("dir", motionPreset.directionMode);
     params.set("ease", motionPreset.easeName);
     params.set("stg", String(motionPreset.stagger));
+    params.set("ovr", String(motionPreset.overlap));
     params.set("dur", String(motionPreset.duration));
     params.set("shift", String(motionPreset.panelShift));
     params.set("tdur", String(motionPreset.tabDuration));
-    writeParams(params);
+    return params;
   }
 
   function escapeHtml(value) {

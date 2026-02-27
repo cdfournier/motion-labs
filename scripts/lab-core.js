@@ -20,8 +20,27 @@ export function formatNumber(value) {
     .replace(/(\.\d)0$/, "$1");
 }
 
+export function canonicalizeParams(params) {
+  const next = new URLSearchParams();
+  Array.from(params.entries())
+    .sort(([a], [b]) => a.localeCompare(b))
+    .forEach(([key, value]) => {
+      next.set(key, value);
+    });
+  return next;
+}
+
+export function buildShareUrl(params) {
+  const ordered = canonicalizeParams(params);
+  const qs = ordered.toString();
+  return qs
+    ? `${window.location.origin}${window.location.pathname}?${qs}`
+    : `${window.location.origin}${window.location.pathname}`;
+}
+
 export function writeParams(params, push = false) {
-  const qs = params.toString();
+  const ordered = canonicalizeParams(params);
+  const qs = ordered.toString();
   const nextUrl = qs ? `${window.location.pathname}?${qs}` : window.location.pathname;
   history[push ? "pushState" : "replaceState"](null, "", nextUrl);
 }
