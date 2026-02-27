@@ -15,8 +15,9 @@
   <body>
     <main class="lab">
       <header class="lab-header">
-        <p class="lab-header__name">.tabs/tests</p>
         <a class="lab-header__link" href="./index.html">Back to index</a>
+        <span class="lab-header__sep" aria-hidden="true">/</span>
+        <p class="lab-header__name">.tabs/tests</p>
       </header>
 
       <section class="preview-pane" aria-label="Component preview">
@@ -44,6 +45,18 @@
       <section class="controls" aria-label="Motion controls">
         <div class="controls__row">
           <label class="field">
+            <span>Motion Style</span>
+            <select id="motionStyle">
+              <option value="custom">Custom</option>
+              <option value="subtle">Subtle</option>
+              <option value="balanced">Balanced</option>
+              <option value="dramatic">Dramatic + Graceful</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="controls__row">
+          <label class="field">
             <span>State</span>
             <select id="activeState"></select>
           </label>
@@ -64,18 +77,6 @@
               <option value="power1.out">power1.out</option>
               <option value="sine.out">sine.out</option>
               <option value="expo.out">expo.out</option>
-            </select>
-          </label>
-        </div>
-
-        <div class="controls__row">
-          <label class="field">
-            <span>Motion Style</span>
-            <select id="motionStyle">
-              <option value="custom">Custom</option>
-              <option value="subtle">Subtle</option>
-              <option value="balanced">Balanced</option>
-              <option value="dramatic">Dramatic + Graceful</option>
             </select>
           </label>
         </div>
