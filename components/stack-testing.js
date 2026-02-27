@@ -617,7 +617,22 @@ export function mountStackTestingLab() {
   }
 
   function getLineOffscreenX() {
-    const styles = getComputedStyle(document.documentElement);
-    return Number.parseFloat(styles.getPropertyValue("--row-line-offscreen")) || 600;
+    const rootStyles = getComputedStyle(document.documentElement);
+    const raw = rootStyles.getPropertyValue("--row-line-offscreen").trim();
+    if (!raw) return 600;
+
+    if (raw.endsWith("rem")) {
+      const rem = Number.parseFloat(raw);
+      const rootFontSize = Number.parseFloat(rootStyles.fontSize) || 16;
+      return Number.isFinite(rem) ? rem * rootFontSize : 600;
+    }
+
+    if (raw.endsWith("px")) {
+      const px = Number.parseFloat(raw);
+      return Number.isFinite(px) ? px : 600;
+    }
+
+    const value = Number.parseFloat(raw);
+    return Number.isFinite(value) ? value : 600;
   }
 }
