@@ -56,7 +56,7 @@ const BANNER_MOTION_STYLES = {
   },
   dramatic: {
     topDuration: 80,
-    bottomDuration: 76,
+    bottomDuration: 80,
     pauseOnHover: "on"
   }
 };
