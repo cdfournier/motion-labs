@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Motion Lab - .banner/prescription-plan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Cormorant+Garamond:wght@400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="lab">
+      <header class="lab-header">
+        <p class="lab-header__name">.banner/prescription-plan</p>
+        <a class="lab-header__link" href="./index.html">Back to index</a>
+      </header>
+
+      <section class="preview-pane" aria-label="Component preview">
+        <div class="preview-frame">
+          <article class="banner-prescription" data-component="banner-prescription-plan">
+            <img
+              class="banner-prescription__bg"
+              src="./assets/banner-prescription-plan/background.jpg"
+              alt=""
+              aria-hidden="true"
+            />
+
+            <section class="banner-prescription__section" aria-label="Prescription plan banner content">
+              <h2 class="banner-prescription__title">Your Prescription. Your Plan.</h2>
+              <p class="banner-prescription__subtitle">Advanced Rx solutions for your wellness journey</p>
+
+              <div class="banner-prescription__rows" aria-hidden="true">
+                <div class="banner-prescription__row banner-prescription__row--west" id="bannerRowTop">
+                  <div class="banner-prescription__track" id="bannerTrackTop"></div>
+                </div>
+                <div class="banner-prescription__row banner-prescription__row--east" id="bannerRowBottom">
+                  <div class="banner-prescription__track" id="bannerTrackBottom"></div>
+                </div>
+              </div>
+
+              <div class="banner-prescription__cta-wrap">
+                <button type="button" class="banner-prescription__cta">Learn More</button>
+              </div>
+            </section>
+          </article>
+        </div>
+      </section>
+
+      <section class="controls" aria-label="Motion controls">
+        <div class="controls__row">
+          <label class="field">
+            <span>Motion Style</span>
+            <select id="motionStyle">
+              <option value="custom">Custom</option>
+              <option value="subtle">Subtle</option>
+              <option value="balanced">Balanced</option>
+              <option value="dramatic">Dramatic + Graceful</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Row Direction</span>
+            <select id="directionMode">
+              <option value="opposing">Opposing (Top West / Bottom East)</option>
+              <option value="swapped">Swapped (Top East / Bottom West)</option>
+              <option value="west">Both West</option>
+              <option value="east">Both East</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Pause On Hover</span>
+            <select id="pauseOnHover">
+              <option value="off">Off</option>
+              <option value="on">On</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="controls__row">
+          <label class="field field--range">
+            <span>Top Row Cycle <output id="topDurationOut">26s</output></span>
+            <input id="topDuration" type="range" min="6" max="80" step="1" value="26" />
+          </label>
+          <label class="field field--range">
+            <span>Bottom Row Cycle <output id="bottomDurationOut">24s</output></span>
+            <input id="bottomDuration" type="range" min="6" max="80" step="1" value="24" />
+          </label>
+          <div class="field" aria-hidden="true"></div>
+        </div>
+
+        <div class="controls__row controls__row--actions">
+          <button type="button" id="copyJson">Copy JSON</button>
+          <button type="button" id="copyCss">Copy CSS</button>
+          <button type="button" id="resetSettings">Reset</button>
+          <button type="button" id="copyUrl">Copy URL</button>
+        </div>
+
+        <div class="exports">
+          <label class="field field--code">
+            <span>JSON</span>
+            <textarea id="jsonExport" readonly></textarea>
+          </label>
+          <label class="field field--code">
+            <span>CSS (portable subset)</span>
+            <textarea id="cssExport" readonly></textarea>
+          </label>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

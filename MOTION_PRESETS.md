@@ -35,6 +35,10 @@ All share links are normalized and alphabetized when copied.
 - `idur`: stack indicator duration.
 - `tdur`: gallery thumb duration / tabs tab duration.
 - `stg`: tabs panel/tab stagger.
+- `t1`: banner top row cycle duration (seconds).
+- `t2`: banner bottom row cycle duration (seconds).
+- `hov`: banner hover behavior (`on`, `off`).
+- `flow`: banner row direction mode (`opposing`, `swapped`, `west`, `east`).
 
 ## Preset Intent
 
@@ -47,3 +51,4 @@ All share links are normalized and alphabetized when copied.
 - `.stack/testing`: `Image Shift`
 - `.gallery/product`: `Image Shift`
 - `.tabs/tests`: `Panel Shift`
+- `.banner/prescription-plan`: uses row cycle controls (`Top Row Cycle`, `Bottom Row Cycle`) instead of shift.

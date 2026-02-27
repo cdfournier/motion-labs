@@ -16,5 +16,11 @@ export const SPECIMENS = [
     name: ".gallery/product",
     figmaNodeId: "1055:18883",
     href: "./gallery-product.html"
+  },
+  {
+    slug: "banner-prescription-plan",
+    name: ".banner/prescription-plan",
+    figmaNodeId: "2224:38341",
+    href: "./banner-prescription-plan.html"
   }
 ];

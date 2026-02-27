@@ -26,6 +26,9 @@ Each specimen should be reviewable as:
 - `.gallery/product`
   - Figma node: `1055:18883`
   - Page: `gallery-product.html`
+- `.banner/prescription-plan`
+  - Figma node: `2224:38341`
+  - Page: `banner-prescription-plan.html`
 
 ## Project Structure
 
@@ -35,6 +38,7 @@ motion-labs/
   stack-testing.html         # specimen page
   tabs-tests.html            # specimen page
   gallery-product.html       # specimen page
+  banner-prescription-plan.html # specimen page
   MOTION_PRESETS.md          # controls, URL params, and preset behavior reference
   styles.css                 # shared styles
   app.js                     # page bootstrap
@@ -42,7 +46,9 @@ motion-labs/
     stack-testing.js         # specimen implementation + state/motion logic
     tabs-tests.js            # specimen implementation + state/motion logic
     gallery-product.js       # specimen implementation + state/motion logic
+    banner-prescription-plan.js # specimen implementation + state/motion logic
   assets/
+    banner-prescription-plan/ # frozen image assets for banner specimen
     gallery-product/         # frozen image assets for gallery specimen
   scripts/
     lab-core.js              # shared helpers (url/copy/format/clamp)

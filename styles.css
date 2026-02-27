@@ -718,6 +718,142 @@ body {
   max-width: 26.25rem;
 }
 
+.banner-prescription {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  min-height: 43.75rem;
+  margin: 0 auto;
+  padding: 7.5rem 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.banner-prescription__bg {
+  position: absolute;
+  top: -38.93%;
+  left: 0.02%;
+  width: 99.97%;
+  height: 252%;
+  max-width: none;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.banner-prescription__section {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.banner-prescription__title {
+  margin: 0;
+  max-width: 61.25rem;
+  color: #fff;
+  text-align: center;
+  font-family: "Artifex Hand CF", "Cormorant Garamond", Georgia, serif;
+  font-size: 2.375rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 3rem;
+  letter-spacing: 0.125rem;
+}
+
+.banner-prescription__subtitle {
+  margin: 0;
+  padding-top: 0.375rem;
+  max-width: 61.25rem;
+  color: #fff;
+  text-align: center;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5rem;
+}
+
+.banner-prescription__rows {
+  width: 100%;
+  padding: 2.5rem 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.banner-prescription__row {
+  width: 100%;
+  overflow: hidden;
+}
+
+.banner-prescription__track {
+  display: flex;
+}
+
+.banner-prescription__segment {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-right: 1rem;
+}
+
+.banner-prescription__pill {
+  height: 2.8125rem;
+  min-height: 2.8125rem;
+  padding: 0.25rem 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0.0625rem solid #fff;
+  border-radius: 1.875rem;
+  white-space: nowrap;
+  color: #fff;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5rem;
+  text-transform: uppercase;
+}
+
+.banner-prescription__cta-wrap {
+  width: 100%;
+  padding-top: 2.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.banner-prescription__cta {
+  margin: 0;
+  border: 0.0625rem solid #1a3768;
+  background: #1a3768;
+  color: #fff;
+  border-radius: 0.5rem;
+  padding: 1rem 2.5rem;
+  min-height: 2.875rem;
+  font-size: 0.875rem;
+  line-height: 0.875rem;
+  letter-spacing: 0.0525rem;
+  font-weight: 500;
+  font-family: "DM Sans", sans-serif;
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.banner-prescription__cta:hover {
+  background: #fff;
+  border-color: #fff;
+  color: #1a3768;
+}
+
+.banner-prescription__cta:focus-visible {
+  outline: 0.125rem solid #1a1a1a;
+  outline-offset: 0.125rem;
+}
+
 .controls {
   display: grid;
   gap: 0.875rem;
@@ -914,7 +1050,8 @@ body {
   .stack-promo__image-plane,
   .stack-promo__indicator,
   .tabs-tests__plane,
-  .gallery-product__image-plane {
+  .gallery-product__image-plane,
+  .banner-prescription__track {
     transition: none !important;
     animation: none !important;
   }
