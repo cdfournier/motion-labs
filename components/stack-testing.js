@@ -126,6 +126,7 @@ export function mountStackTestingLab() {
 
   const appState = {
     activeIndex: 0,
+    renderedIndex: 0,
     settings: { ...STACK_TESTING_SPEC.defaults },
     imagePlanes: [],
     rowButtons: [],
@@ -363,7 +364,7 @@ export function mountStackTestingLab() {
 
   function setActiveState(nextIndex, options = {}) {
     const opts = { immediate: false, ...options };
-    const previousIndex = appState.activeIndex;
+    const previousIndex = appState.renderedIndex;
     appState.activeIndex = nextIndex;
     appState.settings.state = nextIndex;
     syncRowState();
@@ -376,6 +377,9 @@ export function mountStackTestingLab() {
       return;
     }
 
+    gsap.killTweensOf([...appState.imagePlanes, ...appState.rowLines]);
+    setImageImmediate(previousIndex);
+    setLineImmediate(previousIndex);
     animateImageTransition(previousIndex, nextIndex);
     animateLineTransition(previousIndex, nextIndex);
     updateExports();
@@ -396,6 +400,7 @@ export function mountStackTestingLab() {
       plane.style.visibility = active ? "visible" : "hidden";
       plane.style.transform = "translate3d(0,0,0)";
     });
+    appState.renderedIndex = activeIndex;
   }
 
   function animateImageTransition(previousIndex, nextIndex) {

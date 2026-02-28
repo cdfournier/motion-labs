@@ -409,6 +409,7 @@ body {
 .tabs-tests__plane.is-active {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
 }
 
 .tabs-tests__hero-image {
@@ -978,7 +979,7 @@ body {
   border: 0;
 }
 
-@media (max-width: 65rem) {
+@media (max-width: 56rem) {
   .lab-header {
     margin-bottom: 0.875rem;
   }

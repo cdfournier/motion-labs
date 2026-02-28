@@ -189,6 +189,7 @@ export function mountTabsTestsLab() {
 
   const appState = {
     activeIndex: 0,
+    renderedIndex: 0,
     settings: { ...TABS_TESTS_SPEC.defaults },
     tabButtons: [],
     heroPlanes: [],
@@ -202,6 +203,7 @@ export function mountTabsTestsLab() {
   function init() {
     renderTabList();
     renderPlanes();
+    preloadStateAssets();
     populateStateSelect();
     hydrateFromUrl();
     bindControls();
@@ -239,7 +241,7 @@ export function mountTabsTestsLab() {
       heroPlane.className = "tabs-tests__plane";
       heroPlane.dataset.index = String(index);
       heroPlane.setAttribute("aria-hidden", "true");
-      heroPlane.innerHTML = `<img class="tabs-tests__hero-image" alt="" src="${state.heroImage}" />`;
+      heroPlane.innerHTML = `<img class="tabs-tests__hero-image" alt="" src="${state.heroImage}" loading="eager" decoding="async" />`;
       dom.heroShell.append(heroPlane);
 
       const sidePlane = document.createElement("article");
@@ -249,7 +251,7 @@ export function mountTabsTestsLab() {
       const titleMarkup = state.titleHtml ?? escapeHtml(state.title);
       sidePlane.innerHTML = `
         <div class="tabs-tests__detail-thumb-wrap">
-          <img class="tabs-tests__detail-thumb" alt="" src="${state.sideImage}" />
+          <img class="tabs-tests__detail-thumb" alt="" src="${state.sideImage}" loading="eager" decoding="async" />
         </div>
         <h2 class="tabs-tests__detail-title">${titleMarkup}</h2>
         <p class="tabs-tests__detail-copy">${escapeHtml(state.body)}</p>
@@ -260,6 +262,21 @@ export function mountTabsTestsLab() {
 
     appState.heroPlanes = Array.from(dom.heroShell.querySelectorAll(".tabs-tests__plane"));
     appState.sidePlanes = Array.from(dom.sideShell.querySelectorAll(".tabs-tests__plane"));
+  }
+
+  function preloadStateAssets() {
+    const urls = new Set();
+    TABS_TESTS_SPEC.states.forEach((state) => {
+      if (state.heroImage) urls.add(state.heroImage);
+      if (state.sideImage) urls.add(state.sideImage);
+    });
+
+    urls.forEach((url) => {
+      const img = new Image();
+      img.decoding = "async";
+      img.src = url;
+      img.decode?.().catch(() => {});
+    });
   }
 
   function populateStateSelect() {
@@ -398,7 +415,7 @@ export function mountTabsTestsLab() {
 
   function setActiveState(nextIndex, options = {}) {
     const opts = { immediate: false, ...options };
-    const previousIndex = appState.activeIndex;
+    const previousIndex = appState.renderedIndex;
     clearScheduledCalls();
     appState.activeIndex = nextIndex;
     appState.settings.state = nextIndex;
@@ -416,6 +433,9 @@ export function mountTabsTestsLab() {
     const panelDelay = stagger < 0 ? -stagger : 0;
     const tabDelay = stagger > 0 ? stagger : 0;
 
+    killMotionTweens();
+    setPlanesImmediate(previousIndex);
+    setTabsImmediate(previousIndex);
     animatePlaneTransition(previousIndex, nextIndex, panelDelay);
     animateTabTransition(previousIndex, nextIndex, tabDelay);
     updateExports();
@@ -458,6 +478,7 @@ export function mountTabsTestsLab() {
         plane.style.transform = "translate3d(0,0,0)";
       });
     });
+    appState.renderedIndex = activeIndex;
   }
 
   function animatePlaneTransition(previousIndex, nextIndex, delay) {
