@@ -5,6 +5,7 @@ import {
   clampNumber,
   copyText,
   formatNumber,
+  shouldReduceMotion,
   writeParams
 } from "../scripts/lab-core.js";
 
@@ -189,13 +190,11 @@ export function mountTabsTestsLab() {
 
   const appState = {
     activeIndex: 0,
-    renderedIndex: 0,
     settings: { ...TABS_TESTS_SPEC.defaults },
     tabButtons: [],
     heroPlanes: [],
     sidePlanes: [],
-    scheduledCalls: [],
-    reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    reducedMotion: shouldReduceMotion()
   };
 
   init();
@@ -415,8 +414,7 @@ export function mountTabsTestsLab() {
 
   function setActiveState(nextIndex, options = {}) {
     const opts = { immediate: false, ...options };
-    const previousIndex = appState.renderedIndex;
-    clearScheduledCalls();
+    const previousIndex = appState.activeIndex;
     appState.activeIndex = nextIndex;
     appState.settings.state = nextIndex;
 
@@ -434,8 +432,6 @@ export function mountTabsTestsLab() {
     const tabDelay = stagger > 0 ? stagger : 0;
 
     killMotionTweens();
-    setPlanesImmediate(previousIndex);
-    setTabsImmediate(previousIndex);
     animatePlaneTransition(previousIndex, nextIndex, panelDelay);
     animateTabTransition(previousIndex, nextIndex, tabDelay);
     updateExports();
@@ -446,26 +442,8 @@ export function mountTabsTestsLab() {
     dom.root.classList.toggle("is-free-fade", appState.settings.maskingMode === "free-fade");
   }
 
-  function clearScheduledCalls() {
-    appState.scheduledCalls.forEach((call) => call.kill());
-    appState.scheduledCalls = [];
-  }
-
   function killMotionTweens() {
     gsap.killTweensOf([...appState.heroPlanes, ...appState.sidePlanes, ...appState.tabButtons]);
-  }
-
-  function scheduleMotion(run, delay) {
-    if (delay <= 0) {
-      run();
-      return;
-    }
-
-    const call = gsap.delayedCall(delay, () => {
-      appState.scheduledCalls = appState.scheduledCalls.filter((entry) => entry !== call);
-      run();
-    });
-    appState.scheduledCalls.push(call);
   }
 
   function setPlanesImmediate(activeIndex) {
@@ -478,13 +456,12 @@ export function mountTabsTestsLab() {
         plane.style.transform = "translate3d(0,0,0)";
       });
     });
-    appState.renderedIndex = activeIndex;
   }
 
   function animatePlaneTransition(previousIndex, nextIndex, delay) {
     const type = appState.settings.transitionType;
     if (type === "swap") {
-      scheduleMotion(() => setPlanesImmediate(nextIndex), delay);
+      setPlanesImmediate(nextIndex);
       return;
     }
 

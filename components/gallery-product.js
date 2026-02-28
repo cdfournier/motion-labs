@@ -5,6 +5,7 @@ import {
   clampNumber,
   copyText,
   formatNumber,
+  shouldReduceMotion,
   writeParams
 } from "../scripts/lab-core.js";
 
@@ -150,11 +151,10 @@ export function mountGalleryProductLab() {
 
   const appState = {
     activeIndex: 0,
-    renderedIndex: 0,
     settings: { ...GALLERY_PRODUCT_SPEC.defaults },
     imagePlanes: [],
     thumbButtons: [],
-    reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    reducedMotion: shouldReduceMotion()
   };
 
   init();
@@ -361,7 +361,7 @@ export function mountGalleryProductLab() {
 
   function setActiveState(nextIndex, options = {}) {
     const opts = { immediate: false, ...options };
-    const previousIndex = appState.renderedIndex;
+    const previousIndex = appState.activeIndex;
     appState.activeIndex = nextIndex;
     appState.settings.state = nextIndex;
 
@@ -374,8 +374,6 @@ export function mountGalleryProductLab() {
     }
 
     gsap.killTweensOf([...appState.imagePlanes, ...appState.thumbButtons]);
-    setImagesImmediate(previousIndex);
-    setThumbsImmediate(previousIndex);
     animateImageTransition(previousIndex, nextIndex);
     animateThumbTransition(previousIndex, nextIndex);
     updateExports();
@@ -390,7 +388,6 @@ export function mountGalleryProductLab() {
       plane.style.visibility = active ? "visible" : "hidden";
       plane.style.transform = "translate3d(0,0,0)";
     });
-    appState.renderedIndex = activeIndex;
   }
 
   function animateImageTransition(previousIndex, nextIndex) {

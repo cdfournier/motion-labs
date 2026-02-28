@@ -979,69 +979,9 @@ body {
   border: 0;
 }
 
-@media (max-width: 56rem) {
+@media (max-width: 40rem) {
   .lab-header {
     margin-bottom: 0.875rem;
-  }
-
-  .tabs-tests {
-    width: 100%;
-    grid-template-columns: 1fr;
-  }
-
-  .tabs-tests__panel {
-    min-height: 0;
-    grid-template-columns: 1fr;
-  }
-
-  .tabs-tests__side-shell {
-    min-height: 0;
-    height: 26.25rem;
-  }
-
-  .gallery-product {
-    width: 100%;
-  }
-
-  .gallery-product__layout {
-    height: auto;
-    margin-bottom: 0;
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
-
-  .gallery-product__left {
-    min-height: 26.25rem;
-  }
-
-  .gallery-product__hero {
-    height: 26.25rem;
-  }
-
-  .gallery-product__image-stage {
-    width: 100%;
-    height: 26.25rem;
-    left: 0;
-    transform: none;
-  }
-
-  .gallery-product__thumbs {
-    margin: 0;
-  }
-
-  .gallery-product__details {
-    padding: 1rem;
-    max-width: none;
-  }
-
-  .gallery-product__title {
-    font-size: 1.5rem;
-    line-height: 1.875rem;
-  }
-
-  .gallery-product__subtitle {
-    font-size: 1rem;
-    line-height: 1.5rem;
   }
 
   .controls__row {
