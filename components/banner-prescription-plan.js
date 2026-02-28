@@ -4,6 +4,7 @@ import {
   clampInt,
   copyText,
   formatNumber,
+  shouldReduceMotion,
   writeParams
 } from "../scripts/lab-core.js";
 
@@ -57,7 +58,7 @@ const BANNER_MOTION_STYLES = {
   dramatic: {
     topDuration: 80,
     bottomDuration: 80,
-    pauseOnHover: "on"
+    pauseOnHover: "off"
   }
 };
 
@@ -90,7 +91,7 @@ export function mountBannerPrescriptionPlanLab() {
 
   const appState = {
     settings: { ...BANNER_PRESCRIPTION_PLAN_SPEC.defaults },
-    reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    reducedMotion: shouldReduceMotion(),
     topTween: null,
     bottomTween: null,
     hoverBound: false,

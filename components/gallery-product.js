@@ -5,6 +5,7 @@ import {
   clampNumber,
   copyText,
   formatNumber,
+  shouldReduceMotion,
   writeParams
 } from "../scripts/lab-core.js";
 
@@ -153,7 +154,7 @@ export function mountGalleryProductLab() {
     settings: { ...GALLERY_PRODUCT_SPEC.defaults },
     imagePlanes: [],
     thumbButtons: [],
-    reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    reducedMotion: shouldReduceMotion()
   };
 
   init();
@@ -372,6 +373,7 @@ export function mountGalleryProductLab() {
       return;
     }
 
+    gsap.killTweensOf([...appState.imagePlanes, ...appState.thumbButtons]);
     animateImageTransition(previousIndex, nextIndex);
     animateThumbTransition(previousIndex, nextIndex);
     updateExports();

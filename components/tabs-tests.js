@@ -5,6 +5,7 @@ import {
   clampNumber,
   copyText,
   formatNumber,
+  shouldReduceMotion,
   writeParams
 } from "../scripts/lab-core.js";
 
@@ -193,8 +194,7 @@ export function mountTabsTestsLab() {
     tabButtons: [],
     heroPlanes: [],
     sidePlanes: [],
-    scheduledCalls: [],
-    reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    reducedMotion: shouldReduceMotion()
   };
 
   init();
@@ -202,6 +202,7 @@ export function mountTabsTestsLab() {
   function init() {
     renderTabList();
     renderPlanes();
+    preloadStateAssets();
     populateStateSelect();
     hydrateFromUrl();
     bindControls();
@@ -239,7 +240,7 @@ export function mountTabsTestsLab() {
       heroPlane.className = "tabs-tests__plane";
       heroPlane.dataset.index = String(index);
       heroPlane.setAttribute("aria-hidden", "true");
-      heroPlane.innerHTML = `<img class="tabs-tests__hero-image" alt="" src="${state.heroImage}" />`;
+      heroPlane.innerHTML = `<img class="tabs-tests__hero-image" alt="" src="${state.heroImage}" loading="eager" decoding="async" />`;
       dom.heroShell.append(heroPlane);
 
       const sidePlane = document.createElement("article");
@@ -249,7 +250,7 @@ export function mountTabsTestsLab() {
       const titleMarkup = state.titleHtml ?? escapeHtml(state.title);
       sidePlane.innerHTML = `
         <div class="tabs-tests__detail-thumb-wrap">
-          <img class="tabs-tests__detail-thumb" alt="" src="${state.sideImage}" />
+          <img class="tabs-tests__detail-thumb" alt="" src="${state.sideImage}" loading="eager" decoding="async" />
         </div>
         <h2 class="tabs-tests__detail-title">${titleMarkup}</h2>
         <p class="tabs-tests__detail-copy">${escapeHtml(state.body)}</p>
@@ -260,6 +261,21 @@ export function mountTabsTestsLab() {
 
     appState.heroPlanes = Array.from(dom.heroShell.querySelectorAll(".tabs-tests__plane"));
     appState.sidePlanes = Array.from(dom.sideShell.querySelectorAll(".tabs-tests__plane"));
+  }
+
+  function preloadStateAssets() {
+    const urls = new Set();
+    TABS_TESTS_SPEC.states.forEach((state) => {
+      if (state.heroImage) urls.add(state.heroImage);
+      if (state.sideImage) urls.add(state.sideImage);
+    });
+
+    urls.forEach((url) => {
+      const img = new Image();
+      img.decoding = "async";
+      img.src = url;
+      img.decode?.().catch(() => {});
+    });
   }
 
   function populateStateSelect() {
@@ -399,7 +415,6 @@ export function mountTabsTestsLab() {
   function setActiveState(nextIndex, options = {}) {
     const opts = { immediate: false, ...options };
     const previousIndex = appState.activeIndex;
-    clearScheduledCalls();
     appState.activeIndex = nextIndex;
     appState.settings.state = nextIndex;
 
@@ -416,6 +431,7 @@ export function mountTabsTestsLab() {
     const panelDelay = stagger < 0 ? -stagger : 0;
     const tabDelay = stagger > 0 ? stagger : 0;
 
+    killMotionTweens();
     animatePlaneTransition(previousIndex, nextIndex, panelDelay);
     animateTabTransition(previousIndex, nextIndex, tabDelay);
     updateExports();
@@ -426,26 +442,8 @@ export function mountTabsTestsLab() {
     dom.root.classList.toggle("is-free-fade", appState.settings.maskingMode === "free-fade");
   }
 
-  function clearScheduledCalls() {
-    appState.scheduledCalls.forEach((call) => call.kill());
-    appState.scheduledCalls = [];
-  }
-
   function killMotionTweens() {
     gsap.killTweensOf([...appState.heroPlanes, ...appState.sidePlanes, ...appState.tabButtons]);
-  }
-
-  function scheduleMotion(run, delay) {
-    if (delay <= 0) {
-      run();
-      return;
-    }
-
-    const call = gsap.delayedCall(delay, () => {
-      appState.scheduledCalls = appState.scheduledCalls.filter((entry) => entry !== call);
-      run();
-    });
-    appState.scheduledCalls.push(call);
   }
 
   function setPlanesImmediate(activeIndex) {
@@ -463,7 +461,7 @@ export function mountTabsTestsLab() {
   function animatePlaneTransition(previousIndex, nextIndex, delay) {
     const type = appState.settings.transitionType;
     if (type === "swap") {
-      scheduleMotion(() => setPlanesImmediate(nextIndex), delay);
+      setPlanesImmediate(nextIndex);
       return;
     }
 

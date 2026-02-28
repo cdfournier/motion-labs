@@ -5,6 +5,7 @@ import {
   clampNumber,
   copyText,
   formatNumber,
+  shouldReduceMotion,
   writeParams
 } from "../scripts/lab-core.js";
 
@@ -131,7 +132,7 @@ export function mountStackTestingLab() {
     rowButtons: [],
     rowItems: [],
     rowLines: [],
-    reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    reducedMotion: shouldReduceMotion()
   };
 
   init();
@@ -376,6 +377,7 @@ export function mountStackTestingLab() {
       return;
     }
 
+    gsap.killTweensOf([...appState.imagePlanes, ...appState.rowLines]);
     animateImageTransition(previousIndex, nextIndex);
     animateLineTransition(previousIndex, nextIndex);
     updateExports();

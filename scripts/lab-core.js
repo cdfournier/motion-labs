@@ -66,3 +66,16 @@ export function buildCaptureCard({
   lines.push("", "```json", json, "```");
   return lines.join("\n");
 }
+
+export function shouldReduceMotion() {
+  const params = new URLSearchParams(window.location.search);
+  const raw = params.get("rm");
+  if (raw !== null) {
+    const token = raw.trim().toLowerCase();
+    if (["1", "true", "on", "reduce"].includes(token)) return true;
+    if (["0", "false", "off", "full"].includes(token)) return false;
+  }
+
+  // Motion labs default to full-motion previews unless explicitly overridden.
+  return false;
+}
