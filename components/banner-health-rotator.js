@@ -49,6 +49,7 @@ export const BANNER_HEALTH_ROTATOR_SPEC = {
     state: 0,
     motionStyle: "custom",
     autoplay: "on",
+    interactionControls: "on",
     dwell: 10,
     slideDuration: 1.1,
     easeName: "power3.out"
@@ -86,6 +87,7 @@ export function mountBannerHealthRotatorLab() {
     activeState: document.querySelector("#activeState"),
     motionStyle: document.querySelector("#motionStyle"),
     autoplay: document.querySelector("#autoplay"),
+    interactionControls: document.querySelector("#interactionControls"),
     easeName: document.querySelector("#easeName"),
     dwell: document.querySelector("#dwell"),
     slideDuration: document.querySelector("#slideDuration"),
@@ -204,6 +206,7 @@ export function mountBannerHealthRotatorLab() {
 
     appState.indicatorButtons.forEach((button) => {
       button.addEventListener("click", () => {
+        if (!isInteractionEnabled()) return;
         const nextIndex = clampInt(
           Number(button.dataset.index),
           0,
@@ -238,6 +241,14 @@ export function mountBannerHealthRotatorLab() {
       updateUrl();
     });
 
+    dom.interactionControls.addEventListener("change", () => {
+      markMotionStyleCustom();
+      appState.settings.interactionControls = dom.interactionControls.value;
+      applyInteractionMode();
+      updateExports();
+      updateUrl();
+    });
+
     dom.easeName.addEventListener("change", () => {
       markMotionStyleCustom();
       appState.settings.easeName = dom.easeName.value;
@@ -253,6 +264,7 @@ export function mountBannerHealthRotatorLab() {
     dom.copyCapture.addEventListener("click", () => copyText(dom.captureExport.value));
     dom.copyUrl.addEventListener("click", () => copyText(buildShareUrl(createUrlParams())));
     dom.resetSettings.addEventListener("click", onReset);
+    window.addEventListener("keydown", onKeyDown);
   }
 
   function bindRange(input, key, output, unit, min, max) {
@@ -284,11 +296,13 @@ export function mountBannerHealthRotatorLab() {
     dom.activeState.value = String(appState.settings.state);
     dom.motionStyle.value = appState.settings.motionStyle;
     dom.autoplay.value = appState.settings.autoplay;
+    dom.interactionControls.value = appState.settings.interactionControls;
     dom.easeName.value = appState.settings.easeName;
     dom.dwell.value = String(appState.settings.dwell);
     dom.slideDuration.value = String(appState.settings.slideDuration);
     dom.dwellOut.value = `${formatNumber(appState.settings.dwell)}s`;
     dom.slideDurationOut.value = `${formatNumber(appState.settings.slideDuration)}s`;
+    applyInteractionMode();
   }
 
   function markMotionStyleCustom() {
@@ -341,9 +355,12 @@ export function mountBannerHealthRotatorLab() {
 
     appState.indicatorButtons.forEach((button, index) => {
       const active = index === activeIndex;
+      gsap.killTweensOf(button);
       button.classList.toggle("is-active", active);
       button.setAttribute("aria-current", active ? "true" : "false");
       button.style.setProperty("--progress", "0%");
+      button.style.width = "";
+      button.style.borderRadius = "";
     });
   }
 
@@ -403,16 +420,114 @@ export function mountBannerHealthRotatorLab() {
       0
     );
 
-    syncIndicatorActive(nextIndex);
+    animateIndicatorHandoff(previousIndex, nextIndex, duration, ease);
   }
 
   function syncIndicatorActive(activeIndex) {
     appState.indicatorButtons.forEach((button, index) => {
       const active = index === activeIndex;
+      gsap.killTweensOf(button);
       button.classList.toggle("is-active", active);
       button.setAttribute("aria-current", active ? "true" : "false");
       button.style.setProperty("--progress", "0%");
+      button.style.width = "";
+      button.style.borderRadius = "";
     });
+  }
+
+  function animateIndicatorHandoff(previousIndex, nextIndex, duration, ease) {
+    const incoming = appState.indicatorButtons[nextIndex];
+    const outgoing = appState.indicatorButtons[previousIndex];
+    if (!incoming) return;
+
+    appState.indicatorButtons.forEach((button, index) => {
+      if (index === previousIndex || index === nextIndex) return;
+      gsap.killTweensOf(button);
+      button.classList.remove("is-active");
+      button.setAttribute("aria-current", "false");
+      button.style.setProperty("--progress", "0%");
+      button.style.width = "";
+      button.style.borderRadius = "";
+    });
+
+    incoming.classList.add("is-active");
+    incoming.setAttribute("aria-current", "true");
+    incoming.style.setProperty("--progress", "0%");
+
+    if (!outgoing || outgoing === incoming) {
+      incoming.style.width = "";
+      incoming.style.borderRadius = "";
+      return;
+    }
+
+    const handoffDuration = Math.max(0.24, duration * 0.72);
+
+    outgoing.classList.add("is-active");
+    outgoing.setAttribute("aria-current", "false");
+    gsap.killTweensOf([incoming, outgoing]);
+
+    gsap.set(incoming, { width: "0.5rem", borderRadius: "6.25rem" });
+    gsap.set(outgoing, { width: "2rem", borderRadius: "0.5rem" });
+
+    gsap.to(outgoing, {
+      width: "0.5rem",
+      borderRadius: "6.25rem",
+      "--progress": "0%",
+      duration: handoffDuration,
+      ease
+    });
+
+    gsap.to(incoming, {
+      width: "2rem",
+      borderRadius: "0.5rem",
+      duration: handoffDuration,
+      ease,
+      onComplete: () => {
+        outgoing.classList.remove("is-active");
+        outgoing.style.width = "";
+        outgoing.style.borderRadius = "";
+        incoming.style.width = "";
+        incoming.style.borderRadius = "";
+      }
+    });
+  }
+
+  function onKeyDown(event) {
+    if (!isInteractionEnabled()) return;
+    if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.altKey) return;
+    if (event.target?.closest(".controls")) return;
+
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      stepState(1);
+      return;
+    }
+
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      stepState(-1);
+    }
+  }
+
+  function stepState(direction) {
+    const count = BANNER_HEALTH_ROTATOR_SPEC.states.length;
+    const nextIndex = (appState.activeIndex + direction + count) % count;
+    appState.settings.state = nextIndex;
+    dom.activeState.value = String(nextIndex);
+    setActiveState(nextIndex);
+  }
+
+  function applyInteractionMode() {
+    const enabled = isInteractionEnabled();
+    dom.root.classList.toggle("is-interaction-off", !enabled);
+    appState.indicatorButtons.forEach((button) => {
+      button.disabled = !enabled;
+      button.setAttribute("aria-disabled", enabled ? "false" : "true");
+    });
+  }
+
+  function isInteractionEnabled() {
+    return appState.settings.interactionControls === "on";
   }
 
   function restartAutoplayCycle() {
@@ -475,6 +590,11 @@ export function mountBannerHealthRotatorLab() {
       appState.settings.autoplay = auto;
     }
 
+    const ui = params.get("ui");
+    if (ui && ["on", "off"].includes(ui)) {
+      appState.settings.interactionControls = ui;
+    }
+
     const ease = params.get("ease");
     if (ease) {
       appState.settings.easeName = ease;
@@ -520,6 +640,7 @@ export function mountBannerHealthRotatorLab() {
       "",
       `/* Motion style: ${appState.settings.motionStyle} */`,
       `/* Autoplay: ${appState.settings.autoplay} */`,
+      `/* Interaction controls: ${appState.settings.interactionControls} */`,
       `/* Active state: ${active?.label ?? "unknown"} (${active?.figmaNodeId ?? "n/a"}) */`,
       "/* Segment indicator fill should animate ::before width 0% -> 100% over dwell. */"
     ].join("\n");
@@ -539,6 +660,7 @@ export function mountBannerHealthRotatorLab() {
       state: appState.activeIndex + 1,
       style: appState.settings.motionStyle,
       autoplay: appState.settings.autoplay,
+      interactionControls: appState.settings.interactionControls,
       dwell: Number(Number(appState.settings.dwell).toFixed(2)),
       slideDuration: Number(Number(appState.settings.slideDuration).toFixed(2)),
       easeName: appState.settings.easeName
@@ -555,6 +677,7 @@ export function mountBannerHealthRotatorLab() {
     params.set("state", String(motion.state));
     params.set("sty", motion.style);
     params.set("auto", motion.autoplay);
+    params.set("ui", motion.interactionControls);
     params.set("dwell", String(motion.dwell));
     params.set("sdur", String(motion.slideDuration));
     params.set("ease", motion.easeName);

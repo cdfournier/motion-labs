@@ -1009,6 +1009,7 @@ body {
   cursor: pointer;
   position: relative;
   overflow: hidden;
+  transition: width 320ms ease, border-radius 320ms ease, background-color 220ms ease;
 }
 
 .banner-health-rotator__indicator.is-active {
@@ -1030,6 +1031,10 @@ body {
 .banner-health-rotator__indicator:focus-visible {
   outline: 0.125rem solid #1a1a1a;
   outline-offset: 0.125rem;
+}
+
+.banner-health-rotator.is-interaction-off .banner-health-rotator__indicator {
+  cursor: default;
 }
 
 .controls {
