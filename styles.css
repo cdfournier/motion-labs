@@ -862,6 +862,176 @@ body {
   outline-offset: 0.125rem;
 }
 
+.banner-health-rotator {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.banner-health-rotator__shell {
+  position: relative;
+  width: 100%;
+  max-width: 80rem;
+  min-height: 34.375rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.banner-health {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.banner-health.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.banner-health__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+.banner-health__section {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 4rem;
+  display: flex;
+  align-items: center;
+}
+
+.banner-health__content {
+  width: 100%;
+  max-width: 42.5rem;
+}
+
+.banner-health__title {
+  margin: 0;
+  color: #1a1a1a;
+  font-family: "Artifex Hand CF", "Cormorant Garamond", Georgia, serif;
+  font-size: 2.375rem;
+  font-weight: 400;
+  line-height: 3rem;
+  letter-spacing: 0.0625rem;
+  text-transform: uppercase;
+}
+
+.banner-health__subtitle {
+  margin: 0;
+  padding-top: 1.25rem;
+  color: #1a1a1a;
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+  letter-spacing: 0;
+  font-weight: 700;
+  max-width: 31.25rem;
+}
+
+.banner-health__body {
+  margin: 0;
+  padding-top: 1.25rem;
+  color: #1a1a1a;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  letter-spacing: 0;
+  font-weight: 400;
+  max-width: 31.25rem;
+}
+
+.banner-health__cta-wrap {
+  padding-top: 1.25rem;
+}
+
+.banner-health__cta {
+  margin: 0;
+  border: 0.0625rem solid #1a3768;
+  background: #1a3768;
+  color: #fff;
+  border-radius: 0.5rem;
+  padding: 1rem 2.5rem;
+  min-height: 2.875rem;
+  font-size: 0.875rem;
+  line-height: 0.875rem;
+  letter-spacing: 0.0525rem;
+  font-weight: 500;
+  font-family: "DM Sans", sans-serif;
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.banner-health__cta:hover {
+  background: #fff;
+  border-color: #fff;
+  color: #1a3768;
+}
+
+.banner-health__cta:focus-visible {
+  outline: 0.125rem solid #1a1a1a;
+  outline-offset: 0.125rem;
+}
+
+.banner-health-rotator__indicators {
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.banner-health-rotator__indicator-item {
+  flex: 0 0 auto;
+}
+
+.banner-health-rotator__indicator {
+  --progress: 0%;
+  width: 0.5rem;
+  height: 0.5rem;
+  border: 0;
+  border-radius: 6.25rem;
+  padding: 0;
+  background: #cfcfcf;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.banner-health-rotator__indicator.is-active {
+  width: 2rem;
+  border-radius: 0.5rem;
+}
+
+.banner-health-rotator__indicator.is-active::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--progress);
+  height: 100%;
+  border-radius: inherit;
+  background: #848484;
+}
+
+.banner-health-rotator__indicator:focus-visible {
+  outline: 0.125rem solid #1a1a1a;
+  outline-offset: 0.125rem;
+}
+
 .controls {
   display: grid;
   gap: 0.875rem;
