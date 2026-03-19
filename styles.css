@@ -937,6 +937,10 @@ body {
 .banner-health__content {
   width: 100%;
   max-width: 42.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
 }
 
 .banner-health__title {
@@ -944,15 +948,15 @@ body {
   color: #1a1a1a;
   font-family: "Artifex Hand CF", "Cormorant Garamond", Georgia, serif;
   font-size: 2.375rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 3rem;
   letter-spacing: 0.0625rem;
   text-transform: uppercase;
+  white-space: normal;
 }
 
 .banner-health__subtitle {
   margin: 0;
-  padding-top: 1.25rem;
   color: #1a1a1a;
   font-size: 1.125rem;
   line-height: 1.5rem;
@@ -961,19 +965,8 @@ body {
   max-width: 31.25rem;
 }
 
-.banner-health__body {
-  margin: 0;
-  padding-top: 1.25rem;
-  color: #1a1a1a;
-  font-size: 1rem;
-  line-height: 1.5rem;
-  letter-spacing: 0;
-  font-weight: 400;
-  max-width: 31.25rem;
-}
-
 .banner-health__cta-wrap {
-  padding-top: 1.25rem;
+  padding-top: 0.75rem;
 }
 
 .banner-health__cta {
@@ -986,7 +979,7 @@ body {
   min-height: 2.875rem;
   font-size: 0.875rem;
   line-height: 0.875rem;
-  letter-spacing: 0.0525rem;
+  letter-spacing: 0.125rem;
   font-weight: 500;
   font-family: "DM Sans", sans-serif;
   cursor: pointer;

@@ -11,38 +11,35 @@ import {
 
 export const BANNER_HEALTH_ROTATOR_SPEC = {
   name: ".banner/health-rotator",
-  figmaNodeId: "2224:40100",
+  figmaNodeId: "378:15912",
   indicatorNodeId: "2437:19373",
   states: [
     {
       key: "1",
       label: "state=1",
-      figmaNodeId: "2224:40100",
-      title: "ADVANCED HEALTH PANEL",
-      subtitle: "Assess essential biomarkers that influence how your body functions.",
-      body:
-        "The Advanced Health Panel provides a clear picture of how your key organs and systems are performing, helping you take charge of your long-term health and overall wellness.",
-      image: "https://www.figma.com/api/mcp/asset/f375d9bc-d410-4459-b354-44636d716e8f"
+      figmaNodeId: "378:15912",
+      title: "ADVANCED\nHEALTH PANEL",
+      subtitle: "Assess essential biomarkers that influence your body functions.",
+      subtitleWidth: "25rem",
+      image: "assets/health-rotator/background.jpg"
     },
     {
       key: "2",
       label: "state=2",
-      figmaNodeId: "2423:19737",
-      title: "GLYPHOSATE EXPOSURE TEST",
+      figmaNodeId: "378:15921",
+      title: "GLYPHOSATE\nEXPOSURE TEST",
       subtitle: "Identify the levels of this common herbicide in your body.",
-      body:
-        "Glyphosate, often sprayed on wheat, oats, fruit and vegetables, has been linked to gut microbiome disruption, inflammation, and chronic health concerns. This simple urine test measures your body’s glyphosate levels, so you can take the right steps to detoxify and make informed choices that minimize future exposure.",
-      image: "https://www.figma.com/api/mcp/asset/78c7874b-b3bc-4968-af56-8fa240e30330"
+      subtitleWidth: "25rem",
+      image: "assets/health-rotator/background.jpg"
     },
     {
       key: "3",
       label: "state=3",
-      figmaNodeId: "2423:19764",
+      figmaNodeId: "378:15930",
       title: "MOLD & MYCOTOXIN\nEXPOSURE TEST",
       subtitle: "Identify toxins produced by mold and understand the impact on your health.",
-      body:
-        "Mycotoxins, toxic compounds produced by mold, can weaken your immune system and trigger symptoms like brain fog, fatigue, and gut issues. This test detects harmful mold toxins in your system, so you can address the root causes of unexplained symptoms and take charge of your health with a clear path to detoxification and healing.",
-      image: "https://www.figma.com/api/mcp/asset/11037bf8-0006-45cf-a7a7-458cd4e3bcfc"
+      subtitleWidth: "28.125rem",
+      image: "assets/health-rotator/background.jpg"
     }
   ],
   defaults: {
@@ -143,8 +140,7 @@ export function mountBannerHealthRotatorLab() {
         <section class="banner-health__section" aria-label="Banner content">
           <div class="banner-health__content">
             <h2 class="banner-health__title">${escapeHtml(state.title).replaceAll("\n", "<br>")}</h2>
-            <p class="banner-health__subtitle">${escapeHtml(state.subtitle)}</p>
-            <p class="banner-health__body">${escapeHtml(state.body)}</p>
+            <p class="banner-health__subtitle" style="max-width:${state.subtitleWidth || "31.25rem"}">${escapeHtml(state.subtitle)}</p>
             <div class="banner-health__cta-wrap">
               <button type="button" class="banner-health__cta">Learn More</button>
             </div>
