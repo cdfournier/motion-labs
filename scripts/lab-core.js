@@ -79,3 +79,50 @@ export function shouldReduceMotion() {
   // Motion labs default to full-motion previews unless explicitly overridden.
   return false;
 }
+
+export function mountFluidPreview() {
+  const frame = document.querySelector(".preview-frame");
+  const specimen = frame?.querySelector("[data-component]");
+  if (!frame || !specimen) return;
+
+  const previewWidth = Number(frame.dataset.previewWidth || specimen.scrollWidth || specimen.offsetWidth);
+  if (!Number.isFinite(previewWidth) || previewWidth <= 0) return;
+
+  let viewport = frame.querySelector(".preview-fit");
+  let scaler = frame.querySelector(".preview-fit__scaler");
+
+  if (!viewport || !scaler) {
+    viewport = document.createElement("div");
+    viewport.className = "preview-fit";
+
+    scaler = document.createElement("div");
+    scaler.className = "preview-fit__scaler";
+    scaler.style.width = `${previewWidth}px`;
+
+    frame.replaceChildren(viewport);
+    viewport.append(scaler);
+    scaler.append(specimen);
+  } else {
+    scaler.style.width = `${previewWidth}px`;
+  }
+
+  const update = () => {
+    const availableWidth = frame.clientWidth;
+    const naturalHeight = specimen.offsetHeight;
+    const scale = availableWidth > 0 ? Math.min(1, availableWidth / previewWidth) : 1;
+
+    viewport.style.height = `${naturalHeight * scale}px`;
+    scaler.style.transform = `scale(${scale})`;
+  };
+
+  update();
+  requestAnimationFrame(update);
+
+  if ("ResizeObserver" in window) {
+    const observer = new ResizeObserver(() => update());
+    observer.observe(frame);
+    observer.observe(specimen);
+  } else {
+    window.addEventListener("resize", update);
+  }
+}

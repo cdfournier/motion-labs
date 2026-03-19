@@ -28,8 +28,8 @@ export const TABS_TESTS_SPEC = {
       label: "panel=1",
       figmaNodeId: "1145:18546",
       activeTab: 0,
-      heroImage: "https://www.figma.com/api/mcp/asset/7c4012b5-f005-4ba1-8721-6a2598a85cf9",
-      sideImage: "https://www.figma.com/api/mcp/asset/e37e36f4-5a0f-40ee-a0ef-d5f1f7bea26a",
+      heroImage: "assets/three-column-tabs/panel-1.jpg",
+      sideImage: "assets/three-column-tabs/detail-thumbnail.jpg",
       title: "Glyphosate Exposure Panel",
       titleHtml: "Glyphosate<br>Exposure Panel",
       body: "Glyphosate has been linked to gut microbiome disruption, inflammation, and chronic health concerns. Identifying glyphosate levels in your body helps you take steps to detoxify and make informed choices that minimize future exposure."
@@ -39,8 +39,8 @@ export const TABS_TESTS_SPEC = {
       label: "panel=2",
       figmaNodeId: "1145:18549",
       activeTab: 1,
-      heroImage: "https://www.figma.com/api/mcp/asset/e2010d4f-02c7-414f-8867-31849ecde43f",
-      sideImage: "https://www.figma.com/api/mcp/asset/7f190d81-5fd8-4c09-a757-d1214ebbcb05",
+      heroImage: "assets/three-column-tabs/panel-2.jpg",
+      sideImage: "assets/three-column-tabs/detail-thumbnail.jpg",
       title: "Mold & Mycotoxin Exposure Test",
       body: "Mold and mycotoxin exposure occurs when breathing in or touching toxic substances produced by fungi leading to symptoms like fatigue, headaches, brain fog, respiratory issues, and joint pain. Treatment focuses on remediation of the environment and detoxifying the body."
     },
@@ -49,8 +49,8 @@ export const TABS_TESTS_SPEC = {
       label: "panel=3",
       figmaNodeId: "1145:18552",
       activeTab: 2,
-      heroImage: "https://www.figma.com/api/mcp/asset/54792416-dd1e-4049-97b1-c35facee58bd",
-      sideImage: "https://www.figma.com/api/mcp/asset/8490327f-18b5-4192-b173-e5147efa1d7d",
+      heroImage: "assets/three-column-tabs/panel-3.jpg",
+      sideImage: "assets/three-column-tabs/detail-thumbnail.jpg",
       title: "Toxic Metals Screening Test",
       titleHtml: "Toxic Metals<br>Screening Test",
       body: "Toxic metal testing, including blood, urine, or hair analysis, detects harmful levels of elements like lead, mercury, cadmium, and arsenic."
@@ -60,8 +60,8 @@ export const TABS_TESTS_SPEC = {
       label: "panel=4",
       figmaNodeId: "1145:18555",
       activeTab: 3,
-      heroImage: "https://www.figma.com/api/mcp/asset/820c8ac9-d615-466b-aaab-3a2abef159ee",
-      sideImage: "https://www.figma.com/api/mcp/asset/f2be7030-6489-46be-a0f9-337e02ec2037",
+      heroImage: "assets/three-column-tabs/panel-4.jpg",
+      sideImage: "assets/three-column-tabs/detail-thumbnail.jpg",
       title: "Male Hormone Panel",
       body: "A male hormone panel is a set of blood tests that measures key hormone levels to evaluate men’s sexual function, energy, metabolism, and overall well-being."
     },
@@ -70,8 +70,8 @@ export const TABS_TESTS_SPEC = {
       label: "panel=5",
       figmaNodeId: "1145:18558",
       activeTab: 4,
-      heroImage: "https://www.figma.com/api/mcp/asset/a4e30df4-eff8-4363-aea2-fb5f9dd04a71",
-      sideImage: "https://www.figma.com/api/mcp/asset/e2c0517a-13b4-43e6-9e47-8125d0d37a9e",
+      heroImage: "assets/three-column-tabs/panel-5.jpg",
+      sideImage: "assets/three-column-tabs/detail-thumbnail.jpg",
       title: "Female Hormone Panel",
       body: "A female hormone panel is a blood test that measures key reproductive, thyroid, and stress hormones to evaluate fertility, menstrual irregularities, PCOS, or menopause symptoms."
     },
@@ -80,8 +80,8 @@ export const TABS_TESTS_SPEC = {
       label: "panel=6",
       figmaNodeId: "1145:18561",
       activeTab: 5,
-      heroImage: "https://www.figma.com/api/mcp/asset/68ffca80-c0ee-44c1-b48f-a8cfe0ffefc7",
-      sideImage: "https://www.figma.com/api/mcp/asset/cb407f62-d13b-45a5-92a7-caa29d97ea18",
+      heroImage: "assets/three-column-tabs/panel-6.jpg",
+      sideImage: "assets/three-column-tabs/detail-thumbnail.jpg",
       title: "Advanced Health Panel",
       body: "An advanced health panel is a comprehensive blood test, often involving 60-90+ biomarkers, designed for a deep, proactive, and detailed evaluation of internal health, metabolic function, organ performance, and nutritional status beyond standard annual exams."
     },
@@ -90,8 +90,8 @@ export const TABS_TESTS_SPEC = {
       label: "panel=7",
       figmaNodeId: "1145:18564",
       activeTab: 6,
-      heroImage: "https://www.figma.com/api/mcp/asset/c1d548b9-530a-4d76-9b83-387fd8e0d081",
-      sideImage: "https://www.figma.com/api/mcp/asset/33ff01da-d384-465a-8905-1c560c3ed346",
+      heroImage: "assets/three-column-tabs/panel-7.jpg",
+      sideImage: "assets/three-column-tabs/detail-thumbnail.jpg",
       title: "Advanced Genetic Intelligence Panel",
       body: "Next-Generation Sequencing (NGS), Artificial Intelligence (AI), and comprehensive multi-gene analysis are used to identify genetic predispositions for complex health conditions, rare diseases, or cognitive traits."
     },
@@ -100,8 +100,8 @@ export const TABS_TESTS_SPEC = {
       label: "panel=8",
       figmaNodeId: "1145:18567",
       activeTab: 7,
-      heroImage: "https://www.figma.com/api/mcp/asset/4ef064b7-98a1-4664-829c-8b5a212e0c39",
-      sideImage: "https://www.figma.com/api/mcp/asset/4df53806-e3d7-466c-996e-d0150082ddeb",
+      heroImage: "assets/three-column-tabs/panel-8.jpg",
+      sideImage: "assets/three-column-tabs/detail-thumbnail.jpg",
       title: "Biometabolic Breakthrough Panel",
       body: "Unlike a basic metabolic panel (BMP) that just checks glucose and kidney function, these panels measure 50+ biomarkers, including insulin, hemoglobin A1c (HbA1c), leptin, adiponectin, and advanced lipids to evaluate metabolic function, fat loss potential, and long-term vitality."
     }

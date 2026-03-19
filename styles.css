@@ -125,6 +125,18 @@ body {
   overflow: visible;
 }
 
+.preview-fit {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.preview-fit__scaler {
+  transform-origin: top center;
+  will-change: transform;
+}
+
 .stack-promo {
   width: var(--stack-width);
   max-width: var(--stack-width);
