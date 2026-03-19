@@ -1,5 +1,6 @@
 import { mountStackTestingLab } from "./components/stack-testing.js";
 import { mountTabsTestsLab } from "./components/tabs-tests.js";
+import { mountTabsTestsMobileLab } from "./components/tabs-tests-mobile.js";
 import { mountGalleryProductLab } from "./components/gallery-product.js";
 import { mountBannerPrescriptionPlanLab } from "./components/banner-prescription-plan.js";
 import { mountBannerHealthRotatorLab } from "./components/banner-health-rotator.js";
@@ -13,6 +14,10 @@ if (component === "stack-testing") {
 
 if (component === "tabs-tests") {
   mountTabsTestsLab();
+}
+
+if (component === "tabs-tests-mobile") {
+  mountTabsTestsMobileLab();
 }
 
 if (component === "gallery-product") {

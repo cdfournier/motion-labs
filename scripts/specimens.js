@@ -12,6 +12,12 @@ export const SPECIMENS = [
     href: "./tabs-tests.html"
   },
   {
+    slug: "tabs-tests-mobile",
+    name: ".tabs/tests/mobile",
+    figmaNodeId: "378:15055",
+    href: "./tabs-tests-mobile.html"
+  },
+  {
     slug: "gallery-product",
     name: ".gallery/product",
     figmaNodeId: "1055:18883",
