@@ -25,7 +25,7 @@ export const STACK_TESTING_SPEC = {
       key: "2",
       label: "State 2",
       title: "Collect your sample at home.",
-      body: "Send to our lab in the pre-paid packaging.",
+      body: "Return in the pre-paid packaging.",
       image: "assets/stack-promo-divider/step-2.jpg",
       crop: { w: 140, h: 101.54, left: -18.8, top: -14.6 }
     },
@@ -136,6 +136,7 @@ export function mountStackTestingLab() {
   function init() {
     renderList();
     renderImages();
+    preloadStateAssets();
     populateStateSelect();
     hydrateFromUrl();
     bindControls();
@@ -229,8 +230,36 @@ export function mountStackTestingLab() {
       .join("");
   }
 
+  function preloadStateAssets() {
+    STACK_TESTING_SPEC.states.forEach((state) => {
+      const img = new Image();
+      img.decoding = "async";
+      img.src = state.image;
+      img.decode?.().catch(() => {});
+    });
+  }
+
   function bindControls() {
     appState.rowButtons.forEach((button) => {
+      button.addEventListener("pointerenter", () => {
+        if (window.matchMedia("(hover: hover) and (pointer: fine)").matches === false) return;
+        const nextIndex = Number(button.dataset.index);
+        if (nextIndex !== appState.activeIndex) {
+          dom.activeState.value = String(nextIndex);
+          appState.settings.state = nextIndex;
+          setActiveState(nextIndex);
+        }
+      });
+
+      button.addEventListener("focus", () => {
+        const nextIndex = Number(button.dataset.index);
+        if (nextIndex !== appState.activeIndex) {
+          dom.activeState.value = String(nextIndex);
+          appState.settings.state = nextIndex;
+          setActiveState(nextIndex);
+        }
+      });
+
       button.addEventListener("click", () => {
         const nextIndex = Number(button.dataset.index);
         if (nextIndex !== appState.activeIndex) {
