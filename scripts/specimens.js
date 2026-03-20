@@ -17,12 +17,12 @@ export const SPECIMENS = [
     figmaNodeId: "378:15055",
     href: "./tabs-tests-mobile.html"
   },
-  {
-    slug: "gallery-product",
-    name: ".gallery/product",
-    figmaNodeId: "1055:18883",
-    href: "./gallery-product.html"
-  },
+  // {
+  //   slug: "gallery-product",
+  //   name: ".gallery/product",
+  //   figmaNodeId: "1055:18883",
+  //   href: "./gallery-product.html"
+  // },
   {
     slug: "banner-prescription-plan",
     name: ".banner/prescription-plan",
