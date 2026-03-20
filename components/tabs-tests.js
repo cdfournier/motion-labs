@@ -291,15 +291,24 @@ export function mountTabsTestsLab() {
       setActiveState(nextIndex);
     });
 
+    const supportsHoverActivation = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
     appState.tabButtons.forEach((button) => {
-      button.addEventListener("click", () => {
+      const activateFromTab = () => {
         const panelIndex = Number(button.dataset.index);
         const nextIndex = TABS_TESTS_SPEC.states.findIndex((state) => state.activeTab === panelIndex);
         if (nextIndex < 0 || nextIndex === appState.activeIndex) return;
         dom.activeState.value = String(nextIndex);
         appState.settings.state = nextIndex;
         setActiveState(nextIndex);
-      });
+      };
+
+      button.addEventListener("click", activateFromTab);
+      button.addEventListener("focus", activateFromTab);
+
+      if (supportsHoverActivation) {
+        button.addEventListener("pointerenter", activateFromTab);
+      }
     });
 
     dom.transitionType.addEventListener("change", () => {
