@@ -11,101 +11,99 @@ import {
 
 export const TABS_TESTS_MOBILE_SPEC = {
   name: ".tabs/tests/mobile",
-  figmaNodeId: "378:15055",
+  figmaNodeId: "3248:25382",
   panelWidth: 320,
   panelGap: 16,
   tabItems: [
-    "Glyphosate Exposure Panel",
-    "Mold & Mycotoxin Exposure Test",
-    "Toxic Metals Screening Test",
+    "BioMetabolic Breakthrough Panel",
+    "Advanced Genetic Intelligence Panel",
+    "Advanced Health Panel",
     "Male Hormone Panel",
     "Female Hormone Panel",
-    "Advanced Health Panel",
-    "Advanced Genetic Intelligence Panel",
-    "BioMetabolic Breakthrough Panel"
+    "Toxic Metals Screening Test",
+    "Glyphosate Exposure Panel",
+    "Mold & Mycotoxin Exposure Test"
   ],
   states: [
     {
       key: "1",
       label: "panel=1",
-      figmaNodeId: "378:15057",
-      heroImage: "assets/three-column-tabs/panel-1.jpg",
-      title: "Glyphosate Exposure Panel",
-      body: "Glyphosate, often sprayed on wheat, oats, fruit and vegetables, has been linked to gut microbiome disruption, inflammation, and chronic health concerns. This simple urine test measures your body’s glyphosate levels, so you can take the right steps to detoxify and make informed choices that minimize future exposure.",
+      figmaNodeId: "3248:25333",
+      heroImage: "assets/three-column-tabs/panel-8.jpg",
+      title: "BioMetabolic Breakthrough Panel",
+      body: "This urine test evaluates 100+ markers to uncover undetected inefficiencies impacting your metabolism, influencing how your body creates energy, manages detox, and responds to stress, so you take steps to optimize your health.",
       copySize: "0.625rem",
       copyLineHeight: "1rem"
     },
     {
       key: "2",
       label: "panel=2",
-      figmaNodeId: "378:15066",
-      heroImage: "assets/three-column-tabs/panel-2.jpg",
-      title: "Mold & Mycotoxin Exposure Test",
-      body: "Mycotoxins, toxic compounds produced by mold, can weaken your immune system and trigger symptoms like brain fog, fatigue, and gut issues. This test detects harmful mold toxins in your system, so you can address the root causes of unexplained symptoms and take charge of your health with a clear path to detoxification and healing.",
+      figmaNodeId: "3248:25353",
+      heroImage: "assets/three-column-tabs/panel-7.jpg",
+      title: "Advanced Genetic Intelligence Panel",
+      body: "This buccal swab test identifies 12 key DNA markers to reveal your body’s methylation capacity, which influences your metabolism, cellular repair, and detox function, to help guide personalized strategies for your optimum health.",
       copySize: "0.625rem",
       copyLineHeight: "1rem"
     },
     {
       key: "3",
       label: "panel=3",
-      figmaNodeId: "378:15075",
-      heroImage: "assets/three-column-tabs/panel-3.jpg",
-      title: "Toxic Metals Screening Test",
-      body: "Toxic metals can silently disrupt your well-being, contributing to fatigue, inflammation, and chronic conditions. Determining the presence of harmful metals in your system empowers you to take targeted action to cleanse your body and support long-term vitality.",
+      figmaNodeId: "3248:25373",
+      heroImage: "assets/three-column-tabs/panel-6.jpg",
+      title: "Advanced Health Panel",
+      body: "This comprehensive blood spot test assesses essential biomarkers to give you a clear picture of how well your metabolism, heart, liver, and kidneys are performing, empowering you to take control of your health and wellness.",
       copySize: "0.625rem",
       copyLineHeight: "1rem"
     },
     {
       key: "4",
       label: "panel=4",
-      figmaNodeId: "378:15084",
+      figmaNodeId: "3248:25393",
       heroImage: "assets/three-column-tabs/panel-4.jpg",
       title: "Male Hormone Panel",
-      body: "Your energy, focus and drive all depend on balanced hormones. The Male Hormone Panel is a blood spot test that measures important hormones and thyroid markers that support everything from sleep and vitality to your mental performance.",
+      body: "Your energy, focus and drive all depend on balanced hormones. This blood spot test measures important hormones, including testosterone, and thyroid markers that support strength, sleep, vitality, mood, and mental performance.",
       copySize: "0.625rem",
       copyLineHeight: "1rem"
     },
     {
       key: "5",
       label: "panel=5",
-      figmaNodeId: "378:15093",
+      figmaNodeId: "3248:25413",
       heroImage: "assets/three-column-tabs/panel-5.jpg",
       title: "Female Hormone Panel",
-      body: "Your hormones influence every part of how you function. The Female Hormone Panel is a blood spot test that evaluates your reproductive hormones, adrenal and thyroid levels to help you understand your body’s rhythm and restore balance naturally.",
+      body: "Your hormones influence every part of how you function, including your cycle, health, mood, and vitality. This blood spot test evaluates your reproductive hormones, adrenal and thyroid levels, to help you restore balance.",
       copySize: "0.625rem",
       copyLineHeight: "1rem"
     },
     {
       key: "6",
       label: "panel=6",
-      figmaNodeId: "378:15102",
-      heroImage: "assets/three-column-tabs/panel-6.jpg",
-      title: "Advanced Health Panel",
-      body: "Your body can reveal early signs of imbalance long before you feel them. This is a comprehensive blood spot test that evaluates your metabolism, heart, liver, kidney and nutrient health to help you optimize your overall well-being.",
+      figmaNodeId: "3248:25433",
+      heroImage: "assets/three-column-tabs/panel-3.jpg",
+      title: "Toxic Metals Screening Test",
+      body: "Toxic metals can silently lead to fatigue, inflammation, and chronic issues. This urine test identifies harmful heavy metals in your system, helping you take targeted action to cleanse your body and safeguard your health.",
       copySize: "0.625rem",
       copyLineHeight: "1rem"
     },
     {
       key: "7",
       label: "panel=7",
-      figmaNodeId: "378:15111",
-      heroImage: "assets/three-column-tabs/panel-7.jpg",
-      title: "Advanced Genetic Intelligence Panel",
-      body: "Your energy, cardiovascular efficiency, detox function, and cognitive health are all supported by your body’s chemical process of methylation.This panel analyzes key genetic markers that influence methylation capacity and how your body metabolizes nutrients, repairs cells, and clears toxins. These insights guide personalized strategies for optimizing your long-term health.",
+      figmaNodeId: "3248:25453",
+      heroImage: "assets/three-column-tabs/panel-1.jpg",
+      title: "Glyphosate Exposure Panel",
+      body: "Glyphosate is a common herbicide that has been linked to gut microbiome disruption, inflammation, and chronic health issues. This urine test measures your glyphosate levels, empowering you to take the right steps to detoxify.",
       copySize: "0.625rem",
       copyLineHeight: "1rem"
     },
     {
       key: "8",
       label: "panel=8",
-      figmaNodeId: "378:15120",
-      heroImage: "assets/three-column-tabs/panel-8.jpg",
-      title: "BioMetabolic Breakthrough Panel",
-      body: "Your metabolism plays a central role in how your body creates energy, processes nutrients, manages detox, and responds to daily stress. This functional urine test evaluates how your systems work together in real time. Bridging the gap between genetic testing and blood work, the results can reveal inefficiencies undetected by other tests, helping you take steps to optimize your performance, resilience and overall health.",
-      copySize: "0.75rem",
-      copyLineHeight: "1.125rem",
-      ctaSize: "0.875rem",
-      ctaLineHeight: "0.875rem"
+      figmaNodeId: "3248:25473",
+      heroImage: "assets/three-column-tabs/panel-2.jpg",
+      title: "Mold & Mycotoxin Exposure Test",
+      body: "Mycotoxins, toxic compounds produced by mold, can weaken your immune system, trigger brain fog, fatigue, and gut issues. This urine test detects 11 harmful mold toxins in your system, to help you begin your detox process.",
+      copySize: "0.625rem",
+      copyLineHeight: "1rem"
     }
   ],
   defaults: {
@@ -221,7 +219,7 @@ export function mountTabsTestsMobileLab() {
             <h2 class="tabs-tests-mobile__title">${escapeHtml(state.title)}</h2>
             <p class="tabs-tests-mobile__copy" style="font-size:${state.copySize};line-height:${state.copyLineHeight}">${escapeHtml(state.body)}</p>
             <div class="tabs-tests-mobile__cta-wrap">
-              <a class="tabs-tests-mobile__cta" href="#" style="font-size:${state.ctaSize || "0.75rem"};line-height:${state.ctaLineHeight || "0.75rem"}">Learn More</a>
+              <button type="button" class="tabs-tests-mobile__cta" style="font-size:${state.ctaSize || "0.75rem"};line-height:${state.ctaLineHeight || "0.75rem"}">Learn More</button>
             </div>
           </section>
         </div>

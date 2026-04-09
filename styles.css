@@ -479,17 +479,6 @@ body {
   justify-self: start;
   align-self: end;
   margin-top: 1rem;
-  border: 0.0625rem solid #1a3768;
-  background: #1a3768;
-  color: #fff;
-  border-radius: 0.5rem;
-  padding: 1rem 2.5rem;
-  min-height: 2.875rem;
-  font-size: 0.875rem;
-  line-height: 0.875rem;
-  letter-spacing: 0.0525rem;
-  font-weight: 500;
-  font-family: "DM Sans", sans-serif;
 }
 
 .tabs-tests-mobile {
@@ -575,19 +564,6 @@ body {
 
 .tabs-tests-mobile__cta-wrap {
   padding-top: 0.75rem;
-}
-
-.tabs-tests-mobile__cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: #1a3768;
-  text-decoration: none;
-  border-bottom: 0.125rem solid #1a3768;
-  padding-bottom: 0.75rem;
-  font-family: "DM Sans", sans-serif;
-  font-weight: 700;
-  letter-spacing: 0.09rem;
 }
 
 .tabs-tests-mobile__tablist {
@@ -862,35 +838,6 @@ body {
 .gallery-product__cta {
   justify-self: start;
   margin-top: 0;
-  border: 0.0625rem solid #1a3768;
-  background: #1a3768;
-  color: #fff;
-  border-radius: 0.5rem;
-  padding: 1rem 2.5rem;
-  min-height: 2.875rem;
-  font-size: 0.875rem;
-  line-height: 0.875rem;
-  letter-spacing: 0.0525rem;
-  font-weight: 500;
-  font-family: "DM Sans", sans-serif;
-}
-
-.tabs-tests__cta,
-.gallery-product__cta {
-  transition: background-color 160ms ease, border-color 160ms ease;
-}
-
-.tabs-tests__cta:hover,
-.gallery-product__cta:hover {
-  background: #fff;
-  border-color: #fff;
-  color: #1a3768;
-}
-
-.tabs-tests__cta:focus-visible,
-.gallery-product__cta:focus-visible {
-  outline: 0.125rem solid #1a1a1a;
-  outline-offset: 0.125rem;
 }
 
 .gallery-product__note {
@@ -1022,30 +969,6 @@ body {
 
 .banner-prescription__cta {
   margin: 0;
-  border: 0.0625rem solid #1a3768;
-  background: #1a3768;
-  color: #fff;
-  border-radius: 0.5rem;
-  padding: 1rem 2.5rem;
-  min-height: 2.875rem;
-  font-size: 0.875rem;
-  line-height: 0.875rem;
-  letter-spacing: 0.125rem;
-  font-weight: 500;
-  font-family: "DM Sans", sans-serif;
-  cursor: pointer;
-  transition: background-color 160ms ease, border-color 160ms ease;
-}
-
-.banner-prescription__cta:hover {
-  background: #fff;
-  border-color: #fff;
-  color: #1a3768;
-}
-
-.banner-prescription__cta:focus-visible {
-  outline: 0.125rem solid #1a1a1a;
-  outline-offset: 0.125rem;
 }
 
 .banner-health-rotator {
@@ -1137,28 +1060,68 @@ body {
 
 .banner-health__cta {
   margin: 0;
+}
+
+:is(
+  .tabs-tests__cta,
+  .gallery-product__cta,
+  .banner-prescription__cta,
+  .banner-health__cta,
+  .tabs-tests-mobile__cta
+) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 0.0625rem solid #1a3768;
   background: #1a3768;
   color: #fff;
   border-radius: 0.5rem;
-  padding: 1rem 2.5rem;
-  min-height: 2.875rem;
-  font-size: 0.875rem;
-  line-height: 0.875rem;
-  letter-spacing: 0.125rem;
-  font-weight: 500;
   font-family: "DM Sans", sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.0525rem;
   cursor: pointer;
-  transition: background-color 160ms ease, border-color 160ms ease;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
 }
 
-.banner-health__cta:hover {
+:is(
+  .tabs-tests__cta,
+  .gallery-product__cta,
+  .banner-prescription__cta,
+  .banner-health__cta
+) {
+  padding: 1.25rem 2.5rem;
+  font-size: 0.875rem;
+  line-height: 0.875rem;
+}
+
+.tabs-tests-mobile__cta {
+  padding: 0.8125rem 2.5rem;
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+}
+
+:is(
+  .tabs-tests__cta,
+  .gallery-product__cta,
+  .banner-prescription__cta,
+  .banner-health__cta,
+  .tabs-tests-mobile__cta
+):hover {
   background: #fff;
   border-color: #fff;
   color: #1a3768;
 }
 
-.banner-health__cta:focus-visible {
+:is(
+  .tabs-tests__cta,
+  .gallery-product__cta,
+  .banner-prescription__cta,
+  .banner-health__cta,
+  .tabs-tests-mobile__cta
+):focus-visible {
   outline: 0.125rem solid #1a1a1a;
   outline-offset: 0.125rem;
 }
