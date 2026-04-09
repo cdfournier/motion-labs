@@ -699,6 +699,7 @@ export function mountBannerHealthRotatorLab() {
 
   function updateExports() {
     const active = BANNER_HEALTH_ROTATOR_SPEC.states[appState.activeIndex];
+    const motionPreset = getMotionPreset();
     const payload = {
       component: {
         name: BANNER_HEALTH_ROTATOR_SPEC.name,
@@ -712,7 +713,7 @@ export function mountBannerHealthRotatorLab() {
         figmaNodeId: active?.figmaNodeId,
         title: active?.title
       },
-      motionPreset: getMotionPreset()
+      motionPreset
     };
 
     dom.jsonExport.value = JSON.stringify(payload, null, 2);
