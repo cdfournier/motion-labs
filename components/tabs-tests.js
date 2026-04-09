@@ -13,47 +13,45 @@ export const TABS_TESTS_SPEC = {
   name: ".tabs/tests",
   figmaNodeId: "1145:18545",
   tabItems: [
-    "Glyphosate Exposure Panel",
-    "Mold & Mycotoxin Exposure Test",
-    "Toxic Metals Screening Test",
+    "BioMetabolic Breakthrough Panel",
+    "Advanced Genetic Intelligence Panel",
+    "Advanced Health Panel",
     "Male Hormone Panel",
     "Female Hormone Panel",
-    "Advanced Health Panel",
-    "Advanced Genetic Intelligence Panel",
-    "Biometabolic Breakthrough Panel"
+    "Toxic Metals Screening Test",
+    "Glyphosate Exposure Panel",
+    "Mold & Mycotoxin Exposure Test"
   ],
   states: [
     {
       key: "1",
       label: "panel=1",
-      figmaNodeId: "1145:18546",
+      figmaNodeId: "1145:18567",
       activeTab: 0,
-      heroImage: "assets/three-column-tabs/panel-1.jpg",
+      heroImage: "assets/three-column-tabs/panel-8.jpg",
       sideImage: "assets/three-column-tabs/detail-thumbnail.jpg",
-      title: "Glyphosate Exposure Panel",
-      titleHtml: "Glyphosate<br>Exposure Panel",
-      body: "Glyphosate has been linked to gut microbiome disruption, inflammation, and chronic health concerns. Identifying glyphosate levels in your body helps you take steps to detoxify and make informed choices that minimize future exposure."
+      title: "BioMetabolic Breakthrough Panel",
+      body: "This urine test evaluates 100+ markers to uncover undetected inefficiencies impacting your metabolism, influencing how your body creates energy, manages detox, and responds to stress, so you take steps to optimize your health."
     },
     {
       key: "2",
       label: "panel=2",
-      figmaNodeId: "1145:18549",
+      figmaNodeId: "1145:18564",
       activeTab: 1,
-      heroImage: "assets/three-column-tabs/panel-2.jpg",
+      heroImage: "assets/three-column-tabs/panel-7.jpg",
       sideImage: "assets/three-column-tabs/detail-thumbnail.jpg",
-      title: "Mold & Mycotoxin Exposure Test",
-      body: "Mold and mycotoxin exposure occurs when breathing in or touching toxic substances produced by fungi leading to symptoms like fatigue, headaches, brain fog, respiratory issues, and joint pain. Treatment focuses on remediation of the environment and detoxifying the body."
+      title: "Advanced Genetic Intelligence Panel",
+      body: "This buccal swab test identifies 12 key DNA markers to reveal your body’s methylation capacity, which influences your metabolism, cellular repair, and detox function, to help guide personalized strategies for your optimum health."
     },
     {
       key: "3",
       label: "panel=3",
-      figmaNodeId: "1145:18552",
+      figmaNodeId: "1145:18561",
       activeTab: 2,
-      heroImage: "assets/three-column-tabs/panel-3.jpg",
+      heroImage: "assets/three-column-tabs/panel-6.jpg",
       sideImage: "assets/three-column-tabs/detail-thumbnail.jpg",
-      title: "Toxic Metals Screening Test",
-      titleHtml: "Toxic Metals<br>Screening Test",
-      body: "Toxic metal testing, including blood, urine, or hair analysis, detects harmful levels of elements like lead, mercury, cadmium, and arsenic."
+      title: "Advanced Health Panel",
+      body: "This comprehensive blood spot test assesses essential biomarkers to give you a clear picture of how well your metabolism, heart, liver, and kidneys are performing, empowering you to take control of your health and wellness."
     },
     {
       key: "4",
@@ -63,7 +61,7 @@ export const TABS_TESTS_SPEC = {
       heroImage: "assets/three-column-tabs/panel-4.jpg",
       sideImage: "assets/three-column-tabs/detail-thumbnail.jpg",
       title: "Male Hormone Panel",
-      body: "A male hormone panel is a set of blood tests that measures key hormone levels to evaluate men’s sexual function, energy, metabolism, and overall well-being."
+      body: "Your energy, focus and drive all depend on balanced hormones. This blood spot test measures important hormones, including testosterone, and thyroid markers that support strength, sleep, vitality, mood, and mental performance."
     },
     {
       key: "5",
@@ -73,37 +71,39 @@ export const TABS_TESTS_SPEC = {
       heroImage: "assets/three-column-tabs/panel-5.jpg",
       sideImage: "assets/three-column-tabs/detail-thumbnail.jpg",
       title: "Female Hormone Panel",
-      body: "A female hormone panel is a blood test that measures key reproductive, thyroid, and stress hormones to evaluate fertility, menstrual irregularities, PCOS, or menopause symptoms."
+      body: "Your hormones influence every part of how you function, including your cycle, health, mood, and vitality. This blood spot test evaluates your reproductive hormones, adrenal and thyroid levels, to help you restore balance."
     },
     {
       key: "6",
       label: "panel=6",
-      figmaNodeId: "1145:18561",
+      figmaNodeId: "1145:18552",
       activeTab: 5,
-      heroImage: "assets/three-column-tabs/panel-6.jpg",
+      heroImage: "assets/three-column-tabs/panel-3.jpg",
       sideImage: "assets/three-column-tabs/detail-thumbnail.jpg",
-      title: "Advanced Health Panel",
-      body: "An advanced health panel is a comprehensive blood test, often involving 60-90+ biomarkers, designed for a deep, proactive, and detailed evaluation of internal health, metabolic function, organ performance, and nutritional status beyond standard annual exams."
+      title: "Toxic Metals Screening Test",
+      titleHtml: "Toxic Metals<br>Screening Test",
+      body: "Toxic metals can silently lead to fatigue, inflammation, and chronic issues. This urine test identifies harmful heavy metals in your system, helping you take targeted action to cleanse your body and safeguard your health."
     },
     {
       key: "7",
       label: "panel=7",
-      figmaNodeId: "1145:18564",
+      figmaNodeId: "1145:18546",
       activeTab: 6,
-      heroImage: "assets/three-column-tabs/panel-7.jpg",
+      heroImage: "assets/three-column-tabs/panel-1.jpg",
       sideImage: "assets/three-column-tabs/detail-thumbnail.jpg",
-      title: "Advanced Genetic Intelligence Panel",
-      body: "Next-Generation Sequencing (NGS), Artificial Intelligence (AI), and comprehensive multi-gene analysis are used to identify genetic predispositions for complex health conditions, rare diseases, or cognitive traits."
+      title: "Glyphosate Exposure Panel",
+      titleHtml: "Glyphosate<br>Exposure Panel",
+      body: "Glyphosate is a common herbicide that has been linked to gut microbiome disruption, inflammation, and chronic health issues. This urine test measures your glyphosate levels, empowering you to take the right steps to detoxify."
     },
     {
       key: "8",
       label: "panel=8",
-      figmaNodeId: "1145:18567",
+      figmaNodeId: "1145:18549",
       activeTab: 7,
-      heroImage: "assets/three-column-tabs/panel-8.jpg",
+      heroImage: "assets/three-column-tabs/panel-2.jpg",
       sideImage: "assets/three-column-tabs/detail-thumbnail.jpg",
-      title: "Biometabolic Breakthrough Panel",
-      body: "Unlike a basic metabolic panel (BMP) that just checks glucose and kidney function, these panels measure 50+ biomarkers, including insulin, hemoglobin A1c (HbA1c), leptin, adiponectin, and advanced lipids to evaluate metabolic function, fat loss potential, and long-term vitality."
+      title: "Mold & Mycotoxin Exposure Test",
+      body: "Mycotoxins, toxic compounds produced by mold, can weaken your immune system, trigger brain fog, fatigue, and gut issues. This urine test detects 11 harmful mold toxins in your system, to help you begin your detox process."
     }
   ],
   defaults: {
