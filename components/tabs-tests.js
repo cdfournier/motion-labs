@@ -117,7 +117,10 @@ export const TABS_TESTS_SPEC = {
     panelShift: 26,
     tabDuration: 0.35,
     stagger: 0,
-    overlap: 0
+    overlap: 0,
+    exitSpeed: 0.29,
+    entryFade: 0.66,
+    exitFade: 0.64
   }
 };
 
@@ -129,7 +132,10 @@ const TABS_MOTION_STYLES = {
     panelShift: 18,
     tabDuration: 0.5,
     stagger: 0,
-    overlap: 0
+    overlap: 0,
+    exitSpeed: 0.42,
+    entryFade: 0.78,
+    exitFade: 0.76
   },
   balanced: {
     transitionType: "slide-fade",
@@ -138,7 +144,10 @@ const TABS_MOTION_STYLES = {
     panelShift: 52,
     tabDuration: 0.8,
     stagger: 0.08,
-    overlap: -0.1
+    overlap: -0.1,
+    exitSpeed: 0.57,
+    entryFade: 0.66,
+    exitFade: 0.64
   },
   dramatic: {
     transitionType: "slide-fade",
@@ -147,7 +156,10 @@ const TABS_MOTION_STYLES = {
     panelShift: 180,
     tabDuration: 3,
     stagger: 0.6,
-    overlap: -0.2
+    overlap: -0.2,
+    exitSpeed: 1.26,
+    entryFade: 0.52,
+    exitFade: 0.48
   }
 };
 
@@ -160,8 +172,8 @@ export function mountTabsTestsLab() {
   const dom = {
     root: document.querySelector('[data-component="tabs-tests"]'),
     list: document.querySelector("#tabsList"),
-    heroShell: document.querySelector("#tabsHeroShell"),
-    sideShell: document.querySelector("#tabsSideShell"),
+    panel: null,
+    panelTrack: null,
     activeState: document.querySelector("#activeState"),
     motionStyle: document.querySelector("#motionStyle"),
     transitionType: document.querySelector("#transitionType"),
@@ -173,11 +185,17 @@ export function mountTabsTestsLab() {
     tabDuration: document.querySelector("#tabDuration"),
     stagger: document.querySelector("#stagger"),
     overlap: document.querySelector("#overlap"),
+    exitSpeed: document.querySelector("#exitSpeed"),
+    entryFade: document.querySelector("#entryFade"),
+    exitFade: document.querySelector("#exitFade"),
     durationOut: document.querySelector("#durationOut"),
     panelShiftOut: document.querySelector("#panelShiftOut"),
     tabDurationOut: document.querySelector("#tabDurationOut"),
     staggerOut: document.querySelector("#staggerOut"),
     overlapOut: document.querySelector("#overlapOut"),
+    exitSpeedOut: document.querySelector("#exitSpeedOut"),
+    entryFadeOut: document.querySelector("#entryFadeOut"),
+    exitFadeOut: document.querySelector("#exitFadeOut"),
     jsonExport: document.querySelector("#jsonExport"),
     cssExport: document.querySelector("#cssExport"),
     captureExport: document.querySelector("#captureExport"),
@@ -192,14 +210,14 @@ export function mountTabsTestsLab() {
     activeIndex: 0,
     settings: { ...TABS_TESTS_SPEC.defaults },
     tabButtons: [],
-    heroPlanes: [],
-    sidePlanes: [],
+    panelUnits: [],
     reducedMotion: shouldReduceMotion()
   };
 
   init();
 
   function init() {
+    ensurePanelTrack();
     renderTabList();
     renderPlanes();
     preloadStateAssets();
@@ -210,6 +228,22 @@ export function mountTabsTestsLab() {
     setActiveState(appState.settings.state, { immediate: true });
     updateExports();
     updateUrl();
+  }
+
+  function ensurePanelTrack() {
+    dom.panel = dom.root?.querySelector(".tabs-tests__panel") ?? document.querySelector(".tabs-tests__panel");
+    dom.panelTrack = dom.root?.querySelector("#tabsPanelTrack") ?? document.querySelector("#tabsPanelTrack");
+
+    if (!dom.panel) {
+      throw new Error("tabs-tests panel viewport not found.");
+    }
+
+    if (!dom.panelTrack) {
+      dom.panelTrack = document.createElement("div");
+      dom.panelTrack.className = "tabs-tests__track";
+      dom.panelTrack.id = "tabsPanelTrack";
+      dom.panel.append(dom.panelTrack);
+    }
   }
 
   function renderTabList() {
@@ -232,35 +266,31 @@ export function mountTabsTestsLab() {
   }
 
   function renderPlanes() {
-    dom.heroShell.innerHTML = "";
-    dom.sideShell.innerHTML = "";
+    dom.panelTrack.innerHTML = "";
 
     TABS_TESTS_SPEC.states.forEach((state, index) => {
-      const heroPlane = document.createElement("div");
-      heroPlane.className = "tabs-tests__plane";
-      heroPlane.dataset.index = String(index);
-      heroPlane.setAttribute("aria-hidden", "true");
-      heroPlane.innerHTML = `<img class="tabs-tests__hero-image" alt="" src="${state.heroImage}" loading="eager" decoding="async" />`;
-      dom.heroShell.append(heroPlane);
-
-      const sidePlane = document.createElement("article");
-      sidePlane.className = "tabs-tests__plane tabs-tests__detail";
-      sidePlane.dataset.index = String(index);
-      sidePlane.setAttribute("aria-hidden", "true");
+      const panelUnit = document.createElement("article");
+      panelUnit.className = "tabs-tests__panel-unit";
+      panelUnit.dataset.index = String(index);
+      panelUnit.setAttribute("aria-hidden", "true");
       const titleMarkup = state.titleHtml ?? escapeHtml(state.title);
-      sidePlane.innerHTML = `
-        <div class="tabs-tests__detail-thumb-wrap">
-          <img class="tabs-tests__detail-thumb" alt="" src="${state.sideImage}" loading="eager" decoding="async" />
-        </div>
-        <h2 class="tabs-tests__detail-title">${titleMarkup}</h2>
-        <p class="tabs-tests__detail-copy">${escapeHtml(state.body)}</p>
-        <button type="button" class="tabs-tests__cta">Learn More</button>
+      panelUnit.innerHTML = `
+        <figure class="tabs-tests__hero">
+          <img class="tabs-tests__hero-image" alt="" src="${state.heroImage}" loading="eager" decoding="async" />
+        </figure>
+        <section class="tabs-tests__detail">
+          <div class="tabs-tests__detail-thumb-wrap">
+            <img class="tabs-tests__detail-thumb" alt="" src="${state.sideImage}" loading="eager" decoding="async" />
+          </div>
+          <h2 class="tabs-tests__detail-title">${titleMarkup}</h2>
+          <p class="tabs-tests__detail-copy">${escapeHtml(state.body)}</p>
+          <button type="button" class="tabs-tests__cta">Learn More</button>
+        </section>
       `;
-      dom.sideShell.append(sidePlane);
+      dom.panelTrack.append(panelUnit);
     });
 
-    appState.heroPlanes = Array.from(dom.heroShell.querySelectorAll(".tabs-tests__plane"));
-    appState.sidePlanes = Array.from(dom.sideShell.querySelectorAll(".tabs-tests__plane"));
+    appState.panelUnits = Array.from(dom.panelTrack.querySelectorAll(".tabs-tests__panel-unit"));
   }
 
   function preloadStateAssets() {
@@ -356,6 +386,9 @@ export function mountTabsTestsLab() {
     bindRange(dom.panelShift, "panelShift", dom.panelShiftOut, "px");
     bindRange(dom.tabDuration, "tabDuration", dom.tabDurationOut, "s");
     bindRange(dom.overlap, "overlap", dom.overlapOut, "s");
+    bindRange(dom.exitSpeed, "exitSpeed", dom.exitSpeedOut, "s");
+    bindRange(dom.entryFade, "entryFade", dom.entryFadeOut, "");
+    bindRange(dom.exitFade, "exitFade", dom.exitFadeOut, "");
 
     dom.copyJson.addEventListener("click", () => copyText(dom.jsonExport.value));
     dom.copyCss.addEventListener("click", () => copyText(dom.cssExport.value));
@@ -397,11 +430,17 @@ export function mountTabsTestsLab() {
     dom.panelShift.value = String(appState.settings.panelShift);
     dom.tabDuration.value = String(appState.settings.tabDuration);
     dom.overlap.value = String(appState.settings.overlap);
+    dom.exitSpeed.value = String(appState.settings.exitSpeed);
+    dom.entryFade.value = String(appState.settings.entryFade);
+    dom.exitFade.value = String(appState.settings.exitFade);
     dom.staggerOut.value = `${formatNumber(appState.settings.stagger)}s`;
     dom.durationOut.value = `${formatNumber(appState.settings.duration)}s`;
     dom.panelShiftOut.value = `${formatNumber(appState.settings.panelShift)}px`;
     dom.tabDurationOut.value = `${formatNumber(appState.settings.tabDuration)}s`;
     dom.overlapOut.value = `${formatNumber(appState.settings.overlap)}s`;
+    dom.exitSpeedOut.value = `${formatNumber(appState.settings.exitSpeed)}s`;
+    dom.entryFadeOut.value = `${formatNumber(appState.settings.entryFade)}`;
+    dom.exitFadeOut.value = `${formatNumber(appState.settings.exitFade)}`;
     applyMaskingMode();
   }
 
@@ -452,18 +491,17 @@ export function mountTabsTestsLab() {
   }
 
   function killMotionTweens() {
-    gsap.killTweensOf([...appState.heroPlanes, ...appState.sidePlanes, ...appState.tabButtons]);
+    gsap.killTweensOf([dom.panelTrack, ...appState.panelUnits, ...appState.tabButtons]);
   }
 
   function setPlanesImmediate(activeIndex) {
-    [appState.heroPlanes, appState.sidePlanes].forEach((planes) => {
-      planes.forEach((plane, index) => {
-        const active = index === activeIndex;
-        plane.classList.toggle("is-active", active);
-        plane.style.opacity = active ? "1" : "0";
-        plane.style.visibility = active ? "visible" : "hidden";
-        plane.style.transform = "translate3d(0,0,0)";
-      });
+    gsap.set(dom.panelTrack, { x: getTrackOffset(activeIndex) });
+    appState.panelUnits.forEach((unit, index) => {
+      const active = index === activeIndex;
+      unit.classList.toggle("is-active", active);
+      unit.setAttribute("aria-hidden", active ? "false" : "true");
+      unit.style.opacity = "1";
+      unit.style.transform = "translate3d(0,0,0)";
     });
   }
 
@@ -478,62 +516,84 @@ export function mountTabsTestsLab() {
     const duration = appState.settings.duration;
     const shift = appState.settings.panelShift;
     const direction = resolveDirection(previousIndex, nextIndex);
-
-    animatePlaneSet(appState.heroPlanes, previousIndex, nextIndex, type, ease, duration, shift, direction, delay);
-    animatePlaneSet(appState.sidePlanes, previousIndex, nextIndex, type, ease, duration, shift, direction, delay);
-  }
-
-  function resolveDirection(previousIndex, nextIndex) {
-    if (appState.settings.directionMode === "forward") return 1;
-    if (appState.settings.directionMode === "reverse") return -1;
-    return nextIndex > previousIndex ? 1 : -1;
-  }
-
-  function animatePlaneSet(planes, previousIndex, nextIndex, type, ease, duration, shift, direction, delay) {
-    const incoming = planes[nextIndex];
-    const outgoing = planes[previousIndex];
-    if (!incoming) return;
-
-    planes.forEach((plane, index) => {
-      if (index !== previousIndex && index !== nextIndex) {
-        gsap.killTweensOf(plane);
-        plane.classList.remove("is-active");
-        plane.style.opacity = "0";
-        plane.style.visibility = "hidden";
-        plane.style.transform = "translate3d(0,0,0)";
-      }
-    });
-
-    incoming.classList.add("is-active");
-    incoming.style.visibility = "visible";
-    gsap.killTweensOf([incoming, outgoing]);
+    const outgoing = appState.panelUnits[previousIndex];
+    const incoming = appState.panelUnits[nextIndex];
     const overlap = appState.settings.overlap;
     const outgoingAt = (overlap < 0 ? Math.abs(overlap) : 0) + delay;
     const incomingAt = (overlap > 0 ? overlap : 0) + delay;
+    const exitDuration = Math.max(0.12, appState.settings.exitSpeed);
+    const entryDuration = Math.max(0.24, duration);
+    const exitEase = "power2.in";
+    const entryFade = appState.settings.entryFade;
+    const exitFade = appState.settings.exitFade;
+
+    appState.panelUnits.forEach((unit, index) => {
+      const active = index === nextIndex;
+      unit.classList.toggle("is-active", active);
+      unit.setAttribute("aria-hidden", active ? "false" : "true");
+      gsap.killTweensOf(unit);
+      gsap.set(unit, { clearProps: "transform" });
+    });
 
     const tl = gsap.timeline({
       defaults: { ease, duration },
       onComplete: () => setPlanesImmediate(nextIndex)
     });
 
+    tl.to(
+      dom.panelTrack,
+      {
+        x: getTrackOffset(nextIndex),
+        duration: entryDuration,
+        ease
+      },
+      0
+    );
+
     if (type === "slide-fade") {
-      gsap.set(incoming, { opacity: 0, x: shift * direction });
-      gsap.set(outgoing, { opacity: 1, x: 0 });
-      tl.to(outgoing, { opacity: 0, x: -shift * direction, duration: duration * 0.9 }, outgoingAt).to(
-        incoming,
-        { opacity: 1, x: 0 },
-        incomingAt
-      );
+      if (outgoing) {
+        gsap.set(outgoing, { opacity: 1, x: 0 });
+        tl.to(
+          outgoing,
+          {
+            opacity: exitFade,
+            x: -shift * direction * 0.14,
+            duration: exitDuration,
+            ease: exitEase
+          },
+          outgoingAt
+        );
+      }
+      if (incoming) {
+        gsap.set(incoming, { opacity: entryFade, x: shift * direction * 0.12 });
+        tl.to(
+          incoming,
+          {
+            opacity: 1,
+            x: 0,
+            duration: entryDuration,
+            ease
+          },
+          incomingAt
+        );
+      }
       return;
     }
 
-    gsap.set(incoming, { opacity: 0, x: 0 });
-    gsap.set(outgoing, { opacity: 1, x: 0 });
-    tl.to(outgoing, { opacity: 0, duration: duration * 0.9 }, outgoingAt).to(
-      incoming,
-      { opacity: 1, duration },
-      incomingAt
-    );
+    if (outgoing) {
+      gsap.set(outgoing, { opacity: 1, x: 0 });
+      tl.to(outgoing, { opacity: exitFade, duration: exitDuration, ease: exitEase }, outgoingAt);
+    }
+    if (incoming) {
+      gsap.set(incoming, { opacity: entryFade, x: 0 });
+      tl.to(incoming, { opacity: 1, duration: entryDuration, ease }, incomingAt);
+    }
+  }
+
+  function resolveDirection(previousIndex, nextIndex) {
+    if (appState.settings.directionMode === "forward") return 1;
+    if (appState.settings.directionMode === "reverse") return -1;
+    return nextIndex > previousIndex ? 1 : -1;
   }
 
   function setTabsImmediate(activeStateIndex) {
@@ -620,6 +680,9 @@ export function mountTabsTestsLab() {
     applyNumberParam(params, "shift", "panelShift", 0, 180);
     applyNumberParam(params, "tdur", "tabDuration", 0, 3);
     applyNumberParam(params, "ovr", "overlap", -0.4, 0.4);
+    applyNumberParam(params, "exit", "exitSpeed", 0.1, 2);
+    applyNumberParam(params, "efade", "entryFade", 0, 1);
+    applyNumberParam(params, "xfade", "exitFade", 0, 1);
   }
 
   function applyNumberParam(params, key, settingKey, min, max) {
@@ -658,6 +721,9 @@ export function mountTabsTestsLab() {
       `  --motion-panel-shift: ${motionPreset.panelShift}px;`,
       `  --motion-stagger: ${motionPreset.stagger}s;`,
       `  --motion-overlap: ${motionPreset.overlap}s;`,
+      `  --motion-exit-speed: ${motionPreset.exitSpeed}s;`,
+      `  --motion-entry-fade: ${motionPreset.entryFade};`,
+      `  --motion-exit-fade: ${motionPreset.exitFade};`,
       `  --motion-ease-name: ${motionPreset.easeName};`,
       "}",
       "",
@@ -691,7 +757,10 @@ export function mountTabsTestsLab() {
       panelShift: normalizeInt(appState.settings.panelShift),
       tabDuration: normalizeNumber(appState.settings.tabDuration),
       stagger: normalizeNumber(appState.settings.stagger),
-      overlap: normalizeNumber(appState.settings.overlap)
+      overlap: normalizeNumber(appState.settings.overlap),
+      exitSpeed: normalizeNumber(appState.settings.exitSpeed),
+      entryFade: normalizeNumber(appState.settings.entryFade),
+      exitFade: normalizeNumber(appState.settings.exitFade)
     };
   }
 
@@ -722,7 +791,16 @@ export function mountTabsTestsLab() {
     params.set("dur", String(motionPreset.duration));
     params.set("shift", String(motionPreset.panelShift));
     params.set("tdur", String(motionPreset.tabDuration));
+    params.set("exit", String(motionPreset.exitSpeed));
+    params.set("efade", String(motionPreset.entryFade));
+    params.set("xfade", String(motionPreset.exitFade));
     return params;
+  }
+
+  function getTrackOffset(index) {
+    const panelWidth = dom.panel?.clientWidth ?? 0;
+    const trackGap = Number.parseFloat(getComputedStyle(dom.panelTrack).columnGap || getComputedStyle(dom.panelTrack).gap || "0");
+    return -1 * index * (panelWidth + trackGap);
   }
 
   function escapeHtml(value) {

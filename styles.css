@@ -366,62 +366,46 @@ body {
 
 .tabs-tests__panel {
   min-width: 0;
-  min-height: 32.875rem;
+  min-height: 31.875rem;
   overflow: hidden;
+  position: relative;
+}
+
+.tabs-tests.is-free-fade .tabs-tests__panel {
+  overflow: visible;
+}
+
+.tabs-tests__track {
+  display: flex;
+  gap: 1rem;
+  will-change: transform;
+}
+
+.tabs-tests__panel-unit {
+  min-width: 100%;
+  width: 100%;
+  flex: 0 0 100%;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 14.375rem;
   gap: 1rem;
+  min-height: 31.875rem;
+  align-items: start;
+  will-change: transform, opacity;
+}
+
+.tabs-tests__panel-unit.is-active {
+  pointer-events: auto;
 }
 
 .tabs-tests__hero {
   margin: 0;
   min-width: 0;
   min-height: 0;
+  height: 31.875rem;
   border-radius: 0.5rem;
   background: #f8f8f8;
   overflow: hidden;
   position: relative;
-}
-
-.tabs-tests__hero-shell {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-}
-
-.tabs-tests__side {
-  min-width: 0;
-  overflow: hidden;
-  position: relative;
-}
-
-.tabs-tests__side-shell {
-  position: relative;
-  min-height: 32.875rem;
-  overflow: hidden;
-}
-
-.tabs-tests.is-free-fade .tabs-tests__panel,
-.tabs-tests.is-free-fade .tabs-tests__hero,
-.tabs-tests.is-free-fade .tabs-tests__side,
-.tabs-tests.is-free-fade .tabs-tests__hero-shell,
-.tabs-tests.is-free-fade .tabs-tests__side-shell {
-  overflow: visible;
-}
-
-.tabs-tests__plane {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  will-change: transform, opacity;
-}
-
-.tabs-tests__plane.is-active {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
 }
 
 .tabs-tests__hero-image {
@@ -436,6 +420,7 @@ body {
   grid-template-rows: auto auto auto 1fr;
   gap: 0.5rem;
   align-content: start;
+  min-height: 31.875rem;
 }
 
 .tabs-tests__detail-thumb-wrap {
@@ -1318,7 +1303,8 @@ body {
   .stack-row__button,
   .stack-promo__image-plane,
   .stack-promo__indicator,
-  .tabs-tests__plane,
+  .tabs-tests__track,
+  .tabs-tests__panel-unit,
   .gallery-product__image-plane,
   .banner-prescription__track {
     transition: none !important;
