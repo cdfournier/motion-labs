@@ -45,15 +45,23 @@
             <select id="activeState"></select>
           </label>
           <label class="field">
+            <span>Transition</span>
+            <select id="transitionType">
+              <option value="slide-fade">Slide + Fade</option>
+              <option value="crossfade">Crossfade</option>
+              <option value="swap">Swap (No Motion)</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="controls__row">
+          <label class="field">
             <span>Autoplay</span>
             <select id="autoplay">
               <option value="on">On</option>
               <option value="off">Off</option>
             </select>
           </label>
-        </div>
-
-        <div class="controls__row">
           <label class="field">
             <span>Interaction Controls</span>
             <select id="interactionControls">

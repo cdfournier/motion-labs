@@ -45,6 +45,7 @@ export const BANNER_HEALTH_ROTATOR_SPEC = {
   defaults: {
     state: 0,
     motionStyle: "custom",
+    transitionType: "slide-fade",
     autoplay: "on",
     interactionControls: "on",
     dwell: 10,
@@ -59,6 +60,7 @@ export const BANNER_HEALTH_ROTATOR_SPEC = {
 
 const BANNER_HEALTH_MOTION_STYLES = {
   subtle: {
+    transitionType: "crossfade",
     dwell: 7,
     slideDuration: 0.85,
     exitSpeed: 0.42,
@@ -68,6 +70,7 @@ const BANNER_HEALTH_MOTION_STYLES = {
     easeName: "power2.out"
   },
   balanced: {
+    transitionType: "slide-fade",
     dwell: 10,
     slideDuration: 1.1,
     exitSpeed: 0.45,
@@ -77,6 +80,7 @@ const BANNER_HEALTH_MOTION_STYLES = {
     easeName: "power3.out"
   },
   dramatic: {
+    transitionType: "slide-fade",
     dwell: 14,
     slideDuration: 2.2,
     exitSpeed: 0.72,
@@ -99,6 +103,7 @@ export function mountBannerHealthRotatorLab() {
     indicators: document.querySelector("#healthBannerIndicators"),
     activeState: document.querySelector("#activeState"),
     motionStyle: document.querySelector("#motionStyle"),
+    transitionType: document.querySelector("#transitionType"),
     autoplay: document.querySelector("#autoplay"),
     interactionControls: document.querySelector("#interactionControls"),
     easeName: document.querySelector("#easeName"),
@@ -253,6 +258,13 @@ export function mountBannerHealthRotatorLab() {
       applyMotionStyle(style);
     });
 
+    dom.transitionType.addEventListener("change", () => {
+      markMotionStyleCustom();
+      appState.settings.transitionType = dom.transitionType.value;
+      updateExports();
+      updateUrl();
+    });
+
     dom.autoplay.addEventListener("change", () => {
       markMotionStyleCustom();
       appState.settings.autoplay = dom.autoplay.value;
@@ -319,6 +331,7 @@ export function mountBannerHealthRotatorLab() {
   function syncControlsFromState() {
     dom.activeState.value = String(appState.settings.state);
     dom.motionStyle.value = appState.settings.motionStyle;
+    dom.transitionType.value = appState.settings.transitionType;
     dom.autoplay.value = appState.settings.autoplay;
     dom.interactionControls.value = appState.settings.interactionControls;
     dom.easeName.value = appState.settings.easeName;
@@ -398,6 +411,13 @@ export function mountBannerHealthRotatorLab() {
   }
 
   function animateStateTransition(previousIndex, nextIndex) {
+    const type = appState.settings.transitionType;
+    if (type === "swap") {
+      setImmediateState(nextIndex);
+      restartAutoplayCycle();
+      return;
+    }
+
     const incoming = appState.planes[nextIndex];
     const outgoing = appState.planes[previousIndex];
     if (!incoming || !outgoing) {
@@ -443,13 +463,16 @@ export function mountBannerHealthRotatorLab() {
 
     appState.transitionTl = tl;
 
-    gsap.set(incoming, { xPercent: 100 * direction, opacity: appState.settings.entryFade });
+    const entryX = type === "crossfade" ? 0 : 100 * direction;
+    const exitX = type === "crossfade" ? 0 : -100 * direction;
+
+    gsap.set(incoming, { xPercent: entryX, opacity: appState.settings.entryFade });
     gsap.set(outgoing, { xPercent: 0, opacity: 1 });
 
     tl.to(
       outgoing,
       {
-        xPercent: -100 * direction,
+        xPercent: exitX,
         opacity: appState.settings.exitFade,
         duration: exitDuration,
         ease: exitEase
@@ -638,6 +661,11 @@ export function mountBannerHealthRotatorLab() {
       Object.assign(appState.settings, BANNER_HEALTH_MOTION_STYLES[style]);
     }
 
+    const mode = params.get("mode");
+    if (mode && ["crossfade", "slide-fade", "swap"].includes(mode)) {
+      appState.settings.transitionType = mode;
+    }
+
     const auto = params.get("auto");
     if (auto && ["on", "off"].includes(auto)) {
       appState.settings.autoplay = auto;
@@ -700,6 +728,7 @@ export function mountBannerHealthRotatorLab() {
       "}",
       "",
       `/* Motion style: ${appState.settings.motionStyle} */`,
+      `/* Transition mode: ${motionPreset.transitionType} */`,
       `/* Autoplay: ${appState.settings.autoplay} */`,
       `/* Interaction controls: ${appState.settings.interactionControls} */`,
       `/* Active state: ${active?.label ?? "unknown"} (${active?.figmaNodeId ?? "n/a"}) */`,
@@ -720,6 +749,7 @@ export function mountBannerHealthRotatorLab() {
     return {
       state: appState.activeIndex + 1,
       style: appState.settings.motionStyle,
+      transitionType: appState.settings.transitionType,
       autoplay: appState.settings.autoplay,
       interactionControls: appState.settings.interactionControls,
       dwell: Number(Number(appState.settings.dwell).toFixed(2)),
@@ -741,6 +771,7 @@ export function mountBannerHealthRotatorLab() {
     const motion = getMotionPreset();
     params.set("state", String(motion.state));
     params.set("sty", motion.style);
+    params.set("mode", motion.transitionType);
     params.set("auto", motion.autoplay);
     params.set("ui", motion.interactionControls);
     params.set("dwell", String(motion.dwell));
