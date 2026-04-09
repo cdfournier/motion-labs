@@ -980,7 +980,7 @@ body {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  will-change: transform;
+  will-change: transform, opacity;
 }
 
 .banner-health.is-active {

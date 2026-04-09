@@ -49,6 +49,10 @@ export const BANNER_HEALTH_ROTATOR_SPEC = {
     interactionControls: "on",
     dwell: 10,
     slideDuration: 1.1,
+    exitSpeed: 0.45,
+    entryFade: 0.72,
+    exitFade: 0.6,
+    overlap: -0.08,
     easeName: "power3.out"
   }
 };
@@ -56,17 +60,29 @@ export const BANNER_HEALTH_ROTATOR_SPEC = {
 const BANNER_HEALTH_MOTION_STYLES = {
   subtle: {
     dwell: 7,
-    slideDuration: 0.75,
+    slideDuration: 0.85,
+    exitSpeed: 0.42,
+    entryFade: 0.82,
+    exitFade: 0.78,
+    overlap: 0,
     easeName: "power2.out"
   },
   balanced: {
     dwell: 10,
     slideDuration: 1.1,
+    exitSpeed: 0.45,
+    entryFade: 0.72,
+    exitFade: 0.6,
+    overlap: -0.08,
     easeName: "power3.out"
   },
   dramatic: {
     dwell: 14,
-    slideDuration: 1.8,
+    slideDuration: 2.2,
+    exitSpeed: 0.72,
+    entryFade: 0.52,
+    exitFade: 0.42,
+    overlap: -0.18,
     easeName: "power4.out"
   }
 };
@@ -88,8 +104,16 @@ export function mountBannerHealthRotatorLab() {
     easeName: document.querySelector("#easeName"),
     dwell: document.querySelector("#dwell"),
     slideDuration: document.querySelector("#slideDuration"),
+    exitSpeed: document.querySelector("#exitSpeed"),
+    entryFade: document.querySelector("#entryFade"),
+    exitFade: document.querySelector("#exitFade"),
+    overlap: document.querySelector("#overlap"),
     dwellOut: document.querySelector("#dwellOut"),
     slideDurationOut: document.querySelector("#slideDurationOut"),
+    exitSpeedOut: document.querySelector("#exitSpeedOut"),
+    entryFadeOut: document.querySelector("#entryFadeOut"),
+    exitFadeOut: document.querySelector("#exitFadeOut"),
+    overlapOut: document.querySelector("#overlapOut"),
     jsonExport: document.querySelector("#jsonExport"),
     cssExport: document.querySelector("#cssExport"),
     captureExport: document.querySelector("#captureExport"),
@@ -254,6 +278,10 @@ export function mountBannerHealthRotatorLab() {
 
     bindRange(dom.dwell, "dwell", dom.dwellOut, "s", 0, 30);
     bindRange(dom.slideDuration, "slideDuration", dom.slideDurationOut, "s", 0, 4);
+    bindRange(dom.exitSpeed, "exitSpeed", dom.exitSpeedOut, "s", 0.1, 2);
+    bindRange(dom.entryFade, "entryFade", dom.entryFadeOut, "", 0, 1);
+    bindRange(dom.exitFade, "exitFade", dom.exitFadeOut, "", 0, 1);
+    bindRange(dom.overlap, "overlap", dom.overlapOut, "s", -0.4, 0.4);
 
     dom.copyJson.addEventListener("click", () => copyText(dom.jsonExport.value));
     dom.copyCss.addEventListener("click", () => copyText(dom.cssExport.value));
@@ -296,8 +324,16 @@ export function mountBannerHealthRotatorLab() {
     dom.easeName.value = appState.settings.easeName;
     dom.dwell.value = String(appState.settings.dwell);
     dom.slideDuration.value = String(appState.settings.slideDuration);
+    dom.exitSpeed.value = String(appState.settings.exitSpeed);
+    dom.entryFade.value = String(appState.settings.entryFade);
+    dom.exitFade.value = String(appState.settings.exitFade);
+    dom.overlap.value = String(appState.settings.overlap);
     dom.dwellOut.value = `${formatNumber(appState.settings.dwell)}s`;
     dom.slideDurationOut.value = `${formatNumber(appState.settings.slideDuration)}s`;
+    dom.exitSpeedOut.value = `${formatNumber(appState.settings.exitSpeed)}s`;
+    dom.entryFadeOut.value = formatNumber(appState.settings.entryFade);
+    dom.exitFadeOut.value = formatNumber(appState.settings.exitFade);
+    dom.overlapOut.value = `${formatNumber(appState.settings.overlap)}s`;
     applyInteractionMode();
   }
 
@@ -346,6 +382,7 @@ export function mountBannerHealthRotatorLab() {
       plane.style.opacity = active ? "1" : "0";
       plane.style.visibility = active ? "visible" : "hidden";
       plane.style.transform = "translate3d(0, 0, 0)";
+      plane.style.zIndex = active ? "1" : "";
       plane.setAttribute("aria-hidden", active ? "false" : "true");
     });
 
@@ -369,8 +406,14 @@ export function mountBannerHealthRotatorLab() {
       return;
     }
 
-    const duration = appState.settings.slideDuration;
+    const duration = Math.max(0.2, appState.settings.slideDuration);
+    const exitDuration = Math.max(0.12, appState.settings.exitSpeed);
     const ease = appState.settings.easeName;
+    const exitEase = "power2.in";
+    const overlap = appState.settings.overlap;
+    const incomingAt = overlap > 0 ? overlap : 0;
+    const outgoingAt = overlap < 0 ? Math.abs(overlap) : 0;
+    const direction = resolveDirection(previousIndex, nextIndex);
 
     appState.planes.forEach((plane, index) => {
       if (index !== previousIndex && index !== nextIndex) {
@@ -379,12 +422,15 @@ export function mountBannerHealthRotatorLab() {
         plane.style.opacity = "0";
         plane.style.visibility = "hidden";
         plane.style.transform = "translate3d(0, 0, 0)";
+        plane.style.zIndex = "";
         plane.setAttribute("aria-hidden", "true");
       }
     });
 
     incoming.classList.add("is-active");
     incoming.style.visibility = "visible";
+    incoming.style.zIndex = "2";
+    outgoing.style.zIndex = "1";
     incoming.setAttribute("aria-hidden", "false");
 
     const tl = gsap.timeline({
@@ -397,26 +443,37 @@ export function mountBannerHealthRotatorLab() {
 
     appState.transitionTl = tl;
 
-    gsap.set(incoming, { xPercent: 100, opacity: 1 });
+    gsap.set(incoming, { xPercent: 100 * direction, opacity: appState.settings.entryFade });
     gsap.set(outgoing, { xPercent: 0, opacity: 1 });
 
     tl.to(
       outgoing,
       {
-        xPercent: -100,
-        opacity: 1
+        xPercent: -100 * direction,
+        opacity: appState.settings.exitFade,
+        duration: exitDuration,
+        ease: exitEase
       },
-      0
+      outgoingAt
     ).to(
       incoming,
       {
         xPercent: 0,
-        opacity: 1
+        opacity: 1,
+        duration,
+        ease
       },
-      0
+      incomingAt
     );
 
     animateIndicatorHandoff(previousIndex, nextIndex, duration, ease);
+  }
+
+  function resolveDirection(previousIndex, nextIndex) {
+    const count = BANNER_HEALTH_ROTATOR_SPEC.states.length;
+    if (previousIndex === count - 1 && nextIndex === 0) return 1;
+    if (previousIndex === 0 && nextIndex === count - 1) return -1;
+    return nextIndex > previousIndex ? 1 : -1;
   }
 
   function syncIndicatorActive(activeIndex) {
@@ -598,6 +655,10 @@ export function mountBannerHealthRotatorLab() {
 
     applyNumberParam(params, "dwell", "dwell", 0, 30);
     applyNumberParam(params, "sdur", "slideDuration", 0, 4);
+    applyNumberParam(params, "exit", "exitSpeed", 0.1, 2);
+    applyNumberParam(params, "efade", "entryFade", 0, 1);
+    applyNumberParam(params, "xfade", "exitFade", 0, 1);
+    applyNumberParam(params, "ovr", "overlap", -0.4, 0.4);
   }
 
   function applyNumberParam(params, key, settingKey, min, max) {
@@ -630,7 +691,11 @@ export function mountBannerHealthRotatorLab() {
     dom.cssExport.value = [
       ":root {",
       `  --banner-dwell: ${formatNumber(appState.settings.dwell)}s;`,
-      `  --banner-slide-duration: ${formatNumber(appState.settings.slideDuration)}s;`,
+      `  --banner-entry-speed: ${formatNumber(appState.settings.slideDuration)}s;`,
+      `  --banner-exit-speed: ${formatNumber(appState.settings.exitSpeed)}s;`,
+      `  --banner-entry-fade: ${formatNumber(appState.settings.entryFade)};`,
+      `  --banner-exit-fade: ${formatNumber(appState.settings.exitFade)};`,
+      `  --banner-overlap: ${formatNumber(appState.settings.overlap)}s;`,
       `  --banner-slide-ease: ${appState.settings.easeName};`,
       "}",
       "",
@@ -658,7 +723,11 @@ export function mountBannerHealthRotatorLab() {
       autoplay: appState.settings.autoplay,
       interactionControls: appState.settings.interactionControls,
       dwell: Number(Number(appState.settings.dwell).toFixed(2)),
-      slideDuration: Number(Number(appState.settings.slideDuration).toFixed(2)),
+      entrySpeed: Number(Number(appState.settings.slideDuration).toFixed(2)),
+      exitSpeed: Number(Number(appState.settings.exitSpeed).toFixed(2)),
+      entryFade: Number(Number(appState.settings.entryFade).toFixed(2)),
+      exitFade: Number(Number(appState.settings.exitFade).toFixed(2)),
+      overlap: Number(Number(appState.settings.overlap).toFixed(2)),
       easeName: appState.settings.easeName
     };
   }
@@ -675,7 +744,11 @@ export function mountBannerHealthRotatorLab() {
     params.set("auto", motion.autoplay);
     params.set("ui", motion.interactionControls);
     params.set("dwell", String(motion.dwell));
-    params.set("sdur", String(motion.slideDuration));
+    params.set("sdur", String(motion.entrySpeed));
+    params.set("exit", String(motion.exitSpeed));
+    params.set("efade", String(motion.entryFade));
+    params.set("xfade", String(motion.exitFade));
+    params.set("ovr", String(motion.overlap));
     params.set("ease", motion.easeName);
     return params;
   }
