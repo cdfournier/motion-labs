@@ -371,8 +371,12 @@ body {
   position: relative;
 }
 
-.tabs-tests.is-free-fade .tabs-tests__panel {
-  overflow: visible;
+.tabs-tests__transition-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 4;
 }
 
 .tabs-tests__track {
@@ -390,11 +394,19 @@ body {
   gap: 1rem;
   min-height: 31.875rem;
   align-items: start;
+  opacity: 0;
+  pointer-events: none;
   will-change: transform, opacity;
 }
 
 .tabs-tests__panel-unit.is-active {
+  opacity: 1;
   pointer-events: auto;
+}
+
+.tabs-tests__transition-clone {
+  position: absolute;
+  inset: 0;
 }
 
 .tabs-tests__hero {

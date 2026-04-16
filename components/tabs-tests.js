@@ -174,6 +174,7 @@ export function mountTabsTestsLab() {
     list: document.querySelector("#tabsList"),
     panel: null,
     panelTrack: null,
+    transitionStage: null,
     activeState: document.querySelector("#activeState"),
     motionStyle: document.querySelector("#motionStyle"),
     transitionType: document.querySelector("#transitionType"),
@@ -243,6 +244,16 @@ export function mountTabsTestsLab() {
       dom.panelTrack.className = "tabs-tests__track";
       dom.panelTrack.id = "tabsPanelTrack";
       dom.panel.append(dom.panelTrack);
+    }
+
+    dom.transitionStage =
+      dom.panel.querySelector(".tabs-tests__transition-stage") ??
+      document.querySelector(".tabs-tests__transition-stage");
+
+    if (!dom.transitionStage) {
+      dom.transitionStage = document.createElement("div");
+      dom.transitionStage.className = "tabs-tests__transition-stage";
+      dom.panel.append(dom.transitionStage);
     }
   }
 
@@ -487,11 +498,16 @@ export function mountTabsTestsLab() {
   }
 
   function applyMaskingMode() {
-    dom.root.classList.toggle("is-free-fade", appState.settings.maskingMode === "free-fade");
+    appState.settings.maskingMode = "track";
+    dom.root.classList.remove("is-free-fade");
   }
 
   function killMotionTweens() {
     gsap.killTweensOf([dom.panelTrack, ...appState.panelUnits, ...appState.tabButtons]);
+    if (dom.transitionStage) {
+      gsap.killTweensOf(Array.from(dom.transitionStage.children));
+      dom.transitionStage.innerHTML = "";
+    }
   }
 
   function setPlanesImmediate(activeIndex) {
@@ -500,15 +516,24 @@ export function mountTabsTestsLab() {
       const active = index === activeIndex;
       unit.classList.toggle("is-active", active);
       unit.setAttribute("aria-hidden", active ? "false" : "true");
-      unit.style.opacity = "1";
+      unit.style.opacity = active ? "1" : "0";
       unit.style.transform = "translate3d(0,0,0)";
+      unit.style.zIndex = active ? "2" : "1";
     });
+    if (dom.transitionStage) {
+      dom.transitionStage.innerHTML = "";
+    }
   }
 
   function animatePlaneTransition(previousIndex, nextIndex, delay) {
     const type = appState.settings.transitionType;
     if (type === "swap") {
       setPlanesImmediate(nextIndex);
+      return;
+    }
+
+    if (Math.abs(nextIndex - previousIndex) > 1) {
+      animateStagedPlaneTransition(previousIndex, nextIndex, delay, type);
       return;
     }
 
@@ -529,10 +554,15 @@ export function mountTabsTestsLab() {
 
     appState.panelUnits.forEach((unit, index) => {
       const active = index === nextIndex;
+      const inPlay = index === previousIndex || index === nextIndex;
       unit.classList.toggle("is-active", active);
       unit.setAttribute("aria-hidden", active ? "false" : "true");
       gsap.killTweensOf(unit);
-      gsap.set(unit, { clearProps: "transform" });
+      gsap.set(unit, {
+        clearProps: "transform",
+        opacity: inPlay ? unit.style.opacity || "1" : 0,
+        zIndex: index === nextIndex ? 2 : index === previousIndex ? 1 : 0
+      });
     });
 
     const tl = gsap.timeline({
@@ -552,7 +582,7 @@ export function mountTabsTestsLab() {
 
     if (type === "slide-fade") {
       if (outgoing) {
-        gsap.set(outgoing, { opacity: 1, x: 0 });
+        gsap.set(outgoing, { opacity: 1, x: 0, zIndex: 1 });
         tl.to(
           outgoing,
           {
@@ -565,7 +595,7 @@ export function mountTabsTestsLab() {
         );
       }
       if (incoming) {
-        gsap.set(incoming, { opacity: entryFade, x: shift * direction * 0.12 });
+        gsap.set(incoming, { opacity: entryFade, x: shift * direction * 0.12, zIndex: 2 });
         tl.to(
           incoming,
           {
@@ -581,13 +611,105 @@ export function mountTabsTestsLab() {
     }
 
     if (outgoing) {
-      gsap.set(outgoing, { opacity: 1, x: 0 });
+      gsap.set(outgoing, { opacity: 1, x: 0, zIndex: 1 });
       tl.to(outgoing, { opacity: exitFade, duration: exitDuration, ease: exitEase }, outgoingAt);
     }
     if (incoming) {
-      gsap.set(incoming, { opacity: entryFade, x: 0 });
+      gsap.set(incoming, { opacity: entryFade, x: 0, zIndex: 2 });
       tl.to(incoming, { opacity: 1, duration: entryDuration, ease }, incomingAt);
     }
+  }
+
+  function animateStagedPlaneTransition(previousIndex, nextIndex, delay, type) {
+    const ease = appState.settings.easeName;
+    const duration = appState.settings.duration;
+    const shift = appState.settings.panelShift;
+    const direction = resolveDirection(previousIndex, nextIndex);
+    const outgoing = appState.panelUnits[previousIndex];
+    const incoming = appState.panelUnits[nextIndex];
+    const overlap = appState.settings.overlap;
+    const outgoingAt = (overlap < 0 ? Math.abs(overlap) : 0) + delay;
+    const incomingAt = (overlap > 0 ? overlap : 0) + delay;
+    const exitDuration = Math.max(0.12, appState.settings.exitSpeed);
+    const entryDuration = Math.max(0.24, duration);
+    const exitEase = "power2.in";
+    const entryFade = appState.settings.entryFade;
+    const exitFade = appState.settings.exitFade;
+    const handoffGap = Math.max(0.08, Math.min(0.24, exitDuration * 0.22));
+    const stagedOutgoingAt = delay;
+    const stagedIncomingAt = delay + exitDuration + handoffGap;
+
+    if (!outgoing || !incoming || !dom.transitionStage) {
+      setPlanesImmediate(nextIndex);
+      return;
+    }
+
+    const outgoingClone = outgoing.cloneNode(true);
+    const incomingClone = incoming.cloneNode(true);
+    outgoingClone.classList.add("tabs-tests__transition-clone");
+    incomingClone.classList.add("tabs-tests__transition-clone");
+
+    dom.transitionStage.innerHTML = "";
+    dom.transitionStage.append(outgoingClone, incomingClone);
+
+    gsap.set(dom.panelTrack, { x: getTrackOffset(nextIndex) });
+    appState.panelUnits.forEach((unit, index) => {
+      const active = index === nextIndex;
+      unit.classList.toggle("is-active", active);
+      unit.setAttribute("aria-hidden", active ? "false" : "true");
+      gsap.set(unit, { opacity: 0, clearProps: "transform", zIndex: 0 });
+    });
+
+    const tl = gsap.timeline({
+      defaults: { ease, duration },
+      onComplete: () => setPlanesImmediate(nextIndex)
+    });
+
+    if (type === "slide-fade") {
+      gsap.set(outgoingClone, { opacity: 1, xPercent: 0, x: 0, zIndex: 1 });
+      gsap.set(incomingClone, {
+        opacity: entryFade,
+        xPercent: 100 * direction,
+        x: shift * direction * 0.12,
+        zIndex: 2
+      });
+
+      tl.to(
+        outgoingClone,
+        {
+          opacity: exitFade,
+          xPercent: -100 * direction,
+          x: -shift * direction * 0.14,
+          duration: exitDuration,
+          ease: exitEase
+        },
+        stagedOutgoingAt
+      ).to(
+        incomingClone,
+        {
+          opacity: 1,
+          xPercent: 0,
+          x: 0,
+          duration: entryDuration,
+          ease
+        },
+        stagedIncomingAt
+      );
+      return;
+    }
+
+    gsap.set(outgoingClone, { opacity: 1, xPercent: 0, x: 0, zIndex: 1 });
+    gsap.set(incomingClone, { opacity: entryFade, xPercent: 0, x: 0, zIndex: 2 });
+
+    tl.to(
+      outgoingClone,
+      { opacity: exitFade, duration: exitDuration, ease: exitEase },
+      stagedOutgoingAt
+    ).to(
+      incomingClone,
+      { opacity: 1, duration: entryDuration, ease },
+      stagedIncomingAt
+    );
   }
 
   function resolveDirection(previousIndex, nextIndex) {
@@ -664,8 +786,8 @@ export function mountTabsTestsLab() {
     }
 
     const mask = params.get("mask");
-    if (mask && ["track", "free-fade"].includes(mask)) {
-      appState.settings.maskingMode = mask;
+    if (mask === "track" || mask === "free-fade") {
+      appState.settings.maskingMode = "track";
     }
 
     const direction = params.get("dir");
