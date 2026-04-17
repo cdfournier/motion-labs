@@ -58,6 +58,14 @@
             <select id="activeState"></select>
           </label>
           <label class="field">
+            <span>Transition</span>
+            <select id="transitionType">
+              <option value="slide-fade">Slide + Fade</option>
+              <option value="crossfade">Crossfade</option>
+              <option value="swap">Swap (No Motion)</option>
+            </select>
+          </label>
+          <label class="field">
             <span>Ease</span>
             <select id="easeName">
               <option value="power4.out">power4.out</option>
@@ -72,13 +80,43 @@
 
         <div class="controls__row">
           <label class="field field--range">
-            <span>Duration <output id="durationOut">0.95s</output></span>
+            <span>Entry Speed <output id="durationOut">0.95s</output></span>
             <input id="duration" type="range" min="0" max="3" step="0.01" value="0.95" />
           </label>
+          <label class="field field--range">
+            <span>Entry Fade <output id="entryFadeOut">0.72</output></span>
+            <input id="entryFade" type="range" min="0" max="1" step="0.01" value="0.72" />
+          </label>
+        </div>
+
+        <div class="controls__row">
+          <label class="field field--range">
+            <span>Exit Speed <output id="exitSpeedOut">0.45s</output></span>
+            <input id="exitSpeed" type="range" min="0.1" max="2" step="0.01" value="0.45" />
+          </label>
+          <label class="field field--range">
+            <span>Exit Fade <output id="exitFadeOut">0.6</output></span>
+            <input id="exitFade" type="range" min="0" max="1" step="0.01" value="0.6" />
+          </label>
+        </div>
+
+        <div class="controls__row">
+          <label class="field field--range">
+            <span>Overlap <output id="overlapOut">-0.08s</output></span>
+            <input id="overlap" type="range" min="-1.2" max="1.2" step="0.01" value="-0.08" />
+          </label>
+          <label class="field field--range">
+            <span>Gap <output id="handoffGapOut">0.12s</output></span>
+            <input id="handoffGap" type="range" min="0" max="1.2" step="0.01" value="0.12" />
+          </label>
+        </div>
+
+        <div class="controls__row">
           <label class="field field--range">
             <span>Panel Shift <output id="panelShiftOut">40px</output></span>
             <input id="panelShift" type="range" min="0" max="140" step="1" value="40" />
           </label>
+          <div class="field" aria-hidden="true"></div>
         </div>
 
         <div class="controls__row">

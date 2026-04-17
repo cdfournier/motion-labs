@@ -497,6 +497,15 @@ body {
   overflow: hidden;
   touch-action: pan-y;
   user-select: none;
+  position: relative;
+}
+
+.tabs-tests-mobile__transition-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 4;
 }
 
 .tabs-tests-mobile__track {
@@ -509,6 +518,13 @@ body {
   width: 20rem;
   min-width: 20rem;
   flex: 0 0 20rem;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tabs-tests-mobile__panel.is-active {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .tabs-tests-mobile__panel-inner {
@@ -516,6 +532,11 @@ body {
   gap: 1.25rem;
   align-content: start;
   will-change: transform, opacity;
+}
+
+.tabs-tests-mobile__transition-clone {
+  position: absolute;
+  inset: 0;
 }
 
 .tabs-tests-mobile__figure {

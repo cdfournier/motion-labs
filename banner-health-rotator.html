@@ -96,7 +96,7 @@
           </label>
           <label class="field field--range">
             <span>Overlap <output id="overlapOut">-0.08s</output></span>
-            <input id="overlap" type="range" min="-0.4" max="0.4" step="0.01" value="-0.08" />
+            <input id="overlap" type="range" min="-1.2" max="1.2" step="0.01" value="-0.08" />
           </label>
         </div>
 
@@ -109,7 +109,10 @@
             <span>Exit Fade <output id="exitFadeOut">0.6</output></span>
             <input id="exitFade" type="range" min="0" max="1" step="0.01" value="0.6" />
           </label>
-          <div class="field" aria-hidden="true"></div>
+          <label class="field field--range">
+            <span>Gap <output id="handoffGapOut">0.12s</output></span>
+            <input id="handoffGap" type="range" min="0" max="1.2" step="0.01" value="0.12" />
+          </label>
         </div>
 
         <div class="controls__row controls__row--actions">

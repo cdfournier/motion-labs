@@ -109,8 +109,14 @@ export const TABS_TESTS_MOBILE_SPEC = {
   defaults: {
     state: 0,
     motionStyle: "balanced",
+    transitionType: "slide-fade",
     easeName: "power3.out",
     duration: 0.95,
+    exitSpeed: 0.45,
+    entryFade: 0.72,
+    exitFade: 0.6,
+    overlap: -0.08,
+    handoffGap: 0.12,
     panelShift: 40,
     swipeThreshold: 56
   }
@@ -118,20 +124,38 @@ export const TABS_TESTS_MOBILE_SPEC = {
 
 const MOBILE_MOTION_STYLES = {
   subtle: {
+    transitionType: "crossfade",
     easeName: "sine.out",
     duration: 0.7,
+    exitSpeed: 0.4,
+    entryFade: 0.84,
+    exitFade: 0.8,
+    overlap: 0,
+    handoffGap: 0.1,
     panelShift: 18,
     swipeThreshold: 48
   },
   balanced: {
+    transitionType: "slide-fade",
     easeName: "power3.out",
     duration: 0.95,
+    exitSpeed: 0.45,
+    entryFade: 0.72,
+    exitFade: 0.6,
+    overlap: -0.08,
+    handoffGap: 0.12,
     panelShift: 40,
     swipeThreshold: 56
   },
   dramatic: {
+    transitionType: "slide-fade",
     easeName: "power4.out",
     duration: 1.35,
+    exitSpeed: 0.6,
+    entryFade: 0.56,
+    exitFade: 0.42,
+    overlap: -0.16,
+    handoffGap: 0.22,
     panelShift: 84,
     swipeThreshold: 68
   }
@@ -147,14 +171,26 @@ export function mountTabsTestsMobileLab() {
     root: document.querySelector('[data-component="tabs-tests-mobile"]'),
     viewport: document.querySelector("#tabsTestsMobileViewport"),
     track: document.querySelector("#tabsTestsMobileTrack"),
+    transitionStage: null,
     list: document.querySelector("#tabsTestsMobileList"),
     activeState: document.querySelector("#activeState"),
     motionStyle: document.querySelector("#motionStyle"),
+    transitionType: document.querySelector("#transitionType"),
     easeName: document.querySelector("#easeName"),
     duration: document.querySelector("#duration"),
+    exitSpeed: document.querySelector("#exitSpeed"),
+    entryFade: document.querySelector("#entryFade"),
+    exitFade: document.querySelector("#exitFade"),
+    overlap: document.querySelector("#overlap"),
+    handoffGap: document.querySelector("#handoffGap"),
     panelShift: document.querySelector("#panelShift"),
     swipeThreshold: document.querySelector("#swipeThreshold"),
     durationOut: document.querySelector("#durationOut"),
+    exitSpeedOut: document.querySelector("#exitSpeedOut"),
+    entryFadeOut: document.querySelector("#entryFadeOut"),
+    exitFadeOut: document.querySelector("#exitFadeOut"),
+    overlapOut: document.querySelector("#overlapOut"),
+    handoffGapOut: document.querySelector("#handoffGapOut"),
     panelShiftOut: document.querySelector("#panelShiftOut"),
     swipeThresholdOut: document.querySelector("#swipeThresholdOut"),
     jsonExport: document.querySelector("#jsonExport"),
@@ -190,6 +226,7 @@ export function mountTabsTestsMobileLab() {
   init();
 
   function init() {
+    ensureTransitionStage();
     renderPanels();
     renderTabList();
     preloadStateAssets();
@@ -201,6 +238,18 @@ export function mountTabsTestsMobileLab() {
     setActiveState(appState.settings.state, { immediate: true });
     updateExports();
     updateUrl();
+  }
+
+  function ensureTransitionStage() {
+    dom.transitionStage =
+      dom.viewport.querySelector(".tabs-tests-mobile__transition-stage") ??
+      document.querySelector(".tabs-tests-mobile__transition-stage");
+
+    if (!dom.transitionStage) {
+      dom.transitionStage = document.createElement("div");
+      dom.transitionStage.className = "tabs-tests-mobile__transition-stage";
+      dom.viewport.append(dom.transitionStage);
+    }
   }
 
   function renderPanels() {
@@ -294,6 +343,13 @@ export function mountTabsTestsMobileLab() {
       applyMotionStyle(style);
     });
 
+    dom.transitionType.addEventListener("change", () => {
+      markMotionStyleCustom();
+      appState.settings.transitionType = dom.transitionType.value;
+      updateExports();
+      updateUrl();
+    });
+
     dom.easeName.addEventListener("change", () => {
       markMotionStyleCustom();
       appState.settings.easeName = dom.easeName.value;
@@ -302,6 +358,11 @@ export function mountTabsTestsMobileLab() {
     });
 
     bindRange(dom.duration, "duration", dom.durationOut, "s");
+    bindRange(dom.exitSpeed, "exitSpeed", dom.exitSpeedOut, "s");
+    bindRange(dom.entryFade, "entryFade", dom.entryFadeOut, "");
+    bindRange(dom.exitFade, "exitFade", dom.exitFadeOut, "");
+    bindRange(dom.overlap, "overlap", dom.overlapOut, "s");
+    bindRange(dom.handoffGap, "handoffGap", dom.handoffGapOut, "s");
     bindRange(dom.panelShift, "panelShift", dom.panelShiftOut, "px");
     bindRange(dom.swipeThreshold, "swipeThreshold", dom.swipeThresholdOut, "px");
 
@@ -414,11 +475,22 @@ export function mountTabsTestsMobileLab() {
   function syncControlsFromState() {
     dom.activeState.value = String(appState.settings.state);
     dom.motionStyle.value = appState.settings.motionStyle;
+    dom.transitionType.value = appState.settings.transitionType;
     dom.easeName.value = appState.settings.easeName;
     dom.duration.value = String(appState.settings.duration);
+    dom.exitSpeed.value = String(appState.settings.exitSpeed);
+    dom.entryFade.value = String(appState.settings.entryFade);
+    dom.exitFade.value = String(appState.settings.exitFade);
+    dom.overlap.value = String(appState.settings.overlap);
+    dom.handoffGap.value = String(appState.settings.handoffGap);
     dom.panelShift.value = String(appState.settings.panelShift);
     dom.swipeThreshold.value = String(appState.settings.swipeThreshold);
     dom.durationOut.value = `${formatNumber(appState.settings.duration)}s`;
+    dom.exitSpeedOut.value = `${formatNumber(appState.settings.exitSpeed)}s`;
+    dom.entryFadeOut.value = `${formatNumber(appState.settings.entryFade)}`;
+    dom.exitFadeOut.value = `${formatNumber(appState.settings.exitFade)}`;
+    dom.overlapOut.value = `${formatNumber(appState.settings.overlap)}s`;
+    dom.handoffGapOut.value = `${formatNumber(appState.settings.handoffGap)}s`;
     dom.panelShiftOut.value = `${formatNumber(appState.settings.panelShift)}px`;
     dom.swipeThresholdOut.value = `${formatNumber(appState.settings.swipeThreshold)}px`;
   }
@@ -468,31 +540,55 @@ export function mountTabsTestsMobileLab() {
       const active = index === activeIndex;
       panel.classList.toggle("is-active", active);
       panel.setAttribute("aria-hidden", active ? "false" : "true");
+      panel.style.opacity = active ? "1" : "0";
     });
     appState.panelInners.forEach((inner) => {
       inner.style.opacity = "1";
       inner.style.transform = "translate3d(0,0,0)";
     });
+    if (dom.transitionStage) {
+      dom.transitionStage.innerHTML = "";
+    }
   }
 
   function animatePanelTransition(previousIndex, nextIndex) {
+    const type = appState.settings.transitionType;
+    if (type === "swap") {
+      setPanelsImmediate(nextIndex);
+      return;
+    }
+
+    if (Math.abs(nextIndex - previousIndex) > 1) {
+      animateStagedPanelTransition(previousIndex, nextIndex, type);
+      return;
+    }
+
     const ease = appState.settings.easeName;
-    const duration = appState.settings.duration;
+    const duration = Math.max(0.24, appState.settings.duration);
+    const exitDuration = Math.max(0.12, appState.settings.exitSpeed);
     const shift = appState.settings.panelShift;
     const direction = nextIndex > previousIndex ? 1 : -1;
+    const overlap = appState.settings.overlap;
+    const gap = Math.max(0, appState.settings.handoffGap);
+    const outgoingAt = overlap < 0 ? Math.abs(overlap) : 0;
+    const incomingAt = (overlap > 0 ? overlap : 0) + gap;
     const previousInner = appState.panelInners[previousIndex];
     const nextInner = appState.panelInners[nextIndex];
 
     appState.panels.forEach((panel, index) => {
       panel.classList.toggle("is-active", index === nextIndex);
       panel.setAttribute("aria-hidden", index === nextIndex ? "false" : "true");
+      panel.style.opacity = index === previousIndex || index === nextIndex ? "1" : "0";
     });
 
     if (previousInner) {
       gsap.set(previousInner, { opacity: 1, x: 0 });
     }
     if (nextInner) {
-      gsap.set(nextInner, { opacity: 0, x: shift * direction });
+      gsap.set(nextInner, {
+        opacity: appState.settings.entryFade,
+        x: type === "crossfade" ? 0 : shift * direction
+      });
     }
 
     const tl = gsap.timeline({
@@ -513,11 +609,12 @@ export function mountTabsTestsMobileLab() {
       tl.to(
         previousInner,
         {
-          x: -shift * direction * 0.55,
-          opacity: 0.82,
-          duration: duration * 0.7
+          x: type === "crossfade" ? 0 : -shift * direction * 0.55,
+          opacity: appState.settings.exitFade,
+          duration: exitDuration,
+          ease: "power2.in"
         },
-        0
+        outgoingAt
       );
     }
 
@@ -529,8 +626,65 @@ export function mountTabsTestsMobileLab() {
           opacity: 1,
           duration
         },
-        0.04
+        incomingAt
       );
+    }
+  }
+
+  function animateStagedPanelTransition(previousIndex, nextIndex, type) {
+    const ease = appState.settings.easeName;
+    const duration = Math.max(0.24, appState.settings.duration);
+    const exitDuration = Math.max(0.12, appState.settings.exitSpeed);
+    const shift = appState.settings.panelShift;
+    const direction = nextIndex > previousIndex ? 1 : -1;
+    const gap = Math.max(0, appState.settings.handoffGap);
+    const previousPanel = appState.panels[previousIndex];
+    const nextPanel = appState.panels[nextIndex];
+    if (!previousPanel || !nextPanel || !dom.transitionStage) {
+      setPanelsImmediate(nextIndex);
+      return;
+    }
+
+    const previousClone = previousPanel.cloneNode(true);
+    const nextClone = nextPanel.cloneNode(true);
+    previousClone.classList.add("tabs-tests-mobile__transition-clone");
+    nextClone.classList.add("tabs-tests-mobile__transition-clone");
+    dom.transitionStage.innerHTML = "";
+    dom.transitionStage.append(previousClone, nextClone);
+
+    gsap.set(dom.track, { x: getPanelOffset(nextIndex) });
+    appState.panels.forEach((panel, index) => {
+      const active = index === nextIndex;
+      panel.classList.toggle("is-active", active);
+      panel.setAttribute("aria-hidden", active ? "false" : "true");
+      panel.style.opacity = "0";
+    });
+
+    const previousInner = previousClone.querySelector(".tabs-tests-mobile__panel-inner");
+    const nextInner = nextClone.querySelector(".tabs-tests-mobile__panel-inner");
+    const tl = gsap.timeline({ onComplete: () => setPanelsImmediate(nextIndex) });
+
+    if (previousInner) {
+      gsap.set(previousInner, { opacity: 1, x: 0 });
+      tl.to(previousInner, {
+        x: type === "crossfade" ? 0 : -shift * direction * 0.55,
+        opacity: appState.settings.exitFade,
+        duration: exitDuration,
+        ease: "power2.in"
+      }, 0);
+    }
+
+    if (nextInner) {
+      gsap.set(nextInner, {
+        opacity: appState.settings.entryFade,
+        x: type === "crossfade" ? 0 : shift * direction
+      });
+      tl.to(nextInner, {
+        x: 0,
+        opacity: 1,
+        duration,
+        ease
+      }, exitDuration + gap);
     }
   }
 
@@ -578,6 +732,10 @@ export function mountTabsTestsMobileLab() {
     gsap.killTweensOf(dom.track);
     gsap.killTweensOf(appState.panelInners);
     gsap.killTweensOf(appState.tabButtons);
+    if (dom.transitionStage) {
+      gsap.killTweensOf(Array.from(dom.transitionStage.children));
+      dom.transitionStage.innerHTML = "";
+    }
   }
 
   function getPanelOffset(index) {
@@ -588,8 +746,14 @@ export function mountTabsTestsMobileLab() {
     const params = new URLSearchParams();
     params.set("state", String(appState.settings.state));
     params.set("motion", appState.settings.motionStyle);
+    params.set("mode", appState.settings.transitionType);
     params.set("ease", appState.settings.easeName);
     params.set("duration", formatNumber(appState.settings.duration));
+    params.set("exit", formatNumber(appState.settings.exitSpeed));
+    params.set("efade", formatNumber(appState.settings.entryFade));
+    params.set("xfade", formatNumber(appState.settings.exitFade));
+    params.set("ovr", formatNumber(appState.settings.overlap));
+    params.set("gap", formatNumber(appState.settings.handoffGap));
     params.set("shift", String(Math.round(appState.settings.panelShift)));
     params.set("threshold", String(Math.round(appState.settings.swipeThreshold)));
     return params;
@@ -618,9 +782,44 @@ export function mountTabsTestsMobileLab() {
     const easeName = params.get("ease");
     if (easeName) appState.settings.easeName = easeName;
 
+    const mode = params.get("mode");
+    if (mode && ["slide-fade", "crossfade", "swap"].includes(mode)) {
+      appState.settings.transitionType = mode;
+    }
+
     const duration = Number(params.get("duration"));
     if (Number.isFinite(duration)) {
       appState.settings.duration = clampNumber(duration, 0, 3);
+      appState.settings.motionStyle = "custom";
+    }
+
+    const exit = Number(params.get("exit"));
+    if (Number.isFinite(exit)) {
+      appState.settings.exitSpeed = clampNumber(exit, 0.1, 2);
+      appState.settings.motionStyle = "custom";
+    }
+
+    const entryFade = Number(params.get("efade"));
+    if (Number.isFinite(entryFade)) {
+      appState.settings.entryFade = clampNumber(entryFade, 0, 1);
+      appState.settings.motionStyle = "custom";
+    }
+
+    const exitFade = Number(params.get("xfade"));
+    if (Number.isFinite(exitFade)) {
+      appState.settings.exitFade = clampNumber(exitFade, 0, 1);
+      appState.settings.motionStyle = "custom";
+    }
+
+    const overlap = Number(params.get("ovr"));
+    if (Number.isFinite(overlap)) {
+      appState.settings.overlap = clampNumber(overlap, -1.2, 1.2);
+      appState.settings.motionStyle = "custom";
+    }
+
+    const gap = Number(params.get("gap"));
+    if (Number.isFinite(gap)) {
+      appState.settings.handoffGap = clampNumber(gap, 0, 1.2);
       appState.settings.motionStyle = "custom";
     }
 
@@ -647,8 +846,14 @@ export function mountTabsTestsMobileLab() {
         stateNodeId: state.figmaNodeId,
         settings: {
           motionStyle: appState.settings.motionStyle,
+          transitionType: appState.settings.transitionType,
           easeName: appState.settings.easeName,
           duration: appState.settings.duration,
+          exitSpeed: appState.settings.exitSpeed,
+          entryFade: appState.settings.entryFade,
+          exitFade: appState.settings.exitFade,
+          overlap: appState.settings.overlap,
+          handoffGap: appState.settings.handoffGap,
           panelShift: appState.settings.panelShift,
           swipeThreshold: appState.settings.swipeThreshold
         }
@@ -659,7 +864,12 @@ export function mountTabsTestsMobileLab() {
 
     const css = [
       `:root {`,
-      `  --tabs-mobile-duration: ${formatNumber(appState.settings.duration)}s;`,
+      `  --tabs-mobile-entry-speed: ${formatNumber(appState.settings.duration)}s;`,
+      `  --tabs-mobile-exit-speed: ${formatNumber(appState.settings.exitSpeed)}s;`,
+      `  --tabs-mobile-entry-fade: ${formatNumber(appState.settings.entryFade)};`,
+      `  --tabs-mobile-exit-fade: ${formatNumber(appState.settings.exitFade)};`,
+      `  --tabs-mobile-overlap: ${formatNumber(appState.settings.overlap)}s;`,
+      `  --tabs-mobile-gap: ${formatNumber(appState.settings.handoffGap)}s;`,
       `  --tabs-mobile-shift: ${formatNumber(appState.settings.panelShift)}px;`,
       `  --tabs-mobile-swipe-threshold: ${formatNumber(appState.settings.swipeThreshold)}px;`,
       `  --tabs-mobile-ease: ${appState.settings.easeName};`,
