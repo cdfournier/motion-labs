@@ -1082,11 +1082,104 @@ body {
   margin: 0;
 }
 
+.banner-tests-carousel {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.banner-tests-carousel__shell {
+  position: relative;
+  width: 100%;
+  max-width: 80rem;
+  min-height: 34.375rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.banner-tests-carousel__plane {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.banner-tests-carousel__plane.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.banner-tests-carousel__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+.banner-tests-carousel__section {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 4rem;
+  display: flex;
+  align-items: center;
+}
+
+.banner-tests-carousel__content {
+  width: 100%;
+  max-width: 42.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+  will-change: opacity;
+}
+
+.banner-tests-carousel__title {
+  margin: 0;
+  color: #1a1a1a;
+  font-family: "Artifex Hand CF", "Cormorant Garamond", Georgia, serif;
+  font-size: 2.375rem;
+  font-weight: 500;
+  line-height: 3rem;
+  letter-spacing: 0.0625rem;
+  text-transform: uppercase;
+  white-space: normal;
+}
+
+.banner-tests-carousel__subtitle {
+  margin: 0;
+  color: #1a1a1a;
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+  letter-spacing: 0;
+  font-weight: 700;
+  max-width: 31.25rem;
+}
+
+.banner-tests-carousel__cta-wrap {
+  padding-top: 0.75rem;
+}
+
+.banner-tests-carousel__cta {
+  margin: 0;
+}
+
 :is(
   .tabs-tests__cta,
   .gallery-product__cta,
   .banner-prescription__cta,
   .banner-health__cta,
+  .banner-tests-carousel__cta,
   .tabs-tests-mobile__cta
 ) {
   display: inline-flex;
@@ -1110,7 +1203,8 @@ body {
   .tabs-tests__cta,
   .gallery-product__cta,
   .banner-prescription__cta,
-  .banner-health__cta
+  .banner-health__cta,
+  .banner-tests-carousel__cta
 ) {
   padding: 1.25rem 2.5rem;
   font-size: 0.875rem;
@@ -1128,6 +1222,7 @@ body {
   .gallery-product__cta,
   .banner-prescription__cta,
   .banner-health__cta,
+  .banner-tests-carousel__cta,
   .tabs-tests-mobile__cta
 ):hover {
   background: #fff;
@@ -1140,6 +1235,7 @@ body {
   .gallery-product__cta,
   .banner-prescription__cta,
   .banner-health__cta,
+  .banner-tests-carousel__cta,
   .tabs-tests-mobile__cta
 ):focus-visible {
   outline: 0.125rem solid #1a1a1a;
@@ -1196,6 +1292,59 @@ body {
 }
 
 .banner-health-rotator.is-interaction-off .banner-health-rotator__indicator {
+  cursor: default;
+}
+
+.banner-tests-carousel__indicators {
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.banner-tests-carousel__indicator-item {
+  flex: 0 0 auto;
+}
+
+.banner-tests-carousel__indicator {
+  --progress: 0%;
+  width: 0.5rem;
+  height: 0.5rem;
+  border: 0;
+  border-radius: 6.25rem;
+  padding: 0;
+  background: #cfcfcf;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: width 320ms ease, border-radius 320ms ease, background-color 220ms ease;
+}
+
+.banner-tests-carousel__indicator.is-active {
+  width: 2rem;
+  border-radius: 0.5rem;
+}
+
+.banner-tests-carousel__indicator.is-active::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--progress);
+  height: 100%;
+  border-radius: inherit;
+  background: #848484;
+}
+
+.banner-tests-carousel__indicator:focus-visible {
+  outline: 0.125rem solid #1a1a1a;
+  outline-offset: 0.125rem;
+}
+
+.banner-tests-carousel.is-interaction-off .banner-tests-carousel__indicator {
   cursor: default;
 }
 

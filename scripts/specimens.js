@@ -34,5 +34,11 @@ export const SPECIMENS = [
     name: ".banner/health-rotator",
     figmaNodeId: "2224:40100",
     href: "./banner-health-rotator.html"
+  },
+  {
+    slug: "banner-tests-carousel",
+    name: ".banner/tests-carousel",
+    figmaNodeId: "378:15912",
+    href: "./banner-tests-carousel.html"
   }
 ];
