@@ -542,7 +542,7 @@ export function mountBannerTestsCarouselLab() {
         {
           opacity: 1,
           duration: appState.settings.copyInSpeed,
-          ease: "power2.out"
+          ease: "none"
         },
         textAt
       );
