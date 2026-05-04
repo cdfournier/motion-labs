@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BHRX Image Size Matrix</title>
+    <style>
+      :root {
+        --bg: #f6f4ef;
+        --paper: #fffdfa;
+        --ink: #1f2523;
+        --muted: #6a716d;
+        --line: #d7d0c4;
+        --accent: #006b5f;
+        --accent-soft: #dceee9;
+        --gold: #b98225;
+        --blue: #234d68;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.45;
+      }
+
+      main {
+        width: min(1440px, calc(100vw - 32px));
+        margin: 0 auto;
+        padding: 48px 0 64px;
+      }
+
+      header {
+        display: grid;
+        gap: 14px;
+        margin-bottom: 28px;
+      }
+
+      h1,
+      h2 {
+        margin: 0;
+        letter-spacing: 0;
+      }
+
+      h1 {
+        font-size: clamp(32px, 5vw, 64px);
+        line-height: 0.98;
+        max-width: 900px;
+      }
+
+      h2 {
+        font-size: 24px;
+        margin: 36px 0 14px;
+      }
+
+      p {
+        margin: 0;
+        color: var(--muted);
+        max-width: 920px;
+      }
+
+      a {
+        color: var(--accent);
+      }
+
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        min-height: 30px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--paper);
+        color: var(--muted);
+        padding: 5px 10px;
+        font-size: 13px;
+      }
+
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        margin: 24px 0;
+        padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--paper);
+      }
+
+      label {
+        display: grid;
+        gap: 4px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      select,
+      input {
+        min-height: 38px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: #fff;
+        color: var(--ink);
+        padding: 8px 10px;
+        font: inherit;
+      }
+
+      input {
+        min-width: min(420px, calc(100vw - 80px));
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--paper);
+      }
+
+      table {
+        width: 100%;
+        min-width: 1180px;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+
+      th,
+      td {
+        border-bottom: 1px solid var(--line);
+        padding: 10px 12px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background: #eee8dd;
+        color: #3d423f;
+        font-size: 11px;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      tr:last-child td {
+        border-bottom: 0;
+      }
+
+      td:nth-child(1),
+      td:nth-child(2),
+      td:nth-child(3),
+      td:nth-child(4) {
+        white-space: nowrap;
+      }
+
+      code {
+        font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+        font-size: 12px;
+      }
+
+      .components {
+        max-width: 540px;
+      }
+
+      .samples {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 14px;
+      }
+
+      .sample {
+        display: grid;
+        gap: 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--paper);
+        padding: 14px;
+      }
+
+      .sample__head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .sample__title {
+        font-weight: 800;
+      }
+
+      .sample__box {
+        display: grid;
+        place-items: center;
+        width: 100%;
+        max-height: 240px;
+        border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line));
+        border-radius: 6px;
+        background:
+          linear-gradient(135deg, rgba(0, 107, 95, 0.18), transparent 46%),
+          linear-gradient(315deg, rgba(185, 130, 37, 0.2), transparent 44%),
+          var(--accent-soft);
+        color: #23413b;
+        font-weight: 800;
+        overflow: hidden;
+      }
+
+      .sample__uses {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .note {
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      @media (max-width: 720px) {
+        main {
+          width: min(100vw - 20px, 1440px);
+          padding-top: 28px;
+        }
+
+        .toolbar {
+          align-items: stretch;
+        }
+
+        label,
+        select,
+        input {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>BHRX Image Size Matrix</h1>
+        <p>
+          MVP extraction from visible image and video fills in the linked Figma sections for Home,
+          Testing, Rx, Supplements, and About. Hidden variants and non-media fills are intentionally
+          excluded.
+        </p>
+        <div class="meta">
+          <span class="pill">Source: BHRX Master Library</span>
+          <span class="pill">Section IDs: 3856:68347, 3856:68341, 3856:68343, 3856:68345, 4793:53751</span>
+          <span class="pill">Raw visible media nodes: 897</span>
+          <span class="pill">Component names preserved from Figma</span>
+        </div>
+      </header>
+
+      <section aria-labelledby="matrix-title">
+        <h2 id="matrix-title">Matrix</h2>
+        <div class="toolbar">
+          <label>
+            Category
+            <select id="categoryFilter">
+              <option value="">All categories</option>
+            </select>
+          </label>
+          <label>
+            Search
+            <input id="searchFilter" type="search" placeholder="Filter by component, page, size..." />
+          </label>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Subcategory / Naming Convention</th>
+                <th>Desktop Image Size(s)</th>
+                <th>Mobile Image Size(s)</th>
+                <th>Components Using Size(s)</th>
+                <th>Pages</th>
+              </tr>
+            </thead>
+            <tbody id="matrixBody"></tbody>
+          </table>
+        </div>
+        <p class="note">
+          Dashes mean no visible media-fill node for that viewport was found in the supplied Figma
+          sections. Decimal measurements are Figma frame dimensions rounded to two places.
+        </p>
+      </section>
+
+      <section aria-labelledby="samples-title">
+        <h2 id="samples-title">Use Samples</h2>
+        <div class="samples" id="samples"></div>
+      </section>
+    </main>
+
+    <script>
+      const rows = [
+        {
+          category: "Banner",
+          subcategory: "wide",
+          desktopSize: "1440x700",
+          mobileSize: "430x700",
+          components: "banner/wide/widescreen, banner/wide/mobile",
+          pages: "About, Home, Rx, Supplements, Testing",
+        },
+        {
+          category: "Banner",
+          subcategory: "platform",
+          desktopSize: "1440x700",
+          mobileSize: "402x402",
+          components: "banner/platform",
+          pages: "Home, Rx, Testing",
+        },
+        {
+          category: "Banner",
+          subcategory: "prescription-plan",
+          desktopSize: "1440x700",
+          mobileSize: "430x446, 430x550",
+          components: "banner/prescription-plan",
+          pages: "Home, Rx",
+        },
+        {
+          category: "Banner",
+          subcategory: "subscribe",
+          desktopSize: "1440x700, 1440x550",
+          mobileSize: "430x620, 430x550",
+          components: "banner/subscribe",
+          pages: "About, Home",
+        },
+        {
+          category: "Banner",
+          subcategory: "supplement promo",
+          desktopSize: "1280x550",
+          mobileSize: "398x550, 398x329.24",
+          components: "banner/enhanced-with-perfect-amino, banner/perfect-amino",
+          pages: "Rx, Supplements",
+        },
+        {
+          category: "Banner",
+          subcategory: "testing promo",
+          desktopSize: "1280x550",
+          mobileSize: "398x550",
+          components:
+            "banner/advanced-health-panel, banner/glyphosate-exposure-test, banner/glyposate-exposure-test, banner/mold-and-mycotoxin-test",
+          pages: "Testing",
+        },
+        {
+          category: "Banner",
+          subcategory: "survey-start",
+          desktopSize: "980x244",
+          mobileSize: "398x204",
+          components: "banner/survey-start",
+          pages: "Rx",
+        },
+        {
+          category: "Testing banner",
+          subcategory: "resources",
+          desktopSize: "—",
+          mobileSize: "398x550",
+          components:
+            "banner-test-resources-advanced-genetic-intelligence--panel, banner-test-resources-advanced-health-panel, banner-test-resources-biometabolic-health-panel, banner-test-resources-female-hormone-panel, banner-test-resources-glyphosate-exposure-test, banner-test-resources-male-hormone-panel, banner-test-resources-mold-and-mycotoxin-exposure-test, banner-test-resources-toxic-metals-screening-test",
+          pages: "Testing",
+        },
+        {
+          category: "Testing banner",
+          subcategory: "testkit",
+          desktopSize: "—",
+          mobileSize: "398x550",
+          components:
+            "banner-testkit-advanced-genetic-intelligence-panel, banner-testkit-advanced-health-panel, banner-testkit-biometabolic-breakthrough-panel, banner-testkit-female-hormone-panel, banner-testkit-glyphosate-exposure-panel, banner-testkit-male-hormone-panel, banner-testkit-mold-and-mycotoxin-exposure-test, banner-testkit-toxic-metals-screening-test",
+          pages: "Testing",
+        },
+        {
+          category: "Hero",
+          subcategory: "desktop/default/style=light, height=default",
+          desktopSize: "1440x700",
+          mobileSize: "—",
+          components: "hero/desktop/default/style=light, height=default",
+          pages: "Testing",
+        },
+        {
+          category: "Body",
+          subcategory: "desktop",
+          desktopSize: "1440x700",
+          mobileSize: "—",
+          components: "body/desktop/default/style=dark, body/desktop/reverse/style=light",
+          pages: "Testing",
+        },
+        {
+          category: "Card",
+          subcategory: "title large",
+          desktopSize: "405.33x482.54, 398x473.81",
+          mobileSize: "320x380.95, 398x473.81",
+          components: "card/type=title, size=large, state=default",
+          pages: "About, Home, Testing",
+        },
+        {
+          category: "Card",
+          subcategory: "partner small",
+          desktopSize: "300x375",
+          mobileSize: "300x375",
+          components: "card/type=partner, size=small, state=default",
+          pages: "About, Home",
+        },
+        {
+          category: "Card",
+          subcategory: "product small",
+          desktopSize: "300x375",
+          mobileSize: "300x375",
+          components: "card/type=product, size=small, state=default",
+          pages: "Home, Supplements, Testing",
+        },
+        {
+          category: "Card",
+          subcategory: "product horizontal",
+          desktopSize: "292x350",
+          mobileSize: "158x189.38",
+          components: "card/type=product, direction=horizontal",
+          pages: "Rx, Testing",
+        },
+        {
+          category: "Card",
+          subcategory: "category horizontal",
+          desktopSize: "292x350",
+          mobileSize: "148x177.4",
+          components: "card/type=category, size=horizontal, state=default",
+          pages: "Rx, Supplements",
+        },
+        {
+          category: "Product card",
+          subcategory: "rx horizontal",
+          desktopSize: "292x350",
+          mobileSize: "158x189.38",
+          components:
+            "card-rx-b12-super-mic-injection-horizontal, card-rx-biest-horizontal, card-rx-cashmere-cream-horizontal, card-rx-dessicated-thryroid-horizontal, card-rx-dhea-horizontal, card-rx-diclofenac-gabapentin-horizontal, card-rx-enclomiphene-horizontal, card-rx-ghk-cu-horizontal, card-rx-glutahione-horizontal, card-rx-ivermectin-horizontal, card-rx-methylcobalamin-synapsin-horizontal, card-rx-methylene-blue-horizontal, card-rx-nad+-horizontal, card-rx-naltrexone-horizontal, card-rx-olympus-male-troche-horizontal, card-rx-oxytocin-horizontal, card-rx-progresterone-horizontal, card-rx-pt-141-bremelanotide-horizontal, card-rx-sermorelin-horizontal, card-rx-slidenafil-horizontal, card-rx-t3-liothyronine-sf-horizontal, card-rx-t4-levothyroxine-sr-horizontal, card-rx-tadalafil-horizontal, card-rx-testosterone-horizontal, card-rx-vardenafil-plus-tadalafil-rdt-horizontal, card-rx-vip-horizontal",
+          pages: "Rx",
+        },
+        {
+          category: "Product card",
+          subcategory: "rx vertical",
+          desktopSize: "320x216",
+          mobileSize: "320x216",
+          components:
+            "card-rx-b12-super-mic-vertical, card-rx-nad-vertital, card-rx-oxytocin-vertical, card-rx-testosterone-vertical, card-rx-vardenafil-plus-tadalafil-rdt-vertical, card-rx-vip-vasoactive-intestinal-peptide-vertical",
+          pages: "Home",
+        },
+        {
+          category: "Card",
+          subcategory: "qa",
+          desktopSize: "70x61",
+          mobileSize: "70x61",
+          components: "card-qa",
+          pages: "Rx",
+        },
+        {
+          category: "Card",
+          subcategory: "survey desktop",
+          desktopSize: "308x140, 108x108",
+          mobileSize: "—",
+          components: "card-survey-desktop",
+          pages: "Rx",
+        },
+        {
+          category: "Card",
+          subcategory: "survey mobile",
+          desktopSize: "—",
+          mobileSize: "60x60",
+          components: "card-survey-mobile/orientation=horizontal",
+          pages: "Rx",
+        },
+        {
+          category: "Stack",
+          subcategory: "experience",
+          desktopSize: "638.43x708",
+          mobileSize: "672x555.91",
+          components: "stack/experience/state=1",
+          pages: "Home",
+        },
+        {
+          category: "Stack",
+          subcategory: "product",
+          desktopSize: "1440x700, 100x100",
+          mobileSize: "676x560, 48x48",
+          components:
+            "stack/product/desktop/direction=default, stack/product/mobile/style=thumbnails, direction=default",
+          pages: "Testing",
+        },
+        {
+          category: "Stack",
+          subcategory: "rx",
+          desktopSize: "672x555.91",
+          mobileSize: "398x329.24",
+          components: "stack/rx/state=1, stack/rx",
+          pages: "Rx",
+        },
+        {
+          category: "Stack",
+          subcategory: "testing",
+          desktopSize: "672x555.91",
+          mobileSize: "398x329.24",
+          components: "stack/testing/state=1, stack/testing",
+          pages: "Testing",
+        },
+        {
+          category: "Tabs",
+          subcategory: "tests",
+          desktopSize: "416.33x510, 230x230",
+          mobileSize: "398x398",
+          components: "tabs/tests",
+          pages: "Home, Testing",
+        },
+        {
+          category: "Story",
+          subcategory: "about",
+          desktopSize: "631.21x700",
+          mobileSize: "398x441.37",
+          components: "about-story",
+          pages: "About",
+        },
+        {
+          category: "Story",
+          subcategory: "how-it-works",
+          desktopSize: "631.21x700",
+          mobileSize: "398x441.37",
+          components: "how-it-works-story",
+          pages: "About",
+        },
+        {
+          category: "Video",
+          subcategory: "testing",
+          desktopSize: "1280x622.22",
+          mobileSize: "398x193.47",
+          components: "video",
+          pages: "Testing",
+        },
+        {
+          category: "Needs review",
+          subcategory: "unclassified image node",
+          desktopSize: "70x61",
+          mobileSize: "—",
+          components: "image",
+          pages: "Rx",
+        },
+      ];
+
+      const sampleRows = [
+        rows.find((row) => row.category === "Banner" && row.subcategory === "wide"),
+        rows.find((row) => row.category === "Card" && row.subcategory === "product small"),
+        rows.find((row) => row.category === "Product card" && row.subcategory === "rx horizontal"),
+        rows.find((row) => row.category === "Stack" && row.subcategory === "experience"),
+        rows.find((row) => row.category === "Tabs" && row.subcategory === "tests"),
+        rows.find((row) => row.category === "Video"),
+      ].filter(Boolean);
+
+      const body = document.querySelector("#matrixBody");
+      const categoryFilter = document.querySelector("#categoryFilter");
+      const searchFilter = document.querySelector("#searchFilter");
+      const samples = document.querySelector("#samples");
+
+      const categories = [...new Set(rows.map((row) => row.category))].sort();
+      for (const category of categories) {
+        const option = document.createElement("option");
+        option.value = category;
+        option.textContent = category;
+        categoryFilter.append(option);
+      }
+
+      function cell(text, className) {
+        const td = document.createElement("td");
+        if (className) td.className = className;
+        td.innerHTML = String(text)
+          .split(", ")
+          .map((part) => `<code>${part}</code>`)
+          .join(", ");
+        return td;
+      }
+
+      function renderRows() {
+        const category = categoryFilter.value;
+        const query = searchFilter.value.trim().toLowerCase();
+        const filtered = rows.filter((row) => {
+          const haystack = Object.values(row).join(" ").toLowerCase();
+          return (!category || row.category === category) && (!query || haystack.includes(query));
+        });
+
+        body.replaceChildren();
+        for (const row of filtered) {
+          const tr = document.createElement("tr");
+          tr.append(cell(row.category));
+          tr.append(cell(row.subcategory));
+          tr.append(cell(row.desktopSize));
+          tr.append(cell(row.mobileSize));
+          tr.append(cell(row.components, "components"));
+          tr.append(cell(row.pages));
+          body.append(tr);
+        }
+      }
+
+      function firstSize(value) {
+        return value.split(", ")[0];
+      }
+
+      function sizeToStyle(size) {
+        if (size === "—") return "aspect-ratio: 1 / 1;";
+        const [width, height] = firstSize(size).split("x").map(Number);
+        return `aspect-ratio: ${width} / ${height};`;
+      }
+
+      function renderSamples() {
+        samples.replaceChildren();
+        for (const row of sampleRows) {
+          const size = row.desktopSize !== "—" ? row.desktopSize : row.mobileSize;
+          const card = document.createElement("article");
+          card.className = "sample";
+          card.innerHTML = `
+            <div class="sample__head">
+              <div>
+                <div class="sample__title">${row.category} / ${row.subcategory}</div>
+                <div class="sample__uses">${row.pages}</div>
+              </div>
+            </div>
+            <div class="sample__box" style="${sizeToStyle(size)}">${firstSize(size)}</div>
+            <div class="sample__uses"><code>${row.components}</code></div>
+          `;
+          samples.append(card);
+        }
+      }
+
+      categoryFilter.addEventListener("change", renderRows);
+      searchFilter.addEventListener("input", renderRows);
+      renderRows();
+      renderSamples();
+    </script>
+  </body>
+</html>
