@@ -138,6 +138,13 @@
         font-size: 13px;
       }
 
+      caption {
+        padding: 12px;
+        color: var(--muted);
+        font-size: 13px;
+        text-align: left;
+      }
+
       th,
       td {
         border-bottom: 1px solid var(--line);
@@ -254,7 +261,8 @@
         <p>
           MVP extraction from visible image and video fills in the linked Figma sections for Home,
           Testing, Rx, Supplements, and About. Hidden variants and non-media fills are intentionally
-          excluded.
+          excluded. Rows are grouped by category and subcategory; desktop and mobile cells list the
+          sizes found for that grouping.
         </p>
         <div class="meta">
           <span class="pill">Source: BHRX Master Library</span>
@@ -280,13 +288,16 @@
         </div>
         <div class="table-wrap">
           <table>
+            <caption>
+              Image sizes grouped by Figma component category and subcategory.
+            </caption>
             <thead>
               <tr>
                 <th>Category</th>
                 <th>Subcategory / Naming Convention</th>
-                <th>Desktop Image Size(s)</th>
-                <th>Mobile Image Size(s)</th>
-                <th>Components Using Size(s)</th>
+                <th>Desktop Sizes</th>
+                <th>Mobile Sizes</th>
+                <th>Component Naming Paths</th>
                 <th>Pages</th>
               </tr>
             </thead>
